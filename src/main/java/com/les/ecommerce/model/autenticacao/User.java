@@ -1,11 +1,13 @@
 package com.les.ecommerce.model.autenticacao;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -36,8 +38,9 @@ public class User extends EntidadeDominio {
     @Column(name = "active")
     private int active;
     
-    @OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-    private List<Role> roles;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Role.class)
+    @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+    private Set<Role> roles;
 	
 	public String getEmail() {
 		return email;
@@ -79,11 +82,11 @@ public class User extends EntidadeDominio {
 		this.active = active;
 	}
 
-	public List<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 }

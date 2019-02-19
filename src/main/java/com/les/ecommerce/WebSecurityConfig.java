@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -43,24 +42,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.
         authorizeRequests()
-        .antMatchers("/", "/h2").permitAll()
-        .antMatchers("/login").permitAll()
-        .antMatchers("/registration").permitAll()
-        .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-        .authenticated().and().csrf().disable().formLogin()
-        .loginPage("/login").failureUrl("/login?error=true")
-        .defaultSuccessUrl("/admin/home")
-        .usernameParameter("email")
-        .passwordParameter("password")
-        .and().logout()
-        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .logoutSuccessUrl("/").and().exceptionHandling()
-        .accessDeniedPage("/access-denied");
+        .antMatchers("/", "/h2/**").permitAll()
+        .antMatchers("/conta/login").permitAll()
+        .antMatchers("/registration").permitAll();
 	}
-	
-	
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/h2/**");
+		web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
 	}
 }

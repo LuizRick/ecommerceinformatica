@@ -15,4 +15,9 @@ public class ProdutoController extends BaseController {
 		return "/views/produto/cadastrar";
 	}
 	
+	
+	@RequestMapping(value="/cadastro/{id}", method=RequestMethod.GET)
+	public String cadastro(Integer id) {
+		return "views/produto/cadastrar";
+	}
 }

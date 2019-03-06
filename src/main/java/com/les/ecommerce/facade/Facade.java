@@ -1,16 +1,26 @@
 package com.les.ecommerce.facade;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.les.ecommerce.dao.IDAO;
+import com.les.ecommerce.dao.produto.DepartamentoDAO;
+import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
+import com.les.ecommerce.dao.produto.ProdutoDAO;
 import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.produto.Departamento;
+import com.les.ecommerce.model.produto.GrupoPrecificacao;
+import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.rns.IStrategy;
+import com.les.ecommerce.rns.produto.ValidarDadosObrigatoriosProdutos;
+import com.les.ecommerce.rns.produto.ValidarValorVendaProduto;
 
 @Component
 public class Facade  implements IFacade{
@@ -18,8 +28,33 @@ public class Facade  implements IFacade{
 	private Map<String, Map<String, List<IStrategy>>> rns;
 	private Map<String, IDAO> repositories;
 	
+	@Autowired
+	private GrupoPrecificacaoDAO grupoPrecificacaoDAO;
+	
+	@Autowired
+	private DepartamentoDAO departamentoDAO;
+	
+	
+	@Autowired
+	private ProdutoDAO produtoDAO;
+	
 	@PostConstruct
 	public void init() {
+		repositories = new HashMap<>();
+		rns = new HashMap<>();
+		
+		//regras para produto
+		List<IStrategy> rnsSalvarProduto = new ArrayList<IStrategy>();
+		Map<String, List<IStrategy>> rnsProduto = new HashMap<>();
+		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());
+		rnsSalvarProduto.add(new ValidarValorVendaProduto());
+		rnsProduto.put("SALVAR", rnsSalvarProduto);
+		
+		repositories.put(GrupoPrecificacao.class.getName(), grupoPrecificacaoDAO);
+		repositories.put(Departamento.class.getName(), departamentoDAO);
+		repositories.put(Produto.class.getName(), produtoDAO);
+		
+		rns.put(Produto.class.getName(),rnsProduto);
 		
 	}
 

@@ -1,118 +1,127 @@
 <!DOCTYPE html>
-<html lang="en" 
-	xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{ecommerce/layout}">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Home</title>
 </head>
 <body>
-    <div layout:fragment="content">
-    	<div class="row">
-	        <div class="col-lg-2">
-	            <nav>
-	                <ul class="nav nav-pill">
-	                    <li class="nav-item">
-	                        <a class="nav-link active" href="/admin/produtos/consultar">Formulario de consulta</a>
-	                    </li>
-	                    <li class="nav-item">
-	                        <a class="nav-link active" href="/admin/estoque/controle">Estoque</a>
-	                    </li>
-	                </ul>
-	            </nav>
-	        </div>
-	        <div class="col-lg-10">
-	            <form>
-	                <div class="form-row">
-	                    <div class="col-md-4 mb-3">
-	                        <label for="validationTooltip01">Descrição</label>
-	                        <input type="text" class="form-control" id="validationTooltip01"  required />
-	                    </div>
-	                    <div class="col-md-4 mb-3">
-	                        <label for="validationTooltip02">Marca</label>
-	                        <input type="text" class="form-control" id="validationTooltip02"  required />
-	                    </div>
-	                    <div class="col-md-4 mb-3">
-	                        <label for="validationTooltip02">Modelo</label>
-	                        <input type="text" class="form-control" id="validationTooltip02"  required />
-	                    </div>
-	                </div>
-	                <div class="form-row">
-	                    <div class="col-md-4 mb-3">
-	                        <label for="validationTooltip03">Peso</label>
-	                        <input type="text" class="form-control" id="validationTooltip03"  required />
-	                    </div>
-	                    <div class="col-md-4 mb-3">
-	                        <label for="validationTooltip04">Altura</label>
-	                        <input type="text" class="form-control" id="validationTooltip04"  required />
-	                    </div>
-	                    <div class="col-md-4 mb-3">
-	                        <label for="validationTooltip05">Largura</label>
-	                        <input type="text" class="form-control" id="validationTooltip05"  required />
-	                    </div>
-	                </div>
-	                <div class="form-row">
-	                    <div class="col-md-4 mb-3">
-	                        <label for="validationTooltip05">Grupo precificação</label>
-	                        <select class="form-control">
-	                            <option>Grupo 1</option>
-	                        </select>
-	                    </div>
-	                    <div class="col-md-4 mb-3">
-	                        <label for="validationTooltip05">Departamento</label>
-	                        <select class="form-control">
-	                            <option>Hardware</option>
-	                        </select>
-	                    </div>
-	                    <div class="col-md-4 mb-3">
-	                        <label for="validationTooltip02">Codigo de barras</label>
-	                        <input type="text" class="form-control" id="validationTooltip02"  required />
-	                    </div>
-	                </div>
-	                <div class="form-row">
-	                    <div class="col-md-3 mb-12">
-	                        <label>Valor entrada estoque</label>
-	                        <input type="text" class="form-control" />
-	                    </div>
-	                    <div class="col-md-3 mb-12">
-	                        <label>Margem de lucro</label>
-	                        <input type="text" class="form-control" />
-	                    </div>
-	                    <div class="col-md-3 mb-12">
-	                        <label>Valor de Custo</label>
-	                        <input type="text" class="form-control" />
-	                    </div>
-	                    <div class="col-md-3 mb-12">
-	                        <label>Valor de venda</label>
-	                        <div class="input-group">
-	                            <input type="text" class="form-control" />
-	                            <div class="input-group-append">
-	                                <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-	                                    Gerar valor
-	                            </button>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="form-row">
-	                    <div class="col-md-12 mb-12">
-	                        <label>Caracteristicas gerais</label>
-	                        <textarea class="form-control"></textarea>
-	                    </div>
-	                </div>
-	                <div class="form-row" style="margin-top:12px">
-	                    <div class="col-md-12">
-	                        <button class="btn btn-primary" type="submit">Salvar</button>&nbsp;
-	                        <button class="btn btn-danger" type="submit">Deletar</button>&nbsp;
-	                    </div>
-	                </div>
-	            </form>
-	        </div>
-	    </div>
-    </div>
-    <th:block layout:fragment="scriptblock">
-    	<script data-main="/js/app" src="/webjars/requirejs/require.min.js"></script>
-    </th:block>
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="col-lg-2">
+				<nav>
+					<ul class="nav nav-pill">
+						<li class="nav-item"><a class="nav-link active"
+							href="/admin/produtos/consultar">Formulario de consulta</a></li>
+						<li class="nav-item"><a class="nav-link active"
+							href="/admin/estoque/controle">Estoque</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-lg-10">
+				<div class="alert alert-warning" th:if="${resultado != null && resultado.msg != null}">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    					<span aria-hidden="true">&times;</span>
+  					</button>
+					<span th:utext="${resultado.msg}"></span>
+				</div>
+				<form th:action="@{/admin/produtos/salvar}" th:object="${produto}" method="post">
+					<div class="form-row">
+						<div class="col-md-4 mb-3">
+							<label for="descricao">Descrição</label> <input
+								type="text" class="form-control" id="descricao"
+								  th:field="*{descricao}" />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip02">Marca</label> <input type="text"
+								class="form-control" th:field="*{marca}" />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip02">Modelo</label> <input
+								type="text" class="form-control" id="validationTooltip02"
+								 />
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip03">Peso</label> <input type="text"
+								class="form-control" id="validationTooltip03"  />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip04">Altura</label> <input
+								type="text" class="form-control" id="validationTooltip04"
+								 />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip05">Largura</label> <input
+								type="text" class="form-control" id="validationTooltip05"
+								 />
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip05">Departamento</label> <select
+								class="form-control" th:field="*{departamento}">
+								<option th:each="departamento: ${departs}"
+										th:value="${departamento.id}"
+										th:text="${departamento.nome}">Wireframe</option>
+							</select>
+						</div>
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip05">Grupo precificação</label> <select
+								class="form-control">
+								
+							</select>
+						</div>
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip02">Codigo de barras</label> <input
+								type="text" class="form-control" id="validationTooltip02"
+								 />
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-3 mb-12">
+							<label>Valor entrada estoque</label> <input type="text"
+								class="form-control" />
+						</div>
+						<div class="col-md-3 mb-12">
+							<label>Margem de lucro</label> <input type="text"
+								class="form-control" />
+						</div>
+						<div class="col-md-3 mb-12">
+							<label>Valor de Custo</label> <input type="text"
+								class="form-control" />
+						</div>
+						<div class="col-md-3 mb-12">
+							<label>Valor de venda</label>
+							<div class="input-group">
+								<input type="text" class="form-control" />
+								<div class="input-group-append">
+									<button class="btn btn-outline-secondary" type="button"
+										id="button-addon2">Gerar valor</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-12 mb-12">
+							<label>Caracteristicas gerais</label>
+							<textarea class="form-control"></textarea>
+						</div>
+					</div>
+					<div class="form-row" style="margin-top: 12px">
+						<div class="col-md-12">
+							<button class="btn btn-primary" type="submit">Salvar</button>
+							&nbsp;
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<th:block layout:fragment="scriptblock">
+		<script data-main="/js/app" src="/webjars/requirejs/require.min.js"></script>
+	</th:block>
 </body>
 </html>

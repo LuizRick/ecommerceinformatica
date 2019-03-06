@@ -68,10 +68,10 @@ public class Produto extends EntidadeDominio {
 	public void setGrupo(GrupoPrecificacao grupoPrecificacao) {
 		this.grupoPrecificacao = grupoPrecificacao;
 	}
-	public Departamento getDepart() {
+	public Departamento getDepartamento() {
 		return departamento;
 	}
-	public void setDepart(Departamento departamento) {
+	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
 	public String getCodigoBarras() {

@@ -7,10 +7,16 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.les.ecommerce.dao.IDAO;
+import com.les.ecommerce.dao.produto.DepartamentoDAO;
+import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
+import com.les.ecommerce.dao.produto.ProdutoDAO;
 import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.produto.Departamento;
+import com.les.ecommerce.model.produto.GrupoPrecificacao;
 import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.rns.IStrategy;
 import com.les.ecommerce.rns.produto.ValidarDadosObrigatoriosProdutos;
@@ -21,6 +27,16 @@ public class Facade  implements IFacade{
 	private Resultado resultado;
 	private Map<String, Map<String, List<IStrategy>>> rns;
 	private Map<String, IDAO> repositories;
+	
+	@Autowired
+	private GrupoPrecificacaoDAO grupoPrecificacaoDAO;
+	
+	@Autowired
+	private DepartamentoDAO departamentoDAO;
+	
+	
+	@Autowired
+	private ProdutoDAO produtoDAO;
 	
 	@PostConstruct
 	public void init() {
@@ -34,7 +50,9 @@ public class Facade  implements IFacade{
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
 		rnsProduto.put("SALVAR", rnsSalvarProduto);
 		
-		
+		repositories.put(GrupoPrecificacao.class.getName(), grupoPrecificacaoDAO);
+		repositories.put(Departamento.class.getName(), departamentoDAO);
+		repositories.put(Produto.class.getName(), produtoDAO);
 		
 		rns.put(Produto.class.getName(),rnsProduto);
 		

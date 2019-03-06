@@ -10,6 +10,11 @@ public class ValidarValorVendaProduto implements IStrategy{
 	@Override
 	public String processar(EntidadeDominio entidade) {
 		Produto produto = (Produto) entidade;
+		
+		if(produto.getValorVenda() == null || produto.getGrupo() == null || produto.getValorCusto() == null) {
+			return "Os valores para venda são de preencimento obrigatorio";
+		}
+		
 		 if(produto.getValorVenda() <  calcularMargeLucro(produto)  +  produto.getValorCusto())
 			 return String
 					 .format("O valor de venda esta abaixo do valor da margem %.2f", 

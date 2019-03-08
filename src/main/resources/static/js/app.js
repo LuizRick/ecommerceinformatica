@@ -13,7 +13,8 @@ require(['jquery'], function($){
 	
 	$("#frmProduto").on('submit', () => {
 		$("#margeLucro,#valorCusto,#valorVenda").each((i, elt) => {
-			if(Number.isNaN($(elt).val())){
+			var valor = Number($(elt).val());
+			if(Number.isNaN(valor)){
 				$(elt).addClass('invalid');
 			}else{
 				$(elt).removeClass('invalid');
@@ -22,16 +23,15 @@ require(['jquery'], function($){
 		
 		
 		if($("#frmProduto *").hasClass('invalid')){
-			console.log('invalid');
+			return false;
 		}
-		return false;
 	});
 });
 
 var AppUtils = {
 	zerarFloatInvalido: function(valor){
 		//zerar o valor se for invalido
-		var num = parseFloat(valor);
+		var num = Number(valor);
 		if(Number.isNaN(num))
 			return 0;
 		else

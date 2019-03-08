@@ -2,6 +2,7 @@ package com.les.ecommerce.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,7 @@ public class EntidadeDominio {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected long Id;
 	
+	@Column(name="created", columnDefinition="datetime default NOW()")
 	protected LocalDateTime created;
 	
 	public LocalDateTime getCreated() {

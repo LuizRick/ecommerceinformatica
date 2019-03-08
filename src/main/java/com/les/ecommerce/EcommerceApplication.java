@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan({"com.les.ecommerce.model"})
 @EnableJpaRepositories({"com.les.ecommerce.repository"})
 @ComponentScan({"com.les.ecommerce.facade" , "com.les.ecommerce.controller" , "com.les.ecommerce.repository" , "com.les.ecommerce.command" ,
-	"com.les.ecommerce.dao" , "com.les.ecommerce.helpers"})
+	"com.les.ecommerce.dao" , "com.les.ecommerce.helpers", "com.les.ecommerce.service", "com.les.ecommerce"})
 public class EcommerceApplication {
 	
 	public static void main(String[] args) {

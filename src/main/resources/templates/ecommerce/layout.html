@@ -2,20 +2,23 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-	<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
-	<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Ecommerce</title>
-	<link rel='stylesheet' href='/webjars/bootstrap/css/bootstrap.min.css'>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<script src="/webjarsjs"></script>
-	<script type='text/javascript' src='/webjars/jquery/jquery.min.js'></script>
-    <script type='text/javascript' src='/webjars/bootstrap/js/bootstrap.min.js'></script>
+<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Ecommerce</title>
+<link rel='stylesheet' href='/webjars/bootstrap/css/bootstrap.min.css'>
+<link rel='stylesheet' th:href="@{/css/style.css}" />
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="/webjarsjs"></script>
+<script type='text/javascript' src='/webjars/jquery/jquery.min.js'></script>
+<script type='text/javascript'
+	src='/webjars/bootstrap/js/bootstrap.min.js'></script>
 </head>
 <body>
 	<div id="app">
 		<!-- layout documentation https://www.thymeleaf.org/doc/articles/layouts.html -->
 		<div th:replace="fragments/header :: header"></div>
-		<div class="container">
+		<div class="container-fluid">
 			<div layout:fragment="content"></div>
 		</div>
 	</div>

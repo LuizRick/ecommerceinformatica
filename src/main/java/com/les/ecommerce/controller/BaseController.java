@@ -32,6 +32,13 @@ public class BaseController {
 	@Autowired
 	protected ObjectMapper mapper;
 	
+	protected final String SALVAR = "SALVAR";
+	protected final String ALTERAR = "ALTERAR";
+	protected final String CONSULTAR = "CONSULTAR";
+	protected final String EXCLUIR = "EXCLUIR";
+	protected final String VISUALIZAR = "VISUALIZAR";
+	
+	
 	@PostConstruct
 	public void init() {
 		commands = new HashMap<>();

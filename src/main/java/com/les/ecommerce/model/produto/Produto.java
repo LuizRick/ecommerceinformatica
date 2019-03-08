@@ -24,7 +24,7 @@ public class Produto extends EntidadeDominio {
 	private Double valorCusto;
 	private Double valorVenda;
 	private String caracteristicas;
-	private boolean status;
+	private Boolean status;
 
 	public String getDescricao() {
 		return descricao;

@@ -26,7 +26,7 @@
   					</button>
 					<span th:utext="${resultado.msg}"></span>
 				</div>
-				<form th:action="@{/admin/produtos/salvar}" th:object="${produto}" method="post">
+				<form th:action="@{/admin/produtos/salvar}" th:object="${produto}" method="post" id="frmProduto">
 					<div class="form-row">
 						<div class="col-md-4 mb-3">
 							<label for="descricao">Descrição</label> <input
@@ -73,7 +73,8 @@
 								class="form-control" th:field="*{grupoPrecificacao}">
 								<option th:each="grupo: ${grupos}"
 										th:value=${grupo.id}
-										th:text=${grupo.nome}>
+										th:text=${grupo.nome}
+										th:attr="model-bind=${grupo.porcentagem}">
 									Static text
 								</option>
 							</select>
@@ -91,7 +92,7 @@
 						</div>
 						<div class="col-md-3 mb-12">
 							<label>Margem de lucro</label> <input type="text"
-								class="form-control" th:field="*{margeLucro}"/>
+								class="form-control" th:field="*{margeLucro}" readonly placeholder="mudar valor de custo"/>
 						</div>
 						<div class="col-md-3 mb-12">
 							<label>Valor de Custo</label> <input type="text"
@@ -103,7 +104,7 @@
 								<input type="text" class="form-control" th:field="*{valorVenda}" />
 								<div class="input-group-append">
 									<button class="btn btn-outline-secondary" type="button"
-										id="button-addon2">Gerar valor</button>
+										id="recalcularValorVendaBtn">Re-calcular valor</button>
 								</div>
 							</div>
 						</div>
@@ -118,6 +119,8 @@
 						<div class="col-md-12">
 							<button class="btn btn-primary" type="submit">Salvar</button>
 							&nbsp;
+							<a th:href="@{/admin/produtos/inativar/} + ${produto.id}" th:if="${produto.id != 0}"
+								class="btn btn-warning">Inativar</a>
 						</div>
 					</div>
 					<input type="hidden" th:field="*{id}" />

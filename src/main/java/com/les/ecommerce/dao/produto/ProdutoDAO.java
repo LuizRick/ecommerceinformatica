@@ -2,11 +2,12 @@ package com.les.ecommerce.dao.produto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Predicate;
 import com.les.ecommerce.dao.AbstractDAO;
 import com.les.ecommerce.helpers.StringHelper;
 import com.les.ecommerce.model.EntidadeDominio;
@@ -41,15 +42,17 @@ public class ProdutoDAO extends AbstractDAO {
 			allPredicates.add(p -> p.getDescricao().contains(produto.getDescricao()));
 		if(!StringHelper.isNullOrEmpty(produto.getMarca()))
 			allPredicates.add(p -> p.getMarca().contains(produto.getMarca()));
-		if(produto.getPeso() > 0)
+		if(produto.getPeso() != null)
 			allPredicates.add(p-> p.getPeso() == produto.getPeso());
-		if(produto.getAltura() > 0)
+		if(produto.getAltura() != null)
 			allPredicates.add(p-> p.getAltura() == produto.getAltura());
 		if(!StringHelper.isNullOrEmpty(produto.getCodigoBarras()))
 			allPredicates.add(p -> p.getCodigoBarras().equalsIgnoreCase(produto.getCodigoBarras()));
-		if(produto.getDepartamento().getId() > 0)
+		if(produto.getDepartamento() != null)
 			allPredicates.add(p -> p.getDepartamento().getId() == produto.getDepartamento().getId());
-		return null;
+		
+		Predicate<Produto> compositePredicate = allPredicates.stream().reduce(c -> true, Predicate::and);
+		return repository.findAll().stream().filter(compositePredicate).collect(Collectors.toList());
 	}
 
 	@Override

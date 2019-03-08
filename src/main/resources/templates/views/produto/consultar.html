@@ -54,17 +54,21 @@
 					</div>
 					<div class="form-row">
 						<div class="col-md-4 mb-3">
-							<label for="validationTooltip05">Departamento</label> <select
+							<label for="validationTooltip05">Departamento</label>
+							<select
 								class="form-control" th:field="*{departamento}">
+								<option value="0" selected="selected">Selecionar departamento</option>
 								<option th:each="departamento: ${departs}"
 									th:value="${departamento.id}" th:text="${departamento.nome}">Wireframe</option>
 							</select>
 						</div>
 						<div class="col-md-4 mb-3">
-							<label for="validationTooltip05">Grupo precificação</label><select
+							<label for="validationTooltip05">Grupo precificação</label>
+							<select
 								class="form-control" th:field="*{grupoPrecificacao}">
+								<option value="0" selected="selected">Selecionar precificacao</option>
 								<option th:each="grupo: ${grupos}" th:value=${grupo.id}
-									th:text=${grupo.nome}>Static text</option>
+									th:text=${grupo.nome}  th:attr="model-bind=${grupo.porcentagem}">Static text</option>
 							</select>
 						</div>
 						<div class="col-md-4 mb-3">
@@ -100,7 +104,7 @@
 				</form>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" th:if="${produtos != null}">
 			<div class="col-lg-12">
 				<table class="table table-dark" style="margin-top:12px">
 					<caption>Resultado pesquisa</caption>
@@ -114,7 +118,17 @@
 						</tr>
 					</thead>
 					<tbody>
-						
+						<tr th:each="produto: ${produtos}">
+							<td th:text="${produto.codigoBarras}"></td>
+							<td th:text="${produto.descricao}"></td>
+							<td th:text="${produto.departamento.nome}"></td>
+							<td th:text="${produto.valorVenda}"></td>
+							<td>
+								<a th:href="@{/admin/produtos/cadastro/} + ${produto.id}" class="btn btn-primary">
+									Visualizar
+								</a>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

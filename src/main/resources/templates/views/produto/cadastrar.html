@@ -39,23 +39,23 @@
 						</div>
 						<div class="col-md-4 mb-3">
 							<label for="validationTooltip02">Modelo</label> <input
-								type="text" class="form-control" id="validationTooltip02"
+								type="text" class="form-control" th:field="*{modelo}"
 								 />
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-md-4 mb-3">
 							<label for="validationTooltip03">Peso</label> <input type="text"
-								class="form-control" id="validationTooltip03"  />
+								class="form-control" th:field="*{peso}" />
 						</div>
 						<div class="col-md-4 mb-3">
 							<label for="validationTooltip04">Altura</label> <input
-								type="text" class="form-control" id="validationTooltip04"
+								type="text" class="form-control" th:field="*{altura}"
 								 />
 						</div>
 						<div class="col-md-4 mb-3">
 							<label for="validationTooltip05">Largura</label> <input
-								type="text" class="form-control" id="validationTooltip05"
+								type="text" class="form-control" th:field="*{largura}"
 								 />
 						</div>
 					</div>
@@ -69,34 +69,38 @@
 							</select>
 						</div>
 						<div class="col-md-4 mb-3">
-							<label for="validationTooltip05">Grupo precificação</label> <select
-								class="form-control">
-								
+							<label for="validationTooltip05">Grupo precificação</label><select
+								class="form-control" th:field="*{grupoPrecificacao}">
+								<option th:each="grupo: ${grupos}"
+										th:value=${grupo.id}
+										th:text=${grupo.nome}>
+									Static text
+								</option>
 							</select>
 						</div>
 						<div class="col-md-4 mb-3">
 							<label for="validationTooltip02">Codigo de barras</label> <input
-								type="text" class="form-control" id="validationTooltip02"
+								type="text" class="form-control" th:field="*{codigoBarras}"
 								 />
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-md-3 mb-12">
 							<label>Valor entrada estoque</label> <input type="text"
-								class="form-control" />
+								class="form-control"  th:field="*{estoque}"/>
 						</div>
 						<div class="col-md-3 mb-12">
 							<label>Margem de lucro</label> <input type="text"
-								class="form-control" />
+								class="form-control" th:field="*{margeLucro}"/>
 						</div>
 						<div class="col-md-3 mb-12">
 							<label>Valor de Custo</label> <input type="text"
-								class="form-control" />
+								class="form-control" th:field="*{valorCusto}"/>
 						</div>
 						<div class="col-md-3 mb-12">
 							<label>Valor de venda</label>
 							<div class="input-group">
-								<input type="text" class="form-control" />
+								<input type="text" class="form-control" th:field="*{valorVenda}" />
 								<div class="input-group-append">
 									<button class="btn btn-outline-secondary" type="button"
 										id="button-addon2">Gerar valor</button>
@@ -107,7 +111,7 @@
 					<div class="form-row">
 						<div class="col-md-12 mb-12">
 							<label>Caracteristicas gerais</label>
-							<textarea class="form-control"></textarea>
+							<textarea class="form-control" th:field="*{caracteristicas}"></textarea>
 						</div>
 					</div>
 					<div class="form-row" style="margin-top: 12px">
@@ -116,6 +120,7 @@
 							&nbsp;
 						</div>
 					</div>
+					<input type="hidden" th:field="*{id}" />
 				</form>
 			</div>
 		</div>

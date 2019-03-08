@@ -60,10 +60,14 @@ public class ValidarDadosObrigatoriosProdutos implements IStrategy {
 		}
 		
 		
-		if(produto.getGrupo() == null || produto.getGrupo().getId() <= 0) {
-			sb.append("O necessario selecionar um grupo de precificação valido <br/>");
+		if(produto.getGrupoPrecificacao() == null || produto.getGrupoPrecificacao().getId() <= 0) {
+			sb.append("É necessário selecionar um grupo de precificação valido <br/>");
 		}	
 		
-		return sb.toString();
+		if(sb.length() > 0) {
+			return sb.toString();
+		}
+		
+		return null;
 	}
 }

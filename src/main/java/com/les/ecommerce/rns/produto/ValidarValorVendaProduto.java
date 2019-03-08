@@ -11,7 +11,7 @@ public class ValidarValorVendaProduto implements IStrategy{
 	public String processar(EntidadeDominio entidade) {
 		Produto produto = (Produto) entidade;
 		
-		if(produto.getValorVenda() == null || produto.getGrupo() == null || produto.getValorCusto() == null) {
+		if(produto.getValorVenda() == null || produto.getGrupoPrecificacao() == null || produto.getValorCusto() == null) {
 			return "Os valores para venda são de preencimento obrigatorio";
 		}
 		
@@ -26,7 +26,7 @@ public class ValidarValorVendaProduto implements IStrategy{
 	
 	private Double calcularMargeLucro(Produto produto) {
 		
-		Double margem = (produto.getGrupo().getPorcentagem() * produto.getValorCusto()) / 100;
+		Double margem = (produto.getGrupoPrecificacao().getPorcentagem() * produto.getValorCusto()) / 100;
 		
 		return margem;
 	}

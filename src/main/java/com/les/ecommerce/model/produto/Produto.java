@@ -1,6 +1,8 @@
 package com.les.ecommerce.model.produto;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
 
 import com.les.ecommerce.model.EntidadeDominio;
@@ -25,6 +27,11 @@ public class Produto extends EntidadeDominio {
 	private Double valorVenda;
 	private String caracteristicas;
 	private Boolean status;
+	
+	@Enumerated(EnumType.STRING)
+	private CategoriaInativacao categoriaInativacao;
+	
+	private String justificativaInativacao;
 
 	public String getDescricao() {
 		return descricao;
@@ -137,13 +144,29 @@ public class Produto extends EntidadeDominio {
 	public void setCaracteristicas(String caracteristicas) {
 		this.caracteristicas = caracteristicas;
 	}
-
-	public boolean isStatus() {
+	
+	public Boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+
+	public CategoriaInativacao getCategoriaInativacao() {
+		return categoriaInativacao;
+	}
+
+	public void setCategoriaInativacao(CategoriaInativacao categoriaInativacao) {
+		this.categoriaInativacao = categoriaInativacao;
+	}
+
+	public String getJustificativaInativacao() {
+		return justificativaInativacao;
+	}
+
+	public void setJustificativaInativacao(String justificativaInativacao) {
+		this.justificativaInativacao = justificativaInativacao;
 	}
 
 }

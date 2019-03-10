@@ -29,7 +29,7 @@
   					</button>
 					<span th:utext="${resultado.msg}"></span>
 				</div>
-				<form th:action="@{/admin/produtos/inativar}"
+				<form th:action="@{/admin/produtos/ativar}"
 					th:object="${produto}" method="post">
 					<div class="form-row">
 						<div class="col-md-6 mb-3 form-group">
@@ -38,7 +38,7 @@
 								  th:field="*{descricao}" readonly="readonly"/>
 						</div>
 						<div class="col-md-6 mb-3">
-							<label for="categoria">Categoria p/ inativação</label>
+							<label for="categoria">Categoria Ativação</label>
 							<select th:field="*{categoriaInativacao}" class="form-control">
 								<option value="">Selecionar Categoria</option>
 								<option th:each="state: ${T(com.les.ecommerce.model.produto.CategoriaInativacao).values()}"
@@ -54,7 +54,7 @@
 						</div>
 					</div>
 					<button class="btn btn-primary" type="submit">
-						Inativar
+						Ativar
 					</button>
 					<input type="hidden" th:field="*{id}" />
 				</form>	

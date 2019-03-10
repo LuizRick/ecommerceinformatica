@@ -19,7 +19,9 @@ import com.les.ecommerce.model.produto.Departamento;
 import com.les.ecommerce.model.produto.GrupoPrecificacao;
 import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.rns.IStrategy;
+import com.les.ecommerce.rns.produto.ValidarCategoriaTrocaStatus;
 import com.les.ecommerce.rns.produto.ValidarDadosObrigatoriosProdutos;
+import com.les.ecommerce.rns.produto.ValidarInativacaoProduto;
 import com.les.ecommerce.rns.produto.ValidarValorVendaProduto;
 
 @Component
@@ -45,11 +47,14 @@ public class Facade  implements IFacade{
 		
 		//regras para produto
 		List<IStrategy> rnsSalvarProduto = new ArrayList<IStrategy>();
+		List<IStrategy> rnsAlterar = new ArrayList<IStrategy>();
 		Map<String, List<IStrategy>> rnsProduto = new HashMap<>();
 		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
+		rnsAlterar.add(new ValidarInativacaoProduto());
+		rnsAlterar.add(new ValidarCategoriaTrocaStatus());
 		rnsProduto.put("SALVAR", rnsSalvarProduto);
-		
+		rnsProduto.put("ALTERAR", rnsAlterar);
 		repositories.put(GrupoPrecificacao.class.getName(), grupoPrecificacaoDAO);
 		repositories.put(Departamento.class.getName(), departamentoDAO);
 		repositories.put(Produto.class.getName(), produtoDAO);
@@ -152,7 +157,7 @@ public class Facade  implements IFacade{
 					String m = s.processar(entidade);
 					if (m != null) {
 						msg.append(m);
-						msg.append("\n");
+						msg.append("<br/>");
 					}
 				}
 			}

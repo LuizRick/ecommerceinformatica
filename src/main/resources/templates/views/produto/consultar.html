@@ -22,6 +22,12 @@
 				</nav>
 			</div>
 			<div class="col-lg-10">
+				<div class="alert alert-warning" th:if="${resultado != null && resultado.msg != null}">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    					<span aria-hidden="true">&times;</span>
+  					</button>
+					<span th:utext="${resultado.msg}"></span>
+				</div>
 				<form th:action="@{/admin/produtos/consultar}"
 					th:object="${produto}" method="post">
 					<div class="form-row">
@@ -114,6 +120,7 @@
 							<th>Descrição</th>
 							<th>Departamento</th>
 							<th>Valor venda</th>
+							<th>Status</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -123,6 +130,7 @@
 							<td th:text="${produto.descricao}"></td>
 							<td th:text="${produto.departamento.nome}"></td>
 							<td th:text="${produto.valorVenda}"></td>
+							<td th:text="${produto.status}"></td>
 							<td>
 								<a th:href="@{/admin/produtos/cadastro/} + ${produto.id}" class="btn btn-primary">
 									Visualizar

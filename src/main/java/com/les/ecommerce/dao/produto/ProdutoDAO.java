@@ -50,6 +50,17 @@ public class ProdutoDAO extends AbstractDAO {
 			allPredicates.add(p -> p.getCodigoBarras().equalsIgnoreCase(produto.getCodigoBarras()));
 		if(produto.getDepartamento() != null)
 			allPredicates.add(p -> p.getDepartamento().getId() == produto.getDepartamento().getId());
+		if(produto.getGrupoPrecificacao() != null)
+			allPredicates.add(p -> p.getGrupoPrecificacao().getId() == produto.getGrupoPrecificacao().getId());
+		if(produto.getEstoque() != null)
+			allPredicates.add(p -> p.getEstoque() == produto.getEstoque());
+		if(produto.getMargeLucro() != null)
+			allPredicates.add(p -> p.getMargeLucro() == produto.getMargeLucro());
+		if(produto.getValorVenda() != null)
+			allPredicates.add(p -> p.getValorVenda() >= produto.getValorVenda());
+		if(produto.getStatus() != null) {
+			allPredicates.add(p-> p.getStatus() == produto.getStatus());
+		}
 		
 		Predicate<Produto> compositePredicate = allPredicates.stream().reduce(c -> true, Predicate::and);
 		return repository.findAll().stream().filter(compositePredicate).collect(Collectors.toList());

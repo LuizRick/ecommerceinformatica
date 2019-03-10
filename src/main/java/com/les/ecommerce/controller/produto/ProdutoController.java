@@ -2,10 +2,13 @@ package com.les.ecommerce.controller.produto;
 
 import java.time.LocalDateTime;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
@@ -26,20 +29,21 @@ public class ProdutoController extends BaseController {
 	
 	
 	@RequestMapping(value="/cadastro/{id}", method=RequestMethod.GET)
-	public String visualizar(Produto produto,Model model) {
+	public String visualizar(Produto produto,Model model,HttpSession sesssion) {
 		setarGrupoPrecificacao(model);
-		setProdutoModel(model, produto);
+		setProdutoModel(model, produto,sesssion);
 		return "views/produto/cadastrar";
 	}
 	
 	@RequestMapping(value="/salvar", method=RequestMethod.POST)
-	public String salvar(Produto produto,Model model) {
+	public String salvar(Produto produto,Model model,RedirectAttributes redirectAttributes) {
 		produto.setStatus(true);
 		produto.setCreated(LocalDateTime.now());
 		Resultado resultado = commands.get(SALVAR).execute(produto);
 		model.addAttribute("resultado", resultado);
-		if(resultado.getMsg() == null || resultado.getMsg().length() <=0) {
+		if(StringHelper.isNullOrEmpty(resultado.getMsg())) {
 			resultado.setMsg("Produto foi salvo com sucesso");
+			redirectAttributes.addFlashAttribute("resultado", resultado);
 			return "redirect:/admin/produtos/consultar";
 		}
 		setarGrupoPrecificacao(model);
@@ -62,12 +66,53 @@ public class ProdutoController extends BaseController {
 	}
 	
 	@RequestMapping(value="/inativar/{id}",method=RequestMethod.GET)
-	public String inativar(Produto produto,Model model) {
+	public String inativar(Produto produto,Model model,HttpSession session) {
 		setarGrupoPrecificacao(model);
-		setProdutoModel(model, produto);
+		setProdutoModel(model, produto,session);
 		return "views/produto/inativar";
 	}
 	
+	
+	@RequestMapping(value="/inativar", method=RequestMethod.POST)
+	public String inativar(Produto produto,Model model,RedirectAttributes redirectAttributes, HttpSession session) {
+		Produto entidade = (Produto) session.getAttribute("produtoSelecionado");
+		entidade.setStatus(false);
+		entidade.setCategoriaInativacao(produto.getCategoriaInativacao());
+		entidade.setJustificativaInativacao(produto.getJustificativaInativacao());
+		Resultado resultado = commands.get(ALTERAR).execute(entidade);
+		model.addAttribute("resultado", resultado);
+		if(StringHelper.isNullOrEmpty(resultado.getMsg())) {
+			resultado.setMsg("Produto foi inativado com sucesso");
+			redirectAttributes.addFlashAttribute("resultado", resultado);
+			return "redirect:/admin/produtos/consultar";
+		}
+		return "views/produto/inativar";
+	}
+	
+	
+	@RequestMapping(value="/ativar/{id}",method=RequestMethod.GET)
+	public String ativar(Produto produto,Model model, HttpSession session) {
+		setarGrupoPrecificacao(model);
+		setProdutoModel(model, produto,session);
+		return "views/produto/ativar";
+	}
+	
+	
+	@RequestMapping(value="/ativar", method=RequestMethod.POST)
+	public String ativar(Produto produto,Model model,RedirectAttributes redirectAttributes,HttpSession session) {
+		Produto entidade = (Produto) session.getAttribute("produtoSelecionado");
+		entidade.setStatus(true);
+		entidade.setCategoriaInativacao(produto.getCategoriaInativacao());
+		entidade.setJustificativaInativacao(produto.getJustificativaInativacao());
+		Resultado resultado = commands.get(ALTERAR).execute(entidade);
+		model.addAttribute("resultado", resultado);
+		if(StringHelper.isNullOrEmpty(resultado.getMsg())) {
+			resultado.setMsg("Produto foi ativado com sucesso");
+			redirectAttributes.addFlashAttribute("resultado", resultado);
+			return "redirect:/admin/produtos/consultar";
+		}
+		return "views/produto/ativar";
+	}
 	
 	
 	private void setarGrupoPrecificacao(Model model) {
@@ -77,11 +122,12 @@ public class ProdutoController extends BaseController {
 		model.addAttribute("departs",commands.get(CONSULTAR).execute(depart).getEntidades());
 	}
 	
-	private void setProdutoModel(Model model,Produto produto) {
+	private void setProdutoModel(Model model,Produto produto,HttpSession session) {
 		Resultado resultado = commands.get(CONSULTAR).execute(produto);
 		if(StringHelper.isNullOrEmpty(resultado.getMsg()) && resultado.getEntidades().size() > 0) {
 			produto = (Produto) resultado.getEntidades().get(0);
 			model.addAttribute("produto", produto);
+			session.setAttribute("produtoSelecionado", produto);
 		}
 	}
 	

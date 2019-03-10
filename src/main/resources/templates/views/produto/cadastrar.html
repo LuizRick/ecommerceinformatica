@@ -119,8 +119,11 @@
 						<div class="col-md-12">
 							<button class="btn btn-primary" type="submit">Salvar</button>
 							&nbsp;
-							<a th:href="@{/admin/produtos/inativar/} + ${produto.id}" th:if="${produto.id != 0}"
+							<a th:href="@{/admin/produtos/inativar/} + ${produto.id}" th:if="${produto.id != 0 && produto.status == true}"
 								class="btn btn-warning">Inativar</a>
+								
+							<a th:href="@{/admin/produtos/ativar/} + ${produto.id}" th:if="${produto.id != 0 && produto.status == false}"
+							class="btn btn-warning">Ativar</a>
 						</div>
 					</div>
 					<input type="hidden" th:field="*{id}" />

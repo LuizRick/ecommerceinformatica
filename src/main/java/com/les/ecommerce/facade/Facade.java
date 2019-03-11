@@ -42,10 +42,6 @@ public class Facade  implements IFacade{
 	@Autowired
 	private ProdutoDAO produtoDAO;
 	
-	@Autowired
-	ValidarReentradaCadastroProduto validarReentradaCadastroProduto;
-	
-	
 	@PostConstruct
 	public void init() {
 		repositories = new HashMap<>();
@@ -60,7 +56,7 @@ public class Facade  implements IFacade{
 		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
 		rnsSalvarProduto.add(new ValidarProdutoAtivo());
-		rnsSalvarProduto.add(validarReentradaCadastroProduto);
+		rnsSalvarProduto.add(new ValidarReentradaCadastroProduto());
 		rnsAlterar.add(new ValidarInativacaoProduto());
 		rnsAlterar.add(new ValidarCategoriaTrocaStatus());
 		rnsAlterar.add(new ValidarProdutoAtivo());

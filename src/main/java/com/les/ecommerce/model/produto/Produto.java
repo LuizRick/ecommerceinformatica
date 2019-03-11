@@ -5,9 +5,12 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
 
+import org.hibernate.envers.Audited;
+
 import com.les.ecommerce.model.EntidadeDominio;
 
 @Entity
+@Audited
 public class Produto extends EntidadeDominio {
 
 	private String descricao;

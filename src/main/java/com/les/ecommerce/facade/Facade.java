@@ -22,6 +22,8 @@ import com.les.ecommerce.rns.IStrategy;
 import com.les.ecommerce.rns.produto.ValidarCategoriaTrocaStatus;
 import com.les.ecommerce.rns.produto.ValidarDadosObrigatoriosProdutos;
 import com.les.ecommerce.rns.produto.ValidarInativacaoProduto;
+import com.les.ecommerce.rns.produto.ValidarProdutoAtivo;
+import com.les.ecommerce.rns.produto.ValidarReentradaCadastroProduto;
 import com.les.ecommerce.rns.produto.ValidarValorVendaProduto;
 
 @Component
@@ -40,6 +42,10 @@ public class Facade  implements IFacade{
 	@Autowired
 	private ProdutoDAO produtoDAO;
 	
+	@Autowired
+	ValidarReentradaCadastroProduto validarReentradaCadastroProduto;
+	
+	
 	@PostConstruct
 	public void init() {
 		repositories = new HashMap<>();
@@ -49,10 +55,16 @@ public class Facade  implements IFacade{
 		List<IStrategy> rnsSalvarProduto = new ArrayList<IStrategy>();
 		List<IStrategy> rnsAlterar = new ArrayList<IStrategy>();
 		Map<String, List<IStrategy>> rnsProduto = new HashMap<>();
+		
+		
 		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
+		rnsSalvarProduto.add(new ValidarProdutoAtivo());
+		rnsSalvarProduto.add(validarReentradaCadastroProduto);
 		rnsAlterar.add(new ValidarInativacaoProduto());
 		rnsAlterar.add(new ValidarCategoriaTrocaStatus());
+		rnsAlterar.add(new ValidarProdutoAtivo());
+		
 		rnsProduto.put("SALVAR", rnsSalvarProduto);
 		rnsProduto.put("ALTERAR", rnsAlterar);
 		repositories.put(GrupoPrecificacao.class.getName(), grupoPrecificacaoDAO);

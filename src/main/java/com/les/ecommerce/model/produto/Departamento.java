@@ -2,9 +2,12 @@ package com.les.ecommerce.model.produto;
 
 import javax.persistence.Entity;
 
+import org.hibernate.envers.Audited;
+
 import com.les.ecommerce.model.EntidadeDominio;
 
 @Entity
+@Audited
 public class Departamento extends EntidadeDominio {
 
 

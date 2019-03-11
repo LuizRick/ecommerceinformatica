@@ -82,12 +82,12 @@
 						<div class="col-md-4 mb-3">
 							<label for="validationTooltip02">Codigo de barras</label> <input
 								type="text" class="form-control" th:field="*{codigoBarras}"
-								 />
+								 maxlength="13"/>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-md-3 mb-12">
-							<label>Valor entrada estoque</label> <input type="text"
+							<label>Valor entrada estoque</label> <input type="number"
 								class="form-control"  th:field="*{estoque}"/>
 						</div>
 						<div class="col-md-3 mb-12">
@@ -117,7 +117,7 @@
 					</div>
 					<div class="form-row" style="margin-top: 12px">
 						<div class="col-md-12">
-							<button class="btn btn-primary" type="submit">Salvar</button>
+							<button class="btn btn-primary" type="submit" th:if="${produto.status == true}">Salvar</button>
 							&nbsp;
 							<a th:href="@{/admin/produtos/inativar/} + ${produto.id}" th:if="${produto.id != 0 && produto.status == true}"
 								class="btn btn-warning">Inativar</a>

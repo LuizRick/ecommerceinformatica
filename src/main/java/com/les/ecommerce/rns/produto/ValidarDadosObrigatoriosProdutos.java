@@ -62,7 +62,11 @@ public class ValidarDadosObrigatoriosProdutos implements IStrategy {
 		
 		if(produto.getGrupoPrecificacao() == null || produto.getGrupoPrecificacao().getId() <= 0) {
 			sb.append("É necessário selecionar um grupo de precificação valido <br/>");
-		}	
+		}
+		
+		if(produto.getEstoque() != null && produto.getEstoque() < 0) {
+			sb.append("A entrada no estoque não pode ser negativa");
+		}
 		
 		if(sb.length() > 0) {
 			return sb.toString();

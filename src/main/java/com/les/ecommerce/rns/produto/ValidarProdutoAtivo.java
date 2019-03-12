@@ -10,7 +10,7 @@ public class ValidarProdutoAtivo implements IStrategy{
 	@Override
 	public String processar(EntidadeDominio entidade) {
 		Produto produto = (Produto) entidade;
-		if(produto.getStatus() != null && produto.getStatus() == false) {
+		if(produto.getStatus() != null && produto.getStatus() == false && produto.getCategoriaInativacao() == null) {
 			return "O produto deve estar ativo para ser salvo";
 		}
 		return null;

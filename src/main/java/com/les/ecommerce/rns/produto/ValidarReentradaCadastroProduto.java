@@ -16,6 +16,9 @@ public class ValidarReentradaCadastroProduto implements IStrategy {
 	
 	@Override
 	public String processar(EntidadeDominio entidade) {
+		if(entidade.getId() <= 0) {
+			return null;
+		}
 		ApplicationContext context = SpringContext.getAppContext();
 		ProdutoRepository repository = (ProdutoRepository) context.getBean(ProdutoRepository.class);
 		Optional<Produto> ultimo = repository.findById(entidade.getId());
@@ -24,8 +27,6 @@ public class ValidarReentradaCadastroProduto implements IStrategy {
 				|| ultimo.get().getEstoque() > atual.getEstoque() ) {
 			return "Não e permitido a reentrada no estoque, Por favor utilizar controle de estoque";
 		}
-		
-		
 		return null;
 	}
 }

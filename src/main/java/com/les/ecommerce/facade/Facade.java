@@ -59,7 +59,6 @@ public class Facade  implements IFacade{
 		rnsSalvarProduto.add(new ValidarReentradaCadastroProduto());
 		rnsAlterar.add(new ValidarInativacaoProduto());
 		rnsAlterar.add(new ValidarCategoriaTrocaStatus());
-		rnsAlterar.add(new ValidarProdutoAtivo());
 		
 		rnsProduto.put("SALVAR", rnsSalvarProduto);
 		rnsProduto.put("ALTERAR", rnsAlterar);

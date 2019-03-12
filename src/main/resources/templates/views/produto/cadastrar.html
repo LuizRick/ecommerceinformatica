@@ -63,6 +63,7 @@
 						<div class="col-md-4 mb-3">
 							<label for="validationTooltip05">Departamento</label> <select
 								class="form-control" th:field="*{departamento}">
+								<option value="">Selecionar departamento</option>
 								<option th:each="departamento: ${departs}"
 										th:value="${departamento.id}"
 										th:text="${departamento.nome}">Wireframe</option>
@@ -71,6 +72,7 @@
 						<div class="col-md-4 mb-3">
 							<label for="validationTooltip05">Grupo precificação</label><select
 								class="form-control" th:field="*{grupoPrecificacao}">
+								<option value="">Selecionar Grupo de precificação</option>
 								<option th:each="grupo: ${grupos}"
 										th:value=${grupo.id}
 										th:text=${grupo.nome}
@@ -117,7 +119,7 @@
 					</div>
 					<div class="form-row" style="margin-top: 12px">
 						<div class="col-md-12">
-							<button class="btn btn-primary" type="submit" th:if="${produto.status == true}">Salvar</button>
+							<button class="btn btn-primary" type="submit" th:if="${produto.status == true || produto.status == null}">Salvar</button>
 							&nbsp;
 							<a th:href="@{/admin/produtos/inativar/} + ${produto.id}" th:if="${produto.id != 0 && produto.status == true}"
 								class="btn btn-warning">Inativar</a>

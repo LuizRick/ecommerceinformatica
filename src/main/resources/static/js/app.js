@@ -29,7 +29,6 @@ $("#frmProduto").on('submit', () => {
 	}
 });
 
-
 var AppUtils = {
 	zerarFloatInvalido: function(valor){
 		//zerar o valor se for invalido

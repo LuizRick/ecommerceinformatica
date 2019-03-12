@@ -29,7 +29,7 @@
 					<span th:utext="${resultado.msg}"></span>
 				</div>
 				<form th:action="@{/admin/produtos/consultar}"
-					th:object="${produto}" method="post">
+					th:object="${produto}" method="post" id="frmProduto">
 					<div class="form-row">
 						<div class="col-md-4 mb-3">
 							<label>Descrição</label> <input type="text" class="form-control"
@@ -143,5 +143,8 @@
 			</div>
 		</div>
 	</div>
+	<th:block layout:fragment="scriptblock">
+		<script data-main="/js/produto/consultar" src="/webjars/requirejs/require.min.js"></script>
+	</th:block>
 </body>
 </html>

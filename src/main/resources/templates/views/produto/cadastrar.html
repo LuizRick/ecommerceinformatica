@@ -114,18 +114,18 @@
 					<div class="form-row">
 						<div class="col-md-12 mb-12">
 							<label>Caracteristicas gerais</label>
-							<textarea class="form-control" th:field="*{caracteristicas}"></textarea>
+							<textarea class="form-control" th:field="*{caracteristicas}" maxlength="255"></textarea>
 						</div>
 					</div>
 					<div class="form-row" style="margin-top: 12px">
 						<div class="col-md-12">
-							<button class="btn btn-primary" type="submit" th:if="${produto.status == true || produto.status == null}">Salvar</button>
+							<button class="btn btn-primary" type="submit" th:if="${produto.status == true || produto.status == null}" id="btnSalvar">Salvar</button>
 							&nbsp;
 							<a th:href="@{/admin/produtos/inativar/} + ${produto.id}" th:if="${produto.id != 0 && produto.status == true}"
-								class="btn btn-warning">Inativar</a>
+								class="btn btn-warning" id="btnInativar">Inativar</a>
 								
 							<a th:href="@{/admin/produtos/ativar/} + ${produto.id}" th:if="${produto.id != 0 && produto.status == false}"
-							class="btn btn-warning">Ativar</a>
+							class="btn btn-warning" id="btnAtivar">Ativar</a>
 						</div>
 					</div>
 					<input type="hidden" th:field="*{id}" />

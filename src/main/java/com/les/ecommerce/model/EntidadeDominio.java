@@ -13,7 +13,7 @@ public class EntidadeDominio {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected long Id;
+	protected long id;
 	
 	@Column(name="created", columnDefinition="datetime default NOW()")
 	protected LocalDateTime created;
@@ -27,10 +27,10 @@ public class EntidadeDominio {
 	}
 
 	public long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(long id) {
-		Id = id;
+		this.id = id;
 	}
 }

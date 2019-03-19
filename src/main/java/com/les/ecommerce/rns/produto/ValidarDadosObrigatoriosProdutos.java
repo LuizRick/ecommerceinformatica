@@ -68,6 +68,10 @@ public class ValidarDadosObrigatoriosProdutos implements IStrategy {
 			sb.append("A entrada no estoque não pode ser negativa");
 		}
 		
+		if(produto.getCaracteristicas() != null && produto.getCaracteristicas().length() > 255) {
+			sb.append("As caracteristicas não podem ter mais que 255 caracteres");
+		}
+		
 		if(sb.length() > 0) {
 			return sb.toString();
 		}

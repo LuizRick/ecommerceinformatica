@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.les.ecommerce.dao.AbstractDAO;
@@ -63,7 +64,7 @@ public class ProdutoDAO extends AbstractDAO {
 		}
 		
 		Predicate<Produto> compositePredicate = allPredicates.stream().reduce(c -> true, Predicate::and);
-		return repository.findAll().stream().filter(compositePredicate).collect(Collectors.toList());
+		return repository.findAll(Sort.by("id")).stream().filter(compositePredicate).collect(Collectors.toList());
 	}
 
 	@Override

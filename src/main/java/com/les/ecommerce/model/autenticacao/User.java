@@ -10,10 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
+import javax.persistence.Transient;
 
 import com.les.ecommerce.model.EntidadeDominio;
 
@@ -22,19 +19,14 @@ import com.les.ecommerce.model.EntidadeDominio;
 public class User extends EntidadeDominio {
 
 	@Column(name = "email")
-    @Email(message = "*Please provide a valid Email")
-    @NotEmpty(message = "*Please provide an email")
     private String email;
+	
     @Column(name = "password")
-    @Length(min = 5, message = "*Your password must have at least 5 characters")
-    @NotEmpty(message = "*Please provide your password")
     private String password;
-    @Column(name = "name")
-    @NotEmpty(message = "*Please provide your name")
-    private String name;
-    @Column(name = "last_name")
-    @NotEmpty(message = "*Please provide your last name")
-    private String lastName;
+    
+    @Transient
+    private String confirmaPassword;
+    
     @Column(name = "active")
     private int active;
     
@@ -58,22 +50,6 @@ public class User extends EntidadeDominio {
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public int getActive() {
 		return active;
 	}
@@ -88,5 +64,13 @@ public class User extends EntidadeDominio {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getConfirmaPassword() {
+		return confirmaPassword;
+	}
+
+	public void setConfirmaPassword(String confirmaPassword) {
+		this.confirmaPassword = confirmaPassword;
 	}
 }

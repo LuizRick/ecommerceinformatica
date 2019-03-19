@@ -10,8 +10,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.autenticacao.User;
 
 @Entity
 public class Cliente extends EntidadeDominio {
@@ -33,6 +35,9 @@ public class Cliente extends EntidadeDominio {
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<Cartao> cartoes;
+	
+	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private User usuario;
 
 	public String getNome() {
 		return nome;
@@ -72,6 +77,30 @@ public class Cliente extends EntidadeDominio {
 
 	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
+	}
+
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
+	public List<Cartao> getCartoes() {
+		return cartoes;
+	}
+
+	public void setCartoes(List<Cartao> cartoes) {
+		this.cartoes = cartoes;
+	}
+
+	public User getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(User usuario) {
+		this.usuario = usuario;
 	}
 	
 	

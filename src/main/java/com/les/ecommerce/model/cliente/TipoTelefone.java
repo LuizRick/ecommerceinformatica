@@ -2,7 +2,8 @@ package com.les.ecommerce.model.cliente;
 
 public enum TipoTelefone {
 
-	RESIDENCIAL("RESIDENCIAL");
+	RESIDENCIAL("RESIDENCIAL"),
+	COMERCIAL("COMÉRCIAL");
 	
 	private String value;
 	

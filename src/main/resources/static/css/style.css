@@ -1,3 +1,7 @@
 .invalid{
 	border:1px solid red;
 }
+
+#frmCliente{
+	padding:25px;
+}

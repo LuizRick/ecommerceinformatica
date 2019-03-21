@@ -15,7 +15,7 @@
 		<!-- layout documentation https://www.thymeleaf.org/doc/articles/layouts.html -->
 		<div th:replace="fragments/header :: header"></div>
 		<div class="container-fluid">
-			<div layout:fragment="content"></div>
+			<div layout:fragment="content" style="margin-top:12px"></div>
 		</div>
 		<div class="modal fade" id="modalGeral" tabindex="-1">
 			<div class="modal-dialog">
@@ -36,6 +36,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="/webjarsjs"></script>
 	<script type='text/javascript' src='/webjars/jquery/jquery.min.js'></script>
 	<script type='text/javascript' src='/webjars/bootstrap/js/bootstrap.min.js'></script>
 	<th:block layout:fragment="scriptblock"></th:block>

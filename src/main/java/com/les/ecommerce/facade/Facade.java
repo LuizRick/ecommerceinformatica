@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.les.ecommerce.dao.IDAO;
+import com.les.ecommerce.dao.cliente.ClienteDAO;
 import com.les.ecommerce.dao.produto.DepartamentoDAO;
 import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
 import com.les.ecommerce.dao.produto.ProdutoDAO;
 import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.produto.Departamento;
 import com.les.ecommerce.model.produto.GrupoPrecificacao;
 import com.les.ecommerce.model.produto.Produto;
@@ -32,6 +34,11 @@ public class Facade  implements IFacade{
 	private Map<String, Map<String, List<IStrategy>>> rns;
 	private Map<String, IDAO> repositories;
 	
+	private static final String SALVAR = "SALVAR";
+	private static final String ALTERAR = "ALTERAR";
+	private static final String CONSULTAR = "CONSULTAR";
+	private static final String DELETAR = "DELETAR";
+	
 	@Autowired
 	private GrupoPrecificacaoDAO grupoPrecificacaoDAO;
 	
@@ -41,6 +48,9 @@ public class Facade  implements IFacade{
 	
 	@Autowired
 	private ProdutoDAO produtoDAO;
+	
+	@Autowired
+	private ClienteDAO clienteDAO;
 	
 	@PostConstruct
 	public void init() {
@@ -53,6 +63,12 @@ public class Facade  implements IFacade{
 		Map<String, List<IStrategy>> rnsProduto = new HashMap<>();
 		
 		
+		//regras para cliente
+		List<IStrategy> rnsSalvarCliente = new ArrayList<IStrategy>();
+		List<IStrategy> rnsAlterarCliente = new ArrayList<IStrategy>();
+		Map<String, List<IStrategy>> rnsCliente = new HashMap<>();
+		
+		
 		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
 		rnsSalvarProduto.add(new ValidarProdutoAtivo());
@@ -60,11 +76,16 @@ public class Facade  implements IFacade{
 		rnsAlterar.add(new ValidarInativacaoProduto());
 		rnsAlterar.add(new ValidarCategoriaTrocaStatus());
 		
-		rnsProduto.put("SALVAR", rnsSalvarProduto);
-		rnsProduto.put("ALTERAR", rnsAlterar);
+		rnsProduto.put(SALVAR, rnsSalvarProduto);
+		rnsProduto.put(ALTERAR, rnsAlterar);
+		
+		rnsCliente.put(SALVAR, rnsSalvarCliente);
+		rnsCliente.put(ALTERAR, rnsAlterarCliente);
+		
 		repositories.put(GrupoPrecificacao.class.getName(), grupoPrecificacaoDAO);
 		repositories.put(Departamento.class.getName(), departamentoDAO);
 		repositories.put(Produto.class.getName(), produtoDAO);
+		repositories.put(Cliente.class.getName(),clienteDAO);
 		
 		rns.put(Produto.class.getName(),rnsProduto);
 		

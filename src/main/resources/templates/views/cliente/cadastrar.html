@@ -141,6 +141,21 @@
 										<input type="text" class="form-control" th:field="*{enderecos[0].cidade}" />
 									</div>
 								</div>
+								<div class="form-row" th:if="${cliente.id != 0}">
+									<div class="form-group col-md-12">
+										<table class="table table-hover">
+											<caption>Lista de Endereçõs</caption>
+											<thead>
+												<tr>
+													
+												</tr>
+											</thead>
+											<tbody>
+											
+											</tbody>
+										</table>
+									</div>
+								</div>
 							</div>
 							<div v-if="selectedDiv === 'C'">
 								<div class="form-row">

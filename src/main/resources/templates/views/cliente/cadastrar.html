@@ -99,59 +99,79 @@
 								</div>
 							</div>
 							<div v-if="selectedDiv === 'B'">
+								<div class="action-form">
+									<button type="button" name="action" value="addEndereco" class="btn btn-success">
+										Adicionar endereço
+									</button>
+								</div>
 								<div class="form-row">
 									<div class="form-group col-md-4">
-										<label for="enderecos0.descricao">Descrição</label>
-										<input type="text" class="form-control" th:field="*{enderecos[0].descricao}" />
+										<label th:for="'enderecos' + ${enderecoIndex} + '.descricao'">Descrição</label>
+										<input type="text" class="form-control" th:field="*{enderecos[__${enderecoIndex}__].descricao}" />
 									</div>
 									<div class="form-group col-md-4">
-										<label for="enderecos0.tipoResidencia">tipo residencia</label>
-										<input type="text" class="form-control" th:field="*{enderecos[0].tipoResidencia}" />
+										<label th:for="'enderecos' + ${enderecoIndex} + '.tipoResidencia'">tipo residencia</label>
+										<input type="text" class="form-control" th:field="*{enderecos[__${enderecoIndex}__].tipoResidencia}" />
 									</div>
 									<div class="form-group col-md-4">
-										<label for="enderecos0.tipoLogradouro">Tipo Logradouro</label>
-										<input type="text" class="form-control" th:field="*{enderecos[0].tipoLogradouro}" />
+										<label th:for="'enderecos' + ${enderecoIndex} + '.tipoLogradouro'">Tipo Logradouro</label>
+										<input type="text" class="form-control" th:field="*{enderecos[__${enderecoIndex}__].tipoLogradouro}" />
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-4">
-										<label for="enderecos0.numero">Numero</label>
-										<input type="text" class="form-control" th:field="*{enderecos[0].numero}" />
+										<label th:for="'enderecos' + ${enderecoIndex} + '.numero'">Numero</label>
+										<input type="text" class="form-control" th:field="*{enderecos[__${enderecoIndex}__].numero}" />
 									</div>
 									<div class="form-group col-md-4">
-										<label for="enderecos0.bairro">Bairro</label>
-										<input type="text" class="form-control" th:field="*{enderecos[0].bairro}" />
+										<label th:for="'enderecos' + ${enderecoIndex} + '.bairro'">Bairro</label>
+										<input type="text" class="form-control" th:field="*{enderecos[__${enderecoIndex}__].bairro}" />
 									</div>
 									<div class="form-group col-md-4">
-										<label for="enderecos0.cep">CEP</label>
-										<input type="text" class="form-control" th:field="*{enderecos[0].cep}" />
+										<label th:for="'enderecos' + ${enderecoIndex} + '.cep'">CEP</label>
+										<input type="text" class="form-control" th:field="*{enderecos[__${enderecoIndex}__].cep}" />
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-4">
-										<label for="enderecos0.pais">Pais</label>
-										<input type="text" class="form-control" th:field="*{enderecos[0].pais}" />
+										<label th:for="'enderecos' + ${enderecoIndex} + '.pais'">Pais</label>
+										<input type="text" class="form-control" th:field="*{enderecos[__${enderecoIndex}__].pais}" />
 									</div>
 									<div class="form-group col-md-4">
-										<label for="enderecos0.estado">Estado</label>
-										<input type="text" class="form-control" th:field="*{enderecos[0].estado}" />
+										<label th:for="'enderecos' + ${enderecoIndex} + '.estado'">Estado</label>
+										<input type="text" class="form-control" th:field="*{enderecos[__${enderecoIndex}__].estado}" />
 									</div>
 									<div class="form-group col-md-4">
-										<label for="enderecos0.cidade">Cidade</label>
-										<input type="text" class="form-control" th:field="*{enderecos[0].cidade}" />
+										<label th:for="'enderecos' + ${enderecoIndex} + '.cidade'">Cidade</label>
+										<input type="text" class="form-control" th:field="*{enderecos[__${enderecoIndex}__].cidade}" />
 									</div>
 								</div>
-								<div class="form-row" th:if="${cliente.id != 0}">
+								<div class="form-row">
+									<div class="form-group col-md-12">
+										<label th:for="'enderecos' + ${enderecoIndex} + '.tipo'">Tipo endereco</label>
+										<select class="form-control" th:field="*{enderecos[__${enderecoIndex}__].tipo}">
+											<option value="">Selecionar tipo</option>
+											<option th:each="state: ${T(com.les.ecommerce.model.cliente.TipoEndereco).values()}"
+													th:text="${state.value()}"
+													th:value="${state}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="form-row" th:if="${cliente.enderecos.size() > 0}">
 									<div class="form-group col-md-12">
 										<table class="table table-hover">
-											<caption>Lista de Endereçõs</caption>
+											<caption>Lista de Endereços</caption>
 											<thead>
 												<tr>
-													
+													<th>Código</th>
+													<th>Descrição</th>
+													<th>Cep</th>
 												</tr>
 											</thead>
 											<tbody>
-											
+												<tr th:each="state : ${cliente.enderecos}">
+													
+												</tr>
 											</tbody>
 										</table>
 									</div>
@@ -160,22 +180,22 @@
 							<div v-if="selectedDiv === 'C'">
 								<div class="form-row">
 									<div class="form-group col-md-4">
-										<label for="cartao.titular">Titular</label>
-										<input type="text" class="form-control" th:field="*{cartoes[0].titular}" />
+										<label th:for="'cartoes' + ${cartaoIndex} + '.titular'">Titular</label>
+										<input type="text" class="form-control" th:field="*{cartoes[__${cartaoIndex}__].titular}" />
 									</div>
 									<div class="form-group col-md-4">
-										<label for="cartao.numero">Numero</label>
-										<input type="text" class="form-control" th:field="*{cartoes[0].numero}" />
+										<label th:for="'cartoes' + ${cartaoIndex} + '.numero'">Numero</label>
+										<input type="text" class="form-control" th:field="*{cartoes[__${cartaoIndex}__].numero}" />
 									</div>
 									<div class="form-group col-md-4">
-										<label for="cartao.codigoSeguranca">Codigo Segurança</label>
-										<input type="text" class="form-control" th:field="*{cartoes[0].codigoSeguranca}" />
+										<label th:for="'cartoes' + ${cartaoIndex} + '.codigoSeguranca'">Codigo Segurança</label>
+										<input type="text" class="form-control" th:field="*{cartoes[__${cartaoIndex}__].codigoSeguranca}" />
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-4">
-										<label>Bandeira Cartão</label>
-										<select th:field="*{cartoes[0].bandeira}" class="form-control">
+										<label th:for="'cartoes' + ${cartaoIndex} + '.bandeira'">Bandeira Cartão</label>
+										<select th:field="*{cartoes[__${cartaoIndex}__].bandeira}" class="form-control">
 											<option th:each="state : ${T(com.les.ecommerce.model.cliente.BandeiraCartao).values()}"
 													th:text="${state.value()}"
 													th:value="${state}">
@@ -183,7 +203,8 @@
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-primary">Salvar</button>
+							<button class="btn btn-primary">Salvar Cliente</button>
+							<input type="hidden" name="action" value="SALVAR"/>
 						</form>
 					</div>
 				</div>

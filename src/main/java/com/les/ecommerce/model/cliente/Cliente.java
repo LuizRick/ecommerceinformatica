@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.autenticacao.User;
@@ -38,6 +39,10 @@ public class Cliente extends EntidadeDominio {
 	
 	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private User usuario;
+	
+	
+	@Transient
+	private String action;
 
 	public String getNome() {
 		return nome;
@@ -101,6 +106,14 @@ public class Cliente extends EntidadeDominio {
 
 	public void setUsuario(User usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 	
 	

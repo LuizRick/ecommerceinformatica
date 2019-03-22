@@ -2,8 +2,8 @@ package com.les.ecommerce.model.cliente;
 
 public enum TipoEndereco {
 
-	CASA("CASA"),
-	APARTAMENTO("APARTAMENTO");
+	COBRANCA("COBRANÇA"),
+	ENTREGA("ENTREGA");
 	
 	private String value;
 	

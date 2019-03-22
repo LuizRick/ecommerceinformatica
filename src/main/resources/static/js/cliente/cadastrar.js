@@ -21,8 +21,9 @@ requirejs(["vue", "jquery"], function(Vue, $){
 				$("#frmCliente").submit();
 			},
 			removerEndereco:function(index){
+				debugger;
 				$("#action").val("removeEndereco:" + index);
-				$("#frmCliente").submit();
+				
 			}
 		}
 	});

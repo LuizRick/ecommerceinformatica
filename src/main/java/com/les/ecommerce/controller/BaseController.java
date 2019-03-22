@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,10 @@ public class BaseController {
 	protected Map<String, AbstractCommand> commands;
 	@Autowired
 	protected ObjectMapper mapper;
+	
+	
+	@Autowired
+	protected HttpSession session;
 	
 	protected final String SALVAR = "SALVAR";
 	protected final String ALTERAR = "ALTERAR";

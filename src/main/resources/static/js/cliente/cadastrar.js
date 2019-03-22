@@ -1,8 +1,9 @@
-requirejs(["vue"], function(Vue){
+requirejs(["vue", "jquery"], function(Vue, $){
 	new Vue({
 		el:'#app',
 		data:{
-			selectedDiv:'A'
+			selectedDiv:'A',
+			action:'SALVAR'
 		},
 		methods:{
 			setTab:function(tab){
@@ -10,7 +11,21 @@ requirejs(["vue"], function(Vue){
 			},
 			isActive:function(tab){
 				return this.selectedDiv == tab;
+			},
+			addEndereco:function(){
+				$("#action").val("addEndereco");
+				$("#frmCliente").submit();
+			},
+			salvarCliente:function(){
+				$("#action").val("SALVAR");
+				$("#frmCliente").submit();
+			},
+			removerEndereco:function(index){
+				$("#action").val("removeEndereco:" + index);
+				$("#frmCliente").submit();
 			}
 		}
-	})
+	});
 });
+
+

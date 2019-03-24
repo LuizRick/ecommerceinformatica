@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{ecommerce/layout}">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+</head>
+<body>
+    <div layout:fragment="content">
+    	<div class="row">
+    		<div class="col-lg-2">
+    			<nav>
+					<ul class="nav nav-pill">
+						<li class="nav-item"><a class="nav-link active"
+							href="/admin/cliente/cadastro">
+							<i class="fas fa-plus"></i>
+							Novo cliente</a></li>
+					</ul>
+				</nav>
+    		</div>
+    		<div class="col-lg-10">
+    			<div class="row">
+    				<div class="col-lg-12">
+    					<div class="alert alert-warning" th:if="${resultado != null && resultado.msg != null}">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    					<span aria-hidden="true">&times;</span>
+		  					</button>
+							<span th:utext="${resultado.msg}"></span>
+						</div>
+    					<form th:action="@{/admin/clientes/consultar}" th:object="${cliente}" method="post" id="frmCliente">
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label>Nome:</label>
+									<input type="text" class="form-control" th:field="*{nome}" />
+								</div>
+								<div class="form-group col-md-4">
+									<label>Data Nascimento</label>
+									<input type="date" class="form-control" th:field="*{dataNascimento}" />
+								</div>
+								<div class="form-group col-md-4">
+									<label>CPF:</label>
+									<input type="text" class="form-control" th:field="*{cpf}" />
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label>Email:</label>
+									<input type="text" class="form-control" th:field="*{usuario.email}" />
+								</div>
+								<div class="form-group col-md-4">
+									<label>DDD:</label>
+									<input type="text" class="form-control" th:field="*{telefone.ddd}" maxlength="3"/>
+								</div>
+								<div class="form-group col-md-4">
+									<label>Numero Telefone:</label>
+									<input type="text" class="form-control" th:field="*{telefone.numero}" />
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label>Tipo telefone:</label>
+									<select th:field="*{telefone.tipo}" class="form-control">
+										<option th:each="state: ${T(com.les.ecommerce.model.cliente.TipoTelefone).values()} "
+											th:value="${state}"
+											th:text="${state.value()}">
+										</option>
+									</select>
+								</div>
+								<div class="form-group col-md-4">
+									<label>Gênero:</label>
+									<div class="form-check" th:each="state: ${T(com.les.ecommerce.model.cliente.Genero).values()}">
+										<input type="radio" th:field="*{genero}" th:value="${state}" class="form-check-input"/>
+										<label th:text="${state}" class="form-check-label" 
+											   th:for="${#ids.prev('genero')}"></label>
+									</div>
+								</div>
+							</div>
+							<button class="btn btn-primary" type="submit">Consultar</button>
+						</form>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="row" th:if="${clientes != null}">
+    		<div class="col-lg-12">
+    			<table class="table table-dark"  style="margin-top:12px" id="resultadoPesquisa">
+    				<caption>Resultado de pesquisa</caption>
+    				<thead>
+    					<tr>
+    						<th>CPF</th>
+    						<th>Nome</th>
+    						<th>E-mail</th>
+    						<th>Status</th>
+    						<th></th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    					<tr th:each="cliente: ${cliente}">
+    						<td th:text="${cliente.cpf}"></td>
+    						<td th:text="${cliente.nome}"></td>
+    						<td th:text="${cliente.usuario.email}"></td>
+    						<td th:text="${cliente.usuario.active}"></td>
+    						<td>
+    							<a th:href="@{/admin/cliente/cadastro/} + ${cliente.id}" class="btn btn-primary">
+									Visualizar
+								</a>
+    						</td>
+    					</tr>
+    				</tbody>
+    			</table>
+    		</div>	
+    	</div>
+    </div>
+</body>
+</html>

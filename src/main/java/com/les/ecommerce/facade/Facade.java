@@ -21,6 +21,13 @@ import com.les.ecommerce.model.produto.Departamento;
 import com.les.ecommerce.model.produto.GrupoPrecificacao;
 import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.rns.IStrategy;
+import com.les.ecommerce.rns.cliente.ValidarCartaoObrigatorioNovoCliente;
+import com.les.ecommerce.rns.cliente.ValidarConfirmacaoSenha;
+import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosCartoes;
+import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosEnderecos;
+import com.les.ecommerce.rns.cliente.ValidarEnderecoCobrancaNovoCliente;
+import com.les.ecommerce.rns.cliente.ValidarEnderecoEntregaNovoCliente;
+import com.les.ecommerce.rns.cliente.ValidarSenhaForteCliente;
 import com.les.ecommerce.rns.produto.ValidarCategoriaTrocaStatus;
 import com.les.ecommerce.rns.produto.ValidarDadosObrigatoriosProdutos;
 import com.les.ecommerce.rns.produto.ValidarInativacaoProduto;
@@ -59,7 +66,7 @@ public class Facade  implements IFacade{
 		
 		//regras para produto
 		List<IStrategy> rnsSalvarProduto = new ArrayList<IStrategy>();
-		List<IStrategy> rnsAlterar = new ArrayList<IStrategy>();
+		List<IStrategy> rnsAlterarProduto = new ArrayList<IStrategy>();
 		Map<String, List<IStrategy>> rnsProduto = new HashMap<>();
 		
 		
@@ -73,11 +80,23 @@ public class Facade  implements IFacade{
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
 		rnsSalvarProduto.add(new ValidarProdutoAtivo());
 		rnsSalvarProduto.add(new ValidarReentradaCadastroProduto());
-		rnsAlterar.add(new ValidarInativacaoProduto());
-		rnsAlterar.add(new ValidarCategoriaTrocaStatus());
+		rnsAlterarProduto.add(new ValidarInativacaoProduto());
+		rnsAlterarProduto.add(new ValidarCategoriaTrocaStatus());
+		
+		rnsSalvarCliente.add(new ValidarCartaoObrigatorioNovoCliente());
+		rnsSalvarCliente.add(new ValidarConfirmacaoSenha());
+		rnsSalvarCliente.add(new ValidarEnderecoEntregaNovoCliente());
+		rnsSalvarCliente.add(new ValidarSenhaForteCliente());
+		rnsSalvarCliente.add(new ValidarEnderecoCobrancaNovoCliente());
+		rnsSalvarCliente.add(new ValidarDadosObrigatoriosEnderecos());
+		rnsSalvarCliente.add(new ValidarDadosObrigatoriosCartoes());
+		
+		
+		
+		
 		
 		rnsProduto.put(SALVAR, rnsSalvarProduto);
-		rnsProduto.put(ALTERAR, rnsAlterar);
+		rnsProduto.put(ALTERAR, rnsAlterarProduto);
 		
 		rnsCliente.put(SALVAR, rnsSalvarCliente);
 		rnsCliente.put(ALTERAR, rnsAlterarCliente);

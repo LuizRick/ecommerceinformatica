@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.autenticacao.User;
 
@@ -21,6 +23,7 @@ public class Cliente extends EntidadeDominio {
 	
 	private String nome;
 	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate dataNascimento;
 	
 	private String cpf;

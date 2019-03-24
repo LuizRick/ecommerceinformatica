@@ -11,7 +11,14 @@
 	<div layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-2">
-			
+				<nav>
+					<ul class="nav nav-pill">
+						<li class="nav-item"><a class="nav-link active"
+							href="/admin/clientes/consultar">
+							<i class="fas fa-search"></i>
+							Pesquisar clientes</a></li>
+					</ul>
+				</nav>
 			</div>
 			<div class="col-10">
 				<div class="row">
@@ -38,6 +45,12 @@
 						</ul>
 					</div>
 					<div class="col-lg-12">
+						<div class="alert alert-warning" th:if="${resultado != null && resultado.msg != null}">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    					<span aria-hidden="true">&times;</span>
+		  					</button>
+							<span th:utext="${resultado.msg}"></span>
+						</div>
 						<form th:action="@{/admin/cliente/salvar}" th:object="${cliente}" method="post" id="frmCliente">
 							<div v-show="selectedDiv === 'A'">
 								<div class="form-row">
@@ -156,40 +169,61 @@
 									</div>
 									<div class="form-row">
 										<div class="form-group col-md-12">
-											<button class="btn btn-danger" th:attr="@click=${}">Remover</button>
+											<button class="btn btn-danger" 
+													type="button"
+												th:attr="'@click'=${'removerEndereco(' + itemStat.index + ')'}"
+												th:if="${cliente.enderecos.size() > 1}">
+												Remover
+											</button>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div v-show="selectedDiv === 'C'">
-								<div class="form-row">
-									<div class="form-group col-md-4">
-										<label th:for="'cartoes' + ${cartaoIndex} + '.titular'">Titular</label>
-										<input type="text" class="form-control" th:field="*{cartoes[__${cartaoIndex}__].titular}" />
+								<div th:each="cartao,itemStat: *{cartoes}" style="border-bottom:3px solid #ccc;margin-bottom:12px">
+									<b th:text="'Cartão' + ${itemStat.index + 1}"></b>
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label th:for="'cartoes' + ${itemStat.index} + '.titular'">Titular</label>
+											<input type="text" class="form-control" th:field="*{cartoes[__${itemStat.index}__].titular}" />
+										</div>
+										<div class="form-group col-md-4">
+											<label th:for="'cartoes' + ${cartaoIndex} + '.numero'">Numero</label>
+											<input type="text" class="form-control" th:field="*{cartoes[__${itemStat.index}__].numero}" />
+										</div>
+										<div class="form-group col-md-4">
+											<label th:for="'cartoes' + ${cartaoIndex} + '.codigoSeguranca'">Codigo Segurança</label>
+											<input type="text" class="form-control" th:field="*{cartoes[__${itemStat.index}__].codigoSeguranca}" />
+										</div>
 									</div>
-									<div class="form-group col-md-4">
-										<label th:for="'cartoes' + ${cartaoIndex} + '.numero'">Numero</label>
-										<input type="text" class="form-control" th:field="*{cartoes[__${cartaoIndex}__].numero}" />
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label th:for="'cartoes' + ${itemStat.index} + '.bandeira'">Bandeira Cartão</label>
+											<select th:field="*{cartoes[__${itemStat.index}__].bandeira}" class="form-control">
+												<option th:each="state : ${T(com.les.ecommerce.model.cliente.BandeiraCartao).values()}"
+														th:text="${state.value()}"
+														th:value="${state}">
+											</select>
+										</div>
 									</div>
-									<div class="form-group col-md-4">
-										<label th:for="'cartoes' + ${cartaoIndex} + '.codigoSeguranca'">Codigo Segurança</label>
-										<input type="text" class="form-control" th:field="*{cartoes[__${cartaoIndex}__].codigoSeguranca}" />
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="form-group col-md-4">
-										<label th:for="'cartoes' + ${cartaoIndex} + '.bandeira'">Bandeira Cartão</label>
-										<select th:field="*{cartoes[__${cartaoIndex}__].bandeira}" class="form-control">
-											<option th:each="state : ${T(com.les.ecommerce.model.cliente.BandeiraCartao).values()}"
-													th:text="${state.value()}"
-													th:value="${state}">
-										</select>
+									<div class="form-row">
+										<div class="form-group col-md-12">
+											<button class="btn btn-danger"
+													type="button"
+													th:attr="'@click'=${'removerCartao(' + itemStat.index + ')'}"
+													th:if="${cliente.cartoes.size() > 1}">
+													Remover		
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
 							<button class="btn btn-primary" type="button" @click="salvarCliente">Salvar Cliente</button>
 							<button type="button" class="btn btn-success" @click="addEndereco" v-if="selectedDiv == 'B'">
 								Adicionar endereço
+							</button>
+							<button type="button" class="btn btn-success" @click="addCartao" v-if="selectedDiv == 'C'">
+								Adicionar cartão
 							</button>
 							<input type="hidden" name="action" :value="action"  id="action"/>
 						</form>

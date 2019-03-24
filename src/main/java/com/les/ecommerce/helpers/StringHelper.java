@@ -8,4 +8,8 @@ public class StringHelper {
 	static public boolean isNullOrEmpty(String s) {
 		return s == null || s.length() <= 0;
 	}
+	
+	static public boolean isNullOrEmpty(Object s) {
+		return s == null;
+	}
 }

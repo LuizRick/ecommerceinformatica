@@ -21,9 +21,16 @@ requirejs(["vue", "jquery"], function(Vue, $){
 				$("#frmCliente").submit();
 			},
 			removerEndereco:function(index){
-				debugger;
-				$("#action").val("removeEndereco:" + index);
-				
+				$("#action").val("removerEndereco:" + index);
+				$("#frmCliente").submit();
+			},
+			addCartao:function(index){
+				$("#action").val("addCartao");
+				$("#frmCliente").submit();
+			},
+			removerCartao:function(index){
+				$("#action").val("removerCartao:" + index);
+				$("#frmCliente").submit();
 			}
 		}
 	});

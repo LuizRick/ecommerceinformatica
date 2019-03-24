@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class EntidadeDominio {
+public class EntidadeDominio implements IEntidade {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

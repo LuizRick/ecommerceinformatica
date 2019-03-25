@@ -36,6 +36,9 @@ public class ValidarDadosObrigatoriosCartoes implements IStrategy {
 			
 		}
 		
+		if(sb.length() > 0) {
+			return sb.toString();
+		}
 		
 		return null;
 	}

@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.les.ecommerce.model.EntidadeDominio;
 
 @Entity
@@ -21,7 +23,7 @@ public class User extends EntidadeDominio {
 	@Column(name = "email")
     private String email;
 	
-    @Column(name = "password")
+    @Column(name = "password")	
     private String password;
     
     @Transient

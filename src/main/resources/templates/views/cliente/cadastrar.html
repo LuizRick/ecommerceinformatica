@@ -51,7 +51,8 @@
 		  					</button>
 							<span th:utext="${resultado.msg}"></span>
 						</div>
-						<form th:action="@{/admin/cliente/salvar}" th:object="${cliente}" method="post" id="frmCliente">
+						<form th:action="${cliente.id} == 0 ?  @{/admin/cliente/salvar} : @{/admin/cliente/salvar}" 
+							  th:object="${cliente}" method="post" id="frmCliente">
 							<div v-show="selectedDiv === 'A'">
 								<div class="form-row">
 									<div class="form-group col-md-4">
@@ -72,13 +73,14 @@
 										<label>Email:</label>
 										<input type="text" class="form-control" th:field="*{usuario.email}" />
 									</div>
-									<div class="form-group col-md-4">
-										<label>Senha:</label>
+									<div class="form-group col-md-4" th:if="${cliente.id == 0}">
+										<label>Senha </label>
 										<input type="password" class="form-control" th:field="*{usuario.password}" />
 									</div>
-									<div class="form-group col-md-4">
+									<div class="form-group col-md-4" th:if="${cliente.id == 0}">
 										<label>Confirmar Senha:</label>
-										<input type="password" class="form-control" th:field="*{usuario.confirmaPassword}" />
+										<input type="password" class="form-control" th:field="*{usuario.confirmaPassword}"
+												 />
 									</div>
 								</div>
 								<div class="form-row">
@@ -218,7 +220,12 @@
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-primary" type="button" @click="salvarCliente">Salvar Cliente</button>
+							<button class="btn btn-primary" type="button" @click="salvarCliente" th:if="${cliente.id ==0 }">
+								Salvar Cliente
+							</button>
+							<button class="btn btn-success" type="button" @click="editarCliente" th:if="${cliente.id != 0 }">
+								Salvar Cliente
+							</button>
 							<button type="button" class="btn btn-success" @click="addEndereco" v-if="selectedDiv == 'B'">
 								Adicionar endereço
 							</button>
@@ -226,6 +233,9 @@
 								Adicionar cartão
 							</button>
 							<input type="hidden" name="action" :value="action"  id="action"/>
+							<input type="hidden" th:field="*{id}" />
+							<input type="hidden" th:field="*{usuario.id}" />
+							<input type="hidden" th:field="*{usuario.password}" th:if="${cliente.id != 0}"/>
 						</form>
 					</div>
 				</div>

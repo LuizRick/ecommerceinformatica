@@ -9,7 +9,7 @@ public class ValidarSenhaForteCliente implements IStrategy{
 	
 	@Override
 	public String processar(EntidadeDominio entidade) {
-		String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+		String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!+=])(?=\\S+$).{8,}";
 		Cliente cliente = (Cliente) entidade;
 		
 		if(cliente.getUsuario() == null || !cliente.getUsuario().getPassword().matches(pattern)) {

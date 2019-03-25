@@ -34,6 +34,18 @@ public class ClienteController extends BaseController {
 		return "views/cliente/consultar";
 	}
 	
+	@RequestMapping(path="/admin/cliente/cadastro/{id}")
+	public String visualizar(Cliente cliente,Model model) {
+		Resultado resultado = commands.get(CONSULTAR).execute(cliente);
+		if(StringHelper.isNullOrEmpty(resultado.getMsg()) && resultado.getEntidades().size() > 0) {
+			cliente = (Cliente) resultado.getEntidades().get(0);
+			model.addAttribute("cliente", cliente);
+		}else {
+			cliente.setId(0);
+		}
+		return "views/cliente/cadastrar";
+	}
+	
 	@RequestMapping(path="/admin/clientes/consultar", method=RequestMethod.POST)
 	public String consultar(Cliente cliente,Model model) {
 		Resultado resultado = this.commands.get(CONSULTAR).execute(cliente);
@@ -63,7 +75,7 @@ public class ClienteController extends BaseController {
 			cliente.getCartoes().remove(index);
 		}
 		
-		if(cliente.getAction().equalsIgnoreCase(this.SALVAR)) {
+		if(cliente.getAction().equalsIgnoreCase(this.SALVAR) || cliente.getAction().equalsIgnoreCase(this.ALTERAR)) {
 			cliente.getUsuario().setActive(1);
 			cliente.setCreated(LocalDateTime.now());
 			Resultado resultado = this.commands.get(cliente.getAction()).execute(cliente);

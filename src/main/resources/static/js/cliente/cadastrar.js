@@ -20,6 +20,10 @@ requirejs(["vue", "jquery"], function(Vue, $){
 				$("#action").val("SALVAR");
 				$("#frmCliente").submit();
 			},
+			editarCliente:function(){
+				$("#action").val("ALTERAR");
+				$("#frmCliente").submit();
+			},
 			removerEndereco:function(index){
 				$("#action").val("removerEndereco:" + index);
 				$("#frmCliente").submit();

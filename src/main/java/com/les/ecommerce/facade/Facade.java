@@ -24,6 +24,7 @@ import com.les.ecommerce.rns.IStrategy;
 import com.les.ecommerce.rns.cliente.ValidarCartaoObrigatorioNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarConfirmacaoSenha;
 import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosCartoes;
+import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosCliente;
 import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosEnderecos;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoCobrancaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoEntregaNovoCliente;
@@ -83,6 +84,7 @@ public class Facade  implements IFacade{
 		rnsAlterarProduto.add(new ValidarInativacaoProduto());
 		rnsAlterarProduto.add(new ValidarCategoriaTrocaStatus());
 		
+		rnsSalvarCliente.add(new ValidarDadosObrigatoriosCliente());
 		rnsSalvarCliente.add(new ValidarCartaoObrigatorioNovoCliente());
 		rnsSalvarCliente.add(new ValidarConfirmacaoSenha());
 		rnsSalvarCliente.add(new ValidarEnderecoEntregaNovoCliente());
@@ -107,7 +109,7 @@ public class Facade  implements IFacade{
 		repositories.put(Cliente.class.getName(),clienteDAO);
 		
 		rns.put(Produto.class.getName(),rnsProduto);
-		
+		rns.put(Cliente.class.getName(), rnsCliente);
 	}
 
 	@Override

@@ -5,3 +5,27 @@
 #frmCliente{
 	padding:25px;
 }
+
+
+
+.syscard{
+    width:18rem;
+}
+
+h6{
+    text-transform: uppercase;
+}
+
+.endereco{
+    background: #f4f4f4;
+    padding:12px;
+    margin-bottom: 12px;
+}
+
+b.price{
+	color:green;
+}
+
+b.estoque{
+	color:blue;
+}

@@ -6,12 +6,15 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import com.les.ecommerce.application.pagination.Pagination;
 import com.les.ecommerce.dao.AbstractDAO;
 import com.les.ecommerce.helpers.StringHelper;
 import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.repository.produto.ProdutoRepository;
 
@@ -22,20 +25,22 @@ public class ProdutoDAO extends AbstractDAO {
 	private ProdutoRepository repository;
 	
 	@Override
-	public void salvar(EntidadeDominio entidade) {
+	public void salvar(IEntidade entidade) {
 		repository.save(noCast(entidade));
 	}
 
 	@Override
-	public void alterar(EntidadeDominio entidade) {
-		if(entidade.getId() > 0) {
+	public void alterar(IEntidade entidade) {
+		EntidadeDominio dominio = (EntidadeDominio) entidade;
+		if(dominio.getId() > 0) {
 			repository.save(noCast(entidade));
 		}
 	}
 
 	@Override
-	public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
-		Produto produto = (Produto) entidade;
+	public List<EntidadeDominio> consultar(IEntidade entidade) {
+		EntidadeDominio dominio = (EntidadeDominio) entidade;
+		Produto produto = (Produto) dominio;
 		List<Predicate<Produto>> allPredicates = new ArrayList<Predicate<Produto>>();
 		if(produto.getId() > 0)
 			allPredicates.add(p -> p.getId() == produto.getId());
@@ -63,12 +68,19 @@ public class ProdutoDAO extends AbstractDAO {
 			allPredicates.add(p-> p.getStatus() == produto.getStatus());
 		}
 		
+		Pagination pagination = (Pagination) dominio.getAppData();
+		
+		if(pagination == null) {
+			pagination = new Pagination();
+			pagination.setPageRequest(PageRequest.of(0, Integer.MAX_VALUE, Sort.by("id")));
+		}
+		
 		Predicate<Produto> compositePredicate = allPredicates.stream().reduce(c -> true, Predicate::and);
-		return repository.findAll(Sort.by("id")).stream().filter(compositePredicate).collect(Collectors.toList());
+		return repository.findAll(pagination.getPageRequest()).stream().filter(compositePredicate).collect(Collectors.toList());
 	}
 
 	@Override
-	public void deletar(EntidadeDominio entidade) {
+	public void deletar(IEntidade entidade) {
 		repository.delete(noCast(entidade));
 	}
 

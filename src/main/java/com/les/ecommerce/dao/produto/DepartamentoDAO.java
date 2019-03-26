@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.les.ecommerce.dao.AbstractDAO;
 import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.repository.produto.DepartamentoRepository;
 
 @Component
@@ -16,26 +17,28 @@ public class DepartamentoDAO extends AbstractDAO {
 	public DepartamentoRepository repository;
 	
 	@Override
-	public void salvar(EntidadeDominio entidade) {
-		if(entidade.getId() == 0) {
+	public void salvar(IEntidade entidade) {
+		EntidadeDominio dominio = (EntidadeDominio) entidade;
+		if(dominio.getId() == 0) {
 			repository.save(noCast(entidade));
 		}
 	}
 
 	@Override
-	public void alterar(EntidadeDominio entidade) {
-		if(entidade.getId() > 0) {
+	public void alterar(IEntidade entidade) {
+		EntidadeDominio dominio = (EntidadeDominio) entidade;
+		if(dominio.getId() > 0) {
 			repository.save(noCast(entidade));
 		}
 	}
 
 	@Override
-	public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
+	public List<EntidadeDominio> consultar(IEntidade entidade) {
 		return noCast(repository.findAll());
 	}
 
 	@Override
-	public void deletar(EntidadeDominio entidade) {
+	public void deletar(IEntidade entidade) {
 		repository.delete(noCast(entidade));
 	}
 

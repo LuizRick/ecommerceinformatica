@@ -1,13 +1,13 @@
 package com.les.ecommerce.facade;
 
 import java.util.List;
+
 import org.springframework.stereotype.Component;
 
-import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.IEntidade;
 
 
-@Component
+@Component	
 public class Resultado {
 	private String msg;
 	private List<IEntidade> entidades;

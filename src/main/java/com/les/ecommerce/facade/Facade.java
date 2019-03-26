@@ -143,7 +143,7 @@ public class Facade  implements IFacade{
 				repositories.get(nmClass).alterar(entidade);
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				resultado.setMsg("Não foi possivel salvar os dados");
+				resultado.setMsg("Não foi possivel alterar os dados");
 			}
 		} else {
 			resultado.setMsg(msg);
@@ -161,7 +161,7 @@ public class Facade  implements IFacade{
 				repositories.get(nmClass).deletar(entidade);
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				resultado.setMsg("Não foi possivel salvar os dados");
+				resultado.setMsg("Não foi possivel excluir os dados");
 			}
 		} else {
 			resultado.setMsg(msg);
@@ -179,7 +179,7 @@ public class Facade  implements IFacade{
 				resultado.setEntidades(repositories.get(nmClass).consultar(entidade));
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				resultado.setMsg("Não foi possivel salvar os dados");
+				resultado.setMsg("Não foi possivel consultar os dados");
 			}
 		} else {
 			resultado.setMsg(msg);

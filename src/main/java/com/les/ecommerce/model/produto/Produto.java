@@ -11,7 +11,7 @@ import com.les.ecommerce.model.EntidadeDominio;
 
 @Entity
 @Audited
-public class Produto extends EntidadeDominio {
+public class Produto extends EntidadeDominio implements Cloneable {
 
 	private String descricao;
 	private String marca;
@@ -170,6 +170,10 @@ public class Produto extends EntidadeDominio {
 
 	public void setJustificativaInativacao(String justificativaInativacao) {
 		this.justificativaInativacao = justificativaInativacao;
+	}
+	
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 }

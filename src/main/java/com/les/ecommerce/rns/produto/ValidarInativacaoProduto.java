@@ -1,14 +1,14 @@
 package com.les.ecommerce.rns.produto;
 
 import com.les.ecommerce.helpers.StringHelper;
-import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.rns.IStrategy;
 
 public class ValidarInativacaoProduto implements IStrategy {
 
 	@Override
-	public String processar(EntidadeDominio entidade) {
+	public String processar(IEntidade entidade) {
 		Produto produto = (Produto) entidade;
 		
 		if(produto.getId() == 0) {

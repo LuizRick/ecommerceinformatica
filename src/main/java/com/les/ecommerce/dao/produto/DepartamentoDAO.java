@@ -33,7 +33,7 @@ public class DepartamentoDAO extends AbstractDAO {
 	}
 
 	@Override
-	public List<EntidadeDominio> consultar(IEntidade entidade) {
+	public List<IEntidade> consultar(IEntidade entidade) {
 		return noCast(repository.findAll());
 	}
 

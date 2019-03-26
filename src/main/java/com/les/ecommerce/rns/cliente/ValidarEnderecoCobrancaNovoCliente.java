@@ -2,7 +2,7 @@ package com.les.ecommerce.rns.cliente;
 
 import java.util.List;
 
-import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.cliente.Endereco;
 import com.les.ecommerce.model.cliente.TipoEndereco;
@@ -11,7 +11,7 @@ import com.les.ecommerce.rns.IStrategy;
 public class ValidarEnderecoCobrancaNovoCliente implements IStrategy {
 	
 	@Override
-	public String processar(EntidadeDominio entidade) {
+	public String processar(IEntidade entidade) {
 		Cliente cliente = (Cliente) entidade;
 		
 		if(cliente.getEnderecos() == null ||

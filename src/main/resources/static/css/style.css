@@ -12,6 +12,10 @@
     width:18rem;
 }
 
+.syscard h5{
+	text-transform: capitalize;
+}
+
 h6{
     text-transform: uppercase;
 }

@@ -38,7 +38,7 @@ public class ProdutoDAO extends AbstractDAO {
 	}
 
 	@Override
-	public List<EntidadeDominio> consultar(IEntidade entidade) {
+	public List<IEntidade> consultar(IEntidade entidade) {
 		EntidadeDominio dominio = (EntidadeDominio) entidade;
 		Produto produto = (Produto) dominio;
 		List<Predicate<Produto>> allPredicates = new ArrayList<Predicate<Produto>>();

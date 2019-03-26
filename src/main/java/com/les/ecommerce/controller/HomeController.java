@@ -1,5 +1,6 @@
 package com.les.ecommerce.controller;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +25,8 @@ public class HomeController extends BaseController{
 	@RequestMapping("/")
     public String home(Model model){
         Produto produto = new Produto();
+        produto.setStatus(true);
         AbstractPagination pagination = new Pagination();
-        produto.setAppData(pagination);
         Resultado resultado = this.commands.get(CONSULTAR).execute(produto);
         model.addAttribute("produtos", resultado.getEntidades());
         return "views/home";

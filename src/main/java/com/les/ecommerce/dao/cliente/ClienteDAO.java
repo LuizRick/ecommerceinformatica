@@ -35,7 +35,7 @@ public class ClienteDAO extends AbstractDAO {
 	}
 
 	@Override
-	public List<EntidadeDominio> consultar(IEntidade entidade) {
+	public List<IEntidade> consultar(IEntidade entidade) {
 		Cliente cliente = (Cliente) entidade;
 		List<Predicate<Cliente>> predicates = new ArrayList<Predicate<Cliente>>();
 		if(cliente.getId() > 0)

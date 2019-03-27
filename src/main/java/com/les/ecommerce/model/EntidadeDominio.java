@@ -1,5 +1,9 @@
 package com.les.ecommerce.model;
 
+import javax.persistence.Transient;
+
+import com.les.ecommerce.application.IApplicationData;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -18,8 +22,19 @@ public class EntidadeDominio implements IEntidade {
 	@Column(name="created", columnDefinition="datetime default NOW()")
 	protected LocalDateTime created;
 	
+	@Transient
+	protected IApplicationData appData;
+	
 	public LocalDateTime getCreated() {
 		return created;
+	}
+
+	public IApplicationData getAppData() {
+		return appData;
+	}
+
+	public void setAppData(IApplicationData appData) {
+		this.appData = appData;
 	}
 
 	public void setCreated(LocalDateTime created) {

@@ -15,7 +15,7 @@ import com.les.ecommerce.dao.cliente.ClienteDAO;
 import com.les.ecommerce.dao.produto.DepartamentoDAO;
 import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
 import com.les.ecommerce.dao.produto.ProdutoDAO;
-import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.produto.Departamento;
 import com.les.ecommerce.model.produto.GrupoPrecificacao;
@@ -122,7 +122,7 @@ public class Facade  implements IFacade{
 	}
 
 	@Override
-	public Resultado salvar(EntidadeDominio entidade) {
+	public Resultado salvar(IEntidade entidade) {
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "SALVAR");
@@ -135,7 +135,7 @@ public class Facade  implements IFacade{
 			}
 		} else {
 			resultado.setMsg(msg);
-			List<EntidadeDominio> entidades = new ArrayList<>();
+			List<IEntidade> entidades = new ArrayList<>();
 			entidades.add(entidade);
 			resultado.setEntidades(entidades);
 		}
@@ -143,7 +143,7 @@ public class Facade  implements IFacade{
 	}
 
 	@Override
-	public Resultado alterar(EntidadeDominio entidade) {
+	public Resultado alterar(IEntidade entidade) {
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "ALTERAR");
@@ -152,7 +152,7 @@ public class Facade  implements IFacade{
 				repositories.get(nmClass).alterar(entidade);
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				resultado.setMsg("Não foi possivel salvar os dados");
+				resultado.setMsg("Não foi possivel alterar os dados");
 			}
 		} else {
 			resultado.setMsg(msg);
@@ -161,7 +161,7 @@ public class Facade  implements IFacade{
 	}
 
 	@Override
-	public Resultado excluir(EntidadeDominio entidade) {
+	public Resultado excluir(IEntidade entidade) {
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "EXCLUIR");
@@ -170,7 +170,7 @@ public class Facade  implements IFacade{
 				repositories.get(nmClass).deletar(entidade);
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				resultado.setMsg("Não foi possivel salvar os dados");
+				resultado.setMsg("Não foi possivel excluir os dados");
 			}
 		} else {
 			resultado.setMsg(msg);
@@ -179,7 +179,7 @@ public class Facade  implements IFacade{
 	}
 	
 	@Override
-	public Resultado consultar(EntidadeDominio entidade) {
+	public Resultado consultar(IEntidade entidade) {
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "CONSULTAR");
@@ -188,7 +188,7 @@ public class Facade  implements IFacade{
 				resultado.setEntidades(repositories.get(nmClass).consultar(entidade));
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				resultado.setMsg("Não foi possivel salvar os dados");
+				resultado.setMsg("Não foi possivel consultar os dados");
 			}
 		} else {
 			resultado.setMsg(msg);
@@ -197,14 +197,14 @@ public class Facade  implements IFacade{
 	}
 
 	@Override
-	public Resultado visualizar(EntidadeDominio entidade) {
+	public Resultado visualizar(IEntidade entidade) {
 		resultado = new Resultado();
-		resultado.setEntidades(new ArrayList<EntidadeDominio>(1));
+		resultado.setEntidades(new ArrayList<IEntidade>(1));
 		resultado.getEntidades().add(entidade);
 		return resultado;
 	}
 
-	private String executaRegras(EntidadeDominio entidade, String operacao) {
+	private String executaRegras(IEntidade entidade, String operacao) {
 		String nmClass = entidade.getClass().getName();
 		StringBuilder msg = new StringBuilder();
 		Map<String, List<IStrategy>> regrasOperacao = rns.get(nmClass);

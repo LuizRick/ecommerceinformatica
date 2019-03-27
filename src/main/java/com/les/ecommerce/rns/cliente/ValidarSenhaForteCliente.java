@@ -1,6 +1,6 @@
 package com.les.ecommerce.rns.cliente;
 
-import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.rns.IStrategy;
 
@@ -8,7 +8,7 @@ public class ValidarSenhaForteCliente implements IStrategy{
 
 	
 	@Override
-	public String processar(EntidadeDominio entidade) {
+	public String processar(IEntidade entidade) {
 		String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!+=])(?=\\S+$).{8,}";
 		Cliente cliente = (Cliente) entidade;
 		

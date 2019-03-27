@@ -1,14 +1,14 @@
 package com.les.ecommerce.rns.cliente;
 
 import com.les.ecommerce.helpers.StringHelper;
-import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.rns.IStrategy;
 
 public class ValidarDadosObrigatoriosCartoes implements IStrategy {
 
 	@Override
-	public String processar(EntidadeDominio entidade) {
+	public String processar(IEntidade entidade) {
 		StringBuilder sb = new  StringBuilder();
 		
 		Cliente cliente = (Cliente) entidade;

@@ -89,4 +89,10 @@ public class ClienteController extends BaseController {
 		
 		return "views/cliente/cadastrar";
 	}
+	
+	
+	@RequestMapping("/admin/cliente/inativar/{id}")
+	public String confirmInativacao(Cliente cliente) {
+		return "views/cliente/inativar";
+	}
 }

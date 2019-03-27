@@ -43,6 +43,8 @@ public class Cliente extends EntidadeDominio {
 	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private User usuario;
 	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<Cupom> cupons;
 	
 	@Transient
 	private String action;
@@ -117,6 +119,14 @@ public class Cliente extends EntidadeDominio {
 
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	public List<Cupom> getCupons() {
+		return cupons;
+	}
+
+	public void setCupons(List<Cupom> cupons) {
+		this.cupons = cupons;
 	}
 	
 	

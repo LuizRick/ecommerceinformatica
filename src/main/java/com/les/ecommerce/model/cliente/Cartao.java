@@ -8,7 +8,7 @@ import javax.persistence.Transient;
 import com.les.ecommerce.model.EntidadeDominio;
 
 @Entity
-public class Cartao extends EntidadeDominio {
+public class Cartao extends EntidadeDominio implements IFormaPagamento{
 
 	
 	private String titular;
@@ -21,6 +21,9 @@ public class Cartao extends EntidadeDominio {
 	
 	@Transient
 	private boolean salvarPerfil;
+	
+	@Transient
+	private Double valor;
 
 	public String getTitular() {
 		return titular;
@@ -60,5 +63,13 @@ public class Cartao extends EntidadeDominio {
 
 	public void setSalvarPerfil(boolean salvarPerfil) {
 		this.salvarPerfil = salvarPerfil;
+	}
+
+	public Double getValor() {
+		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
 	}
 }

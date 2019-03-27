@@ -51,16 +51,13 @@ public class HomeController extends BaseController {
 				carrinho.getItens().add(item);
 			}
 		}
-		
-		
-		if(carrinho.getItens().size() <= 0) {
-			Resultado resultado = this.commands.get(CONSULTAR).execute(item.getProduto());
-			item.setProduto((Produto)resultado.getEntidades().get(0));
-			carrinho.getItens().add(item);
-		}
+		Produto entidade = new Produto();
+		entidade.setId(item.getProduto().getId());
+		Resultado resultado = this.commands.get(CONSULTAR).execute(entidade);
+		item.setProduto((Produto)resultado.getEntidades().get(0));
+		carrinho.getItens().add(item);
 		session.setAttribute("carrinho", carrinho);
-		model.addAttribute("carrinho", carrinho);
-		return "views/carrinho/listar";
+		return "redirect:/carrinho/listar";
 	}
 
 }

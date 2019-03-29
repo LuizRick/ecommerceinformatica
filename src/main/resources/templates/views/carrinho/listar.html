@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div layout:fragment="content">
-	<form th:action="@{/pedido/carrinho/fechamento}" th:object="${pedido}">
+	<form th:action="@{/pedido/carrinho/fechamento}" th:object="${pedido}" method="post">
 		<div class="row">
 			<div class="col-lg-9" th:if="${carrinho != null}">
 					<table class="table table-hover table-bordered">
@@ -50,7 +50,8 @@
 									Subtotal (<span th:text="${totalProdutos}"></span> produto)
 									<b th:text="'R$' + ${#numbers.formatDecimal(total,0, 'POINT', 2, 'COMMA')}"></b>
 								</div>
-								<div class="divider"></div>
+							</li>
+							<li class="list-group-item">
 								<button class="btn btn-primary">Fechar Pedido</button>
 							</li>
 						</ul>

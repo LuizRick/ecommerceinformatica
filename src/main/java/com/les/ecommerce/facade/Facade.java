@@ -15,6 +15,7 @@ import com.les.ecommerce.dao.cliente.ClienteDAO;
 import com.les.ecommerce.dao.produto.DepartamentoDAO;
 import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
 import com.les.ecommerce.dao.produto.ProdutoDAO;
+import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.produto.Departamento;
@@ -76,6 +77,10 @@ public class Facade  implements IFacade{
 		List<IStrategy> rnsAlterarCliente = new ArrayList<IStrategy>();
 		List<IStrategy> rnsDeletarCliente = new ArrayList<IStrategy>();
 		
+		//regras para carrinho
+		List<IStrategy> rnsSalvarCarrinho = new ArrayList<IStrategy>();
+		
+		
 		Map<String, List<IStrategy>> rnsCliente = new HashMap<>();
 		
 		
@@ -106,6 +111,8 @@ public class Facade  implements IFacade{
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosCartoes());
 		
 		
+		
+		
 		rnsProduto.put(SALVAR, rnsSalvarProduto);
 		rnsProduto.put(ALTERAR, rnsAlterarProduto);
 		
@@ -126,7 +133,7 @@ public class Facade  implements IFacade{
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "SALVAR");
-		if (msg == null) {
+		if (msg == null && entidade instanceof EntidadeDominio) {
 			try {
 				repositories.get(nmClass).salvar(entidade);
 			}catch(Exception ex) {
@@ -147,7 +154,7 @@ public class Facade  implements IFacade{
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "ALTERAR");
-		if (msg == null) {
+		if (msg == null && entidade instanceof EntidadeDominio) {
 			try {
 				repositories.get(nmClass).alterar(entidade);
 			}catch(Exception ex) {
@@ -165,7 +172,7 @@ public class Facade  implements IFacade{
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "EXCLUIR");
-		if (msg == null) {
+		if (msg == null && entidade instanceof EntidadeDominio) {
 			try {
 				repositories.get(nmClass).deletar(entidade);
 			}catch(Exception ex) {
@@ -183,7 +190,7 @@ public class Facade  implements IFacade{
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "CONSULTAR");
-		if (msg == null) {
+		if (msg == null && entidade instanceof EntidadeDominio) {
 			try {
 				resultado.setEntidades(repositories.get(nmClass).consultar(entidade));
 			}catch(Exception ex) {

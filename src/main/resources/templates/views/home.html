@@ -11,9 +11,17 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
+					<div class="alert alert-warning" th:if="${resultado != null && resultado.msg != null}">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    					<span aria-hidden="true">&times;</span>
+	  					</button>
+						<span th:utext="${resultado.msg}"></span>
+					</div>
+				</div>
+				<div class="col-lg-12">
 					<div class="row">
 							<div th:each="produto: ${produtos}" class="col-sm-4" style="padding:6px">
-							<form th:action="@{/home/carrinho/add}" method="post" th:object="${item}">
+							<form th:action="@{/carrinho/add}" method="post" th:object="${item}">
 							<div class="card syscard">
 								<img src="/images/info-image.jpg" class="card-img-top">
 								<div class="card-body">

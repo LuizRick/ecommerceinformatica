@@ -13,7 +13,7 @@ public class ValidarDadosAddCarrinho implements IStrategy{
 		Carrinho carrinho = (Carrinho) entidade;
 		
 		if(carrinho.getItens() != null && carrinho.getItens().size() <= 0) {
-			return "e necessário adicionar itens ao carrinho";
+			return "e necessário adicionar itens ao carrinho com quantidade valida";
 		}
 		
 		for(ItemCarrinho item : carrinho.getItens()) {

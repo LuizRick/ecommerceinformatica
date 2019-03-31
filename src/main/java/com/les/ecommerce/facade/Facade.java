@@ -17,6 +17,7 @@ import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
 import com.les.ecommerce.dao.produto.ProdutoDAO;
 import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.IEntidade;
+import com.les.ecommerce.model.aplication.Carrinho;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.produto.Departamento;
 import com.les.ecommerce.model.produto.GrupoPrecificacao;
@@ -36,6 +37,8 @@ import com.les.ecommerce.rns.produto.ValidarInativacaoProduto;
 import com.les.ecommerce.rns.produto.ValidarProdutoAtivo;
 import com.les.ecommerce.rns.produto.ValidarReentradaCadastroProduto;
 import com.les.ecommerce.rns.produto.ValidarValorVendaProduto;
+import com.les.ecommerce.rns.vendas.ValidarDadosAddCarrinho;
+import com.les.ecommerce.rns.vendas.ValidarQuantidadeEstoqueAddCarrinho;
 
 @Component
 public class Facade  implements IFacade{
@@ -70,6 +73,7 @@ public class Facade  implements IFacade{
 		List<IStrategy> rnsSalvarProduto = new ArrayList<IStrategy>();
 		List<IStrategy> rnsAlterarProduto = new ArrayList<IStrategy>();
 		Map<String, List<IStrategy>> rnsProduto = new HashMap<>();
+		
 		
 		
 		//regras para cliente
@@ -111,6 +115,9 @@ public class Facade  implements IFacade{
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosCartoes());
 		
 		
+		Map<String, List<IStrategy>> rnsCarrinho = new HashMap<>();
+		rnsSalvarCarrinho.add(new ValidarDadosAddCarrinho());
+		rnsSalvarCarrinho.add(new ValidarQuantidadeEstoqueAddCarrinho());
 		
 		
 		rnsProduto.put(SALVAR, rnsSalvarProduto);
@@ -119,6 +126,9 @@ public class Facade  implements IFacade{
 		rnsCliente.put(SALVAR, rnsSalvarCliente);
 		rnsCliente.put(ALTERAR, rnsAlterarCliente);
 		
+		
+		rnsCarrinho.put(SALVAR, rnsSalvarCarrinho);
+		
 		repositories.put(GrupoPrecificacao.class.getName(), grupoPrecificacaoDAO);
 		repositories.put(Departamento.class.getName(), departamentoDAO);
 		repositories.put(Produto.class.getName(), produtoDAO);
@@ -126,6 +136,7 @@ public class Facade  implements IFacade{
 		
 		rns.put(Produto.class.getName(),rnsProduto);
 		rns.put(Cliente.class.getName(), rnsCliente);
+		rns.put(Carrinho.class.getName(),rnsCarrinho);
 	}
 
 	@Override

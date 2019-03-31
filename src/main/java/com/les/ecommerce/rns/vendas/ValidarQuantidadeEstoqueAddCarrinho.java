@@ -22,13 +22,20 @@ public class ValidarQuantidadeEstoqueAddCarrinho implements IStrategy {
 		ProdutoDAO produtoDAO = (ProdutoDAO) context.getBean(ProdutoDAO.class);
 		for(ItemCarrinho item : carrinho.getItens()) {
 			List<IEntidade> entidades = produtoDAO.consultar(item.getProduto());
-			entidades.stream().forEach( enti -> {
+			for(IEntidade enti: entidades) {
 				Produto produto = (Produto) enti;
-				if(produto.getId() == item.getProduto().getId() &&
-						produto.getEstoque() < item.getQuantidade()) {
-					sb.append("E não tem quantidade no estoque para compra deste item (estoque " + produto.getEstoque() + ")<br/>");
+				if(produto.getId() == item.getProduto().getId() && item.getQuantidade() != null &&
+						item.getQuantidade() > produto.getEstoque()) {
+					String ms = String.format("Quantidade indisponivel no estoque para o produto: %s; estoque : %.0f <br/>",
+							produto.getDescricao(),produto.getEstoque());
+					sb.append(ms);
 				}
-			});
+			}
+		}
+		
+		
+		if(sb.length() > 0) {
+			return sb.toString();
 		}
 		return null;
 	}

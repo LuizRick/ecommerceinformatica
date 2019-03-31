@@ -107,9 +107,7 @@ public class Facade  implements IFacade{
 		
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosCliente());
 		rnsAlterarCliente.add(new ValidarCartaoObrigatorioNovoCliente());
-		rnsAlterarCliente.add(new ValidarConfirmacaoSenha());
 		rnsAlterarCliente.add(new ValidarEnderecoEntregaNovoCliente());
-		rnsAlterarCliente.add(new ValidarSenhaForteCliente());
 		rnsAlterarCliente.add(new ValidarEnderecoCobrancaNovoCliente());
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosEnderecos());
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosCartoes());

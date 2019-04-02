@@ -59,6 +59,7 @@ public class CarrinhoController extends BaseController {
 		carrinho.getItens().add(item);
 		Resultado resultadoSalvar = this.commands.get(SALVAR).execute(carrinho);
 		if(resultadoSalvar.getMsg() != null) {
+			carrinho.getItens().remove(item);
 			redirect.addFlashAttribute("resultado", resultadoSalvar);
 			return "redirect:/";
 		}

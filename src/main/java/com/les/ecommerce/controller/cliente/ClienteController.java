@@ -39,7 +39,11 @@ public class ClienteController extends BaseController {
 		Resultado resultado = commands.get(CONSULTAR).execute(cliente);
 		if(StringHelper.isNullOrEmpty(resultado.getMsg()) && resultado.getEntidades().size() > 0) {
 			cliente = (Cliente) resultado.getEntidades().get(0);
-			model.addAttribute("cliente", cliente);
+			if(cliente.getUsuario().getActive() == 1) {
+				model.addAttribute("cliente", cliente);
+			}else {
+				return "redirect:/admin/cliente/cadastro/";
+			}
 		}else {
 			cliente.setId(0);
 		}
@@ -91,8 +95,36 @@ public class ClienteController extends BaseController {
 	}
 	
 	
-	@RequestMapping("/admin/cliente/inativar/{id}")
-	public String confirmInativacao(Cliente cliente) {
-		return "views/cliente/inativar";
+	@RequestMapping(value="/admin/cliente/inativar/{id}")
+	public String inativar(Cliente cliente, RedirectAttributes redirectAttributes) {
+		Resultado resultado = this.commands.get(this.CONSULTAR).execute(cliente);
+		if(resultado.getMsg() == null && resultado.getEntidades().size() > 0) {
+			cliente = (Cliente) resultado.getEntidades().get(0);
+			cliente.getUsuario().setActive(2);
+			resultado = this.commands.get(this.EXCLUIR).execute(cliente);
+			if(resultado.getMsg() != null) {
+				resultado.setMsg("Cliente inativado com sucesso");
+			}
+		}
+		redirectAttributes.addFlashAttribute("resultado",resultado);
+		return "redirect:/admin/clientes/consultar";
+	}
+	
+	
+	
+
+	@RequestMapping(value="/admin/cliente/ativar/{id}")
+	public String ativar(Cliente cliente, RedirectAttributes redirectAttributes) {
+		Resultado resultado = this.commands.get(this.CONSULTAR).execute(cliente);
+		if(resultado.getMsg() == null && resultado.getEntidades().size() > 0) {
+			cliente = (Cliente) resultado.getEntidades().get(0);
+			cliente.getUsuario().setActive(1);
+			resultado = this.commands.get(this.SALVAR).execute(cliente);
+			if(resultado.getMsg() != null) {
+				resultado.setMsg("Cliente inativado com sucesso");
+			}
+		}
+		redirectAttributes.addFlashAttribute("resultado",resultado);
+		return "redirect:/admin/clientes/consultar";
 	}
 }

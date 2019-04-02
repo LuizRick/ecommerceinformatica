@@ -48,7 +48,9 @@ public class Facade  implements IFacade{
 	
 	private static final String SALVAR = "SALVAR";
 	private static final String ALTERAR = "ALTERAR";
+	@SuppressWarnings("unused")
 	private static final String CONSULTAR = "CONSULTAR";
+	@SuppressWarnings("unused")
 	private static final String DELETAR = "DELETAR";
 	
 	@Autowired
@@ -79,7 +81,6 @@ public class Facade  implements IFacade{
 		//regras para cliente
 		List<IStrategy> rnsSalvarCliente = new ArrayList<IStrategy>();
 		List<IStrategy> rnsAlterarCliente = new ArrayList<IStrategy>();
-		List<IStrategy> rnsDeletarCliente = new ArrayList<IStrategy>();
 		
 		//regras para carrinho
 		List<IStrategy> rnsSalvarCarrinho = new ArrayList<IStrategy>();

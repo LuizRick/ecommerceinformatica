@@ -103,10 +103,13 @@
     						<td th:text="${cliente.usuario.email}"></td>
     						<td th:text="${cliente.usuario.active}"></td>
     						<td>
-    							<a th:href="@{/admin/cliente/cadastro/} + ${cliente.id}" class="btn btn-primary">
+    							<a th:href="@{/admin/cliente/cadastro/} + ${cliente.id}" class="btn btn-primary" th:if="${cliente.usuario.active == 1}">
 									Visualizar
 								</a>
-								<a th:href="@{/admin/cliente/inativar/} + ${cliente.id}" class="btn btn-warning">
+								<a th:href="@{/admin/cliente/inativar/} + ${cliente.id}" class="btn btn-warning" th:if="${cliente.usuario.active == 1}">
+									Inativar
+								</a>
+								<a th:href="@{/admin/cliente/ativar/} + ${cliente.id}" class="btn btn-warning" th:if="${cliente.usuario.active == 2}">
 									Inativar
 								</a>
     						</td>

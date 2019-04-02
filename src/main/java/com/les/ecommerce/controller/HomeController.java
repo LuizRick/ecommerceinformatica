@@ -45,7 +45,7 @@ public class HomeController extends BaseController {
 	
 	@MessageMapping("/session-chanel")
 	public void sessionMessages(SimpMessageHeaderAccessor header) throws Exception{
-		
+		this.messageTemplate.convertAndSend("");
 	}
 	
 	@RequestMapping("/sair")

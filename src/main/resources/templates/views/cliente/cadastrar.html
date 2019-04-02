@@ -118,7 +118,7 @@
 							</div>
 							<div v-show="selectedDiv === 'B'">
 								<div th:each="endereco, itemStat : *{enderecos}" style="border-bottom: 3px solid #ccc;margin-bottom:12px">
-									<b th:text="'Endereço ' + ${itemStat.index + 1}"></b>
+									<b th:text="'Endereço  - ' + ${itemStat.index + 1}"></b>
 									<div class="form-row">
 										<div class="form-group col-md-4">
 											<label th:for="'enderecos' + ${itemStat.index} + '.descricao'">Descrição</label>
@@ -186,7 +186,7 @@
 							</div>
 							<div v-show="selectedDiv === 'C'">
 								<div th:each="cartao,itemStat: *{cartoes}" style="border-bottom:3px solid #ccc;margin-bottom:12px">
-									<b th:text="'Cartão' + ${itemStat.index + 1}"></b>
+									<b th:text="'Cartão - ' + ${itemStat.index + 1}"></b>
 									<div class="form-row">
 										<div class="form-group col-md-4">
 											<label th:for="'cartoes' + ${itemStat.index} + '.titular'">Titular</label>
@@ -223,10 +223,10 @@
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-primary"  id="btnSalvarCliente" type="button" @click="salvarCliente" th:if="${cliente.id ==0 }">
+							<button class="btn btn-primary"  id="btnSalvarCliente" type="button" @click="salvarCliente" th:if="${cliente.id ==0}">
 								Salvar Cliente
 							</button>
-							<button class="btn btn-success" id="btnEditarCliente" type="button" @click="editarCliente" th:if="${cliente.id != 0 }">
+							<button class="btn btn-success" id="btnEditarCliente" type="button" @click="editarCliente" th:if="${cliente.id != 0}">
 								Salvar Cliente
 							</button>
 							<button type="button" id="btnAddEndereco" class="btn btn-success" @click="addEndereco" v-if="selectedDiv == 'B'">

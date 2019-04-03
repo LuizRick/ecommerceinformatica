@@ -96,9 +96,9 @@
 			<version>2.3.6</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars.bowergithub.fezvrasta</groupId>
+			<groupId>org.webjars</groupId>
 			<artifactId>popper.js</artifactId>
-			<version>1.14.7</version>
+			<version>1.14.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jmockit</groupId>

@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -42,9 +43,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.
         authorizeRequests()
-        .antMatchers("/", "/h2/**").permitAll()
-        .antMatchers("/conta/login").permitAll()
-        .antMatchers("/registration").permitAll();
+        .antMatchers("/admin/**").hasAuthority("ADMIN")
+        .antMatchers("/**", "/h2/**").permitAll()
+        .antMatchers("/conta/login", "/").permitAll()
+        .anyRequest().authenticated()
+        .and().csrf().disable().formLogin()
+        .loginPage("/conta/login").defaultSuccessUrl("/")
+        .usernameParameter("email")
+        .passwordParameter("password")
+        .and()
+        .logout().logoutRequestMatcher(new AntPathRequestMatcher("/sair"))
+        .logoutSuccessUrl("/").and().exceptionHandling()
+        .accessDeniedPage("/access-denied");
 	}
 
 	@Override

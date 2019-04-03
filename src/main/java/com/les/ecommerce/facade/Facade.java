@@ -15,9 +15,11 @@ import com.les.ecommerce.dao.cliente.ClienteDAO;
 import com.les.ecommerce.dao.produto.DepartamentoDAO;
 import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
 import com.les.ecommerce.dao.produto.ProdutoDAO;
+import com.les.ecommerce.dao.usuario.UserDAO;
 import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.aplication.Carrinho;
+import com.les.ecommerce.model.autenticacao.User;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.produto.Departamento;
 import com.les.ecommerce.model.produto.GrupoPrecificacao;
@@ -37,6 +39,7 @@ import com.les.ecommerce.rns.produto.ValidarInativacaoProduto;
 import com.les.ecommerce.rns.produto.ValidarProdutoAtivo;
 import com.les.ecommerce.rns.produto.ValidarReentradaCadastroProduto;
 import com.les.ecommerce.rns.produto.ValidarValorVendaProduto;
+import com.les.ecommerce.rns.user.ValidarSenhaForteUser;
 import com.les.ecommerce.rns.vendas.ValidarDadosAddCarrinho;
 import com.les.ecommerce.rns.vendas.ValidarQuantidadeEstoqueAddCarrinho;
 
@@ -66,6 +69,9 @@ public class Facade  implements IFacade{
 	@Autowired
 	private ClienteDAO clienteDAO;
 	
+	@Autowired
+	private UserDAO userDAO;
+	
 	@PostConstruct
 	public void init() {
 		repositories = new HashMap<>();
@@ -88,6 +94,9 @@ public class Facade  implements IFacade{
 		
 		Map<String, List<IStrategy>> rnsCliente = new HashMap<>();
 		
+		
+		//regras para user
+		List<IStrategy> rnsSalvarUser = new ArrayList<IStrategy>();
 		
 		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
@@ -119,6 +128,10 @@ public class Facade  implements IFacade{
 		rnsSalvarCarrinho.add(new ValidarQuantidadeEstoqueAddCarrinho());
 		
 		
+		rnsSalvarUser.add(new com.les.ecommerce.rns.user.ValidarConfirmacaoSenha());
+		rnsSalvarUser.add(new ValidarSenhaForteUser());
+		Map<String, List<IStrategy>> rnsUser = new HashMap<>();
+		
 		rnsProduto.put(SALVAR, rnsSalvarProduto);
 		rnsProduto.put(ALTERAR, rnsAlterarProduto);
 		
@@ -128,14 +141,18 @@ public class Facade  implements IFacade{
 		
 		rnsCarrinho.put(SALVAR, rnsSalvarCarrinho);
 		
+		rnsUser.put(SALVAR, rnsSalvarUser);
+		
 		repositories.put(GrupoPrecificacao.class.getName(), grupoPrecificacaoDAO);
 		repositories.put(Departamento.class.getName(), departamentoDAO);
 		repositories.put(Produto.class.getName(), produtoDAO);
 		repositories.put(Cliente.class.getName(),clienteDAO);
+		repositories.put(User.class.getName(), userDAO);
 		
 		rns.put(Produto.class.getName(),rnsProduto);
 		rns.put(Cliente.class.getName(), rnsCliente);
 		rns.put(Carrinho.class.getName(),rnsCarrinho);
+		rns.put(User.class.getName(), rnsUser);
 	}
 
 	@Override

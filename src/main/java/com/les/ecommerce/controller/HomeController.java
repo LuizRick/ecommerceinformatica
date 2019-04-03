@@ -53,4 +53,9 @@ public class HomeController extends BaseController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	@RequestMapping("/access-denied")
+	public String acessoNegado() {
+		return "views/conta/acesso-negado";
+	}
 }

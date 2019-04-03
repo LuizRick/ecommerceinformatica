@@ -33,6 +33,10 @@ public class User extends EntidadeDominio {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Role.class)
     @JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
     private Set<Role> roles;
+    
+    
+    @Transient
+    private String roleName;
 	
 	public String getEmail() {
 		return email;
@@ -72,5 +76,13 @@ public class User extends EntidadeDominio {
 
 	public void setConfirmaPassword(String confirmaPassword) {
 		this.confirmaPassword = confirmaPassword;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 }

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.les.ecommerce.dao.AbstractDAO;
@@ -28,17 +29,20 @@ public class UserDAO extends AbstractDAO {
 	@Autowired
 	private RoleRepository role;
 	
+	@Autowired
+	BCryptPasswordEncoder pwdEncoder;
+	
 	@Override
 	public void salvar(IEntidade entidade) {
 		User user = (User) entidade;
 		Role userRole = role.findByRole(user.getRoleName());
+		user.setPassword(pwdEncoder.encode(user.getPassword()));
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		repository.save(user);
 	}
 
 	@Override
 	public void alterar(IEntidade entidade) {
-		// TODO Auto-generated method stub
 		User user = (User) entidade;
 		Role userRole = role.findByRole(user.getRoleName());
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
@@ -49,7 +53,6 @@ public class UserDAO extends AbstractDAO {
 
 	@Override
 	public List<IEntidade> consultar(IEntidade entidade) {
-		// TODO Auto-generated method stub
 		User user = (User) entidade;
 		List<Predicate<User>> predicates = new ArrayList<Predicate<User>>();
 		if(user.getId() > 0)

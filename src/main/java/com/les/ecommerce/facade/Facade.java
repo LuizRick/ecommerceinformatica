@@ -39,6 +39,7 @@ import com.les.ecommerce.rns.produto.ValidarInativacaoProduto;
 import com.les.ecommerce.rns.produto.ValidarProdutoAtivo;
 import com.les.ecommerce.rns.produto.ValidarReentradaCadastroProduto;
 import com.les.ecommerce.rns.produto.ValidarValorVendaProduto;
+import com.les.ecommerce.rns.user.ValidarEmailUnico;
 import com.les.ecommerce.rns.user.ValidarSenhaForteUser;
 import com.les.ecommerce.rns.vendas.ValidarDadosAddCarrinho;
 import com.les.ecommerce.rns.vendas.ValidarQuantidadeEstoqueAddCarrinho;
@@ -130,6 +131,7 @@ public class Facade  implements IFacade{
 		
 		rnsSalvarUser.add(new com.les.ecommerce.rns.user.ValidarConfirmacaoSenha());
 		rnsSalvarUser.add(new ValidarSenhaForteUser());
+		rnsSalvarUser.add(new ValidarEmailUnico());
 		Map<String, List<IStrategy>> rnsUser = new HashMap<>();
 		
 		rnsProduto.put(SALVAR, rnsSalvarProduto);

@@ -10,7 +10,7 @@ public class ValidarConfirmacaoSenha implements IStrategy {
 	public String processar(IEntidade entidade) {
 		User user = (User) entidade;
 		
-		if(user.getPassword().equals(user.getConfirmaPassword())) {
+		if(!user.getPassword().equals(user.getConfirmaPassword())) {
 			return "a senha de confirmação deve ser identica a senha digitada";
 		}
 		

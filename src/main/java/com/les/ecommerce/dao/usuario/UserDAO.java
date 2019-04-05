@@ -17,14 +17,19 @@ import com.les.ecommerce.helpers.StringHelper;
 import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.autenticacao.Role;
 import com.les.ecommerce.model.autenticacao.User;
+import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.repository.autenticacao.RoleRepository;
 import com.les.ecommerce.repository.autenticacao.UserRepository;
+import com.les.ecommerce.repository.cliente.ClienteRepository;
 
 @Component
 public class UserDAO extends AbstractDAO {
 	
 	@Autowired
 	private UserRepository repository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
 	
 	@Autowired
 	private RoleRepository role;
@@ -38,7 +43,12 @@ public class UserDAO extends AbstractDAO {
 		Role userRole = role.findByRole(user.getRoleName());
 		user.setPassword(pwdEncoder.encode(user.getPassword()));
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-		repository.save(user);
+		User newUser = repository.save(user);
+		if(user.getRoleName().contains("USER")) {
+			Cliente cliente = new Cliente();
+			cliente.setUsuario(newUser);
+			clienteRepository.save(cliente);
+		}
 	}
 
 	@Override

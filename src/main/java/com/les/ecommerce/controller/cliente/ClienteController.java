@@ -3,6 +3,7 @@ package com.les.ecommerce.controller.cliente;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class ClienteController extends BaseController {
 
 	
 	@RequestMapping(path="/admin/cliente/cadastro")
-	public String cadastrar(Cliente cliente) {
+	public String cadastrar(Cliente cliente,Authentication auth) {
 		cliente.setEnderecos(new ArrayList<Endereco>());
 		cliente.getEnderecos().add(new Endereco());
 		cliente.setCartoes(new ArrayList<Cartao>());
@@ -39,6 +40,15 @@ public class ClienteController extends BaseController {
 		Resultado resultado = commands.get(CONSULTAR).execute(cliente);
 		if(StringHelper.isNullOrEmpty(resultado.getMsg()) && resultado.getEntidades().size() > 0) {
 			cliente = (Cliente) resultado.getEntidades().get(0);
+			
+			if(cliente.getEnderecos().size() < 1) {
+				cliente.getEnderecos().add(new Endereco());
+			}
+			
+			if(cliente.getCartoes().size() < 1) {
+				cliente.getCartoes().add(new Cartao());
+			}
+			
 			if(cliente.getUsuario().getActive() == 1) {
 				model.addAttribute("cliente", cliente);
 			}else {

@@ -1,5 +1,6 @@
 package com.les.ecommerce.controller;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,5 +58,15 @@ public class BaseController {
 		commands.put("CONSULTAR", consultarCmd);
 		commands.put("EXCLUIR", deletarCmd);
 		commands.put("VISUALIZAR", visualizarCmd);
+	}
+	
+	
+	protected boolean hasRole(String role, Collection<? extends GrantedAuthority> authorities) {
+		for(GrantedAuthority auth : authorities) {
+			if(auth.getAuthority().equalsIgnoreCase(role))
+				return true;
+		}
+		
+		return false;
 	}
 }

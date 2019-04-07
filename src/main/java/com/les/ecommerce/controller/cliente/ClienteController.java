@@ -70,7 +70,7 @@ public class ClienteController extends BaseController {
 	}
 	
 	@RequestMapping(value="/admin/cliente/salvar",method=RequestMethod.POST)
-	public String salvar(Cliente cliente,Model model,RedirectAttributes redirectAttributes) {
+	public String salvar(Cliente cliente,Model model,RedirectAttributes redirectAttributes, Authentication auth) {
 		if(cliente.getAction().equalsIgnoreCase("addEndereco")) {
 			cliente.getEnderecos().add(new Endereco());
 		}
@@ -96,7 +96,7 @@ public class ClienteController extends BaseController {
 			if(StringHelper.isNullOrEmpty(resultado.getMsg())) {
 				resultado.setMsg("Cliente foi salvo com sucesso");
 				redirectAttributes.addFlashAttribute("resultado", resultado);
-				return "redirect:/admin/clientes/consultar";
+				return  this.hasRole("USER", auth.getAuthorities()) ? "redirect:/" : "redirect:/admin/clientes/consultar";
 			}
 			model.addAttribute("resultado", resultado);
 		}

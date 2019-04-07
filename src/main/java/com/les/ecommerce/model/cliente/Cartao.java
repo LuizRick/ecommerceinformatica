@@ -1,9 +1,13 @@
 package com.les.ecommerce.model.cliente;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Transient;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.les.ecommerce.model.EntidadeDominio;
 
@@ -21,6 +25,9 @@ public class Cartao extends EntidadeDominio implements IFormaPagamento{
 	
 	@Transient
 	private boolean salvarPerfil;
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private LocalDate validade;
 	
 	@Transient
 	private Double valor;
@@ -71,5 +78,13 @@ public class Cartao extends EntidadeDominio implements IFormaPagamento{
 
 	public void setValor(Double valor) {
 		this.valor = valor;
+	}
+
+	public LocalDate getValidade() {
+		return validade;
+	}
+
+	public void setValidade(LocalDate validade) {
+		this.validade = validade;
 	}
 }

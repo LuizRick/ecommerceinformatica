@@ -210,6 +210,10 @@
 														th:value="${state}">
 											</select>
 										</div>
+										<div class="form-group col-md-4">
+											<label th:for="'cartoes' + ${itemStat.index} + '.validade'">Validade</label>
+											<input type="date" th:field="*{cartoes[__${itemStat.index}__].validade}" class="form-control" />
+										</div>
 									</div>
 									<div class="form-row">
 										<div class="form-group col-md-12">

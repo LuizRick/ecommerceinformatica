@@ -10,35 +10,35 @@
 	<div layout:fragment="content">
 	<form th:action="@{/pedido/carrinho/fechamento}" th:object="${pedido}" method="post">
 		<div class="row">
-			<div class="col-lg-9" th:if="${carrinho != null && carrinho.itens.size() > 0}">
-					<table class="table table-hover table-bordered">
-						<thead class="thead-dark">
-							<tr>
-								<th>Produto</th>
-								<th>Valor unitário</th>
-								<th>Quantidade</th>
-								<th>Subtotal</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="item, itemStat: ${carrinho.itens}">
-								<td th:text="${item.produto.descricao}"></td>
-								<td th:text="'R$' + ${#numbers.formatDecimal(item.produto.valorVenda, 0, 'POINT', 2, 'COMMA')}"></td>
-								<td>
-									<input type="number" th:value="${#numbers.formatDecimal(item.quantidade,0,0)}" />
-								</td>
-								<td 
-								th:text="'R$' + ${#numbers.formatDecimal(item.quantidade * item.produto.valorVenda, 0, 'POINT', 2, 'COMMA')}">
-								</td>
-								<td>
-									<a th:href="@{/home/carrinho/remover/} + ${itemStat.index}" class="btn btn-danger">
-										remover
-									</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+			<div class="col-lg-9"  th:if="${carrinho != null && carrinho.itens.size() > 0}">
+				<table class="table table-hover table-bordered">
+					<thead class="thead-dark">
+						<tr>
+							<th>Produto</th>
+							<th>Valor unitário</th>
+							<th>Quantidade</th>
+							<th>Subtotal</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item, itemStat: ${carrinho.itens}">
+							<td th:text="${item.produto.descricao}"></td>
+							<td th:text="'R$' + ${#numbers.formatDecimal(item.produto.valorVenda, 0, 'POINT', 2, 'COMMA')}"></td>
+							<td>
+								<input type="number" th:value="${#numbers.formatDecimal(item.quantidade,0,0)}" />
+							</td>
+							<td 
+							th:text="'R$' + ${#numbers.formatDecimal(item.quantidade * item.produto.valorVenda, 0, 'POINT', 2, 'COMMA')}">
+							</td>
+							<td>
+								<a th:href="@{/carrinho/remover/} + ${itemStat.index}" class="btn btn-danger">
+									remover
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 			<div class="col-lg-3" th:if="${carrinho != null && carrinho.itens.size() > 0}">
 				<div class="card border-primary mb-2">
@@ -59,7 +59,15 @@
 				</div>
 			</div>
 			<div class="col-lg-12" th:if="${carrinho == null || carrinho.itens.size() <= 0}">
-				<h1>Não forão encontrados itens no carrinho</h1>
+				<div class="jumbotron">
+					<h1 class="display-4">Não forão encontrados itens no carrinho</h1>
+					<p class="lead">Adicionar itens ao carrinho, por favor!!</p>
+					<hr class="my-4"/>
+					<a href="/" class="btn btn-primary">
+						<i class="fa fa-arrow-left"></i>
+						Retornar
+					</a>
+				</div>
 			</div>
 		</div>
 		</form>

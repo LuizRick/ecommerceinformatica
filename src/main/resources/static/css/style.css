@@ -62,3 +62,7 @@ b.estoque{
     color: #fff;
     background-color: #0062cc;
 }
+
+[data-toggle='tooltip']{
+	cursor:pointer;
+}

@@ -63,6 +63,12 @@
 								Sair
 							</a>
 						</div>
+						<div class="dropdown-menu" th:if="${conta == null}">
+							<a class="dropdown-item" th:href="@{/conta/login}">
+								<i class="fas fa-sign-in-alt"></i>
+								Login
+							</a> 
+						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link"
 						href="/carrinho/listar"> <i class="fas fa-shopping-cart"></i>

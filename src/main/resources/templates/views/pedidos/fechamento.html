@@ -9,7 +9,122 @@
 </head>
 <body>
     <div layout:fragment="content">
-    	
+    	<div class="row">
+    		<div class="col-lg-12" th:if="${carrinho == null || carrinho.itens.size() <= 0}">
+    			<div class="jumbotron">
+    				<h1 class="display-4">Sem itens no carrinho</h1>
+    				<p class="lead">
+    					Não forão adicionados itens ao seu carrinho, por favor retornar ao
+    					<a href="/">inicio</a> e adicionar itens ao carrinho
+    				</p>
+    			</div>
+    		</div>
+    		<div class="col-lg-12" th:if="${carrinho != null && carrinho.itens.size() > 0}">
+    			<table class="table table-hover table-bordered" >
+					<thead class="thead-dark">
+						<tr>
+							<th>Produto</th>
+							<th>Valor unitário</th>
+							<th>Quantidade</th>
+							<th>Subtotal</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item, itemStat: ${carrinho.itens}">
+							<td th:text="${item.produto.descricao}"></td>
+							<td th:text="'R$' + ${#numbers.formatDecimal(item.produto.valorVenda, 0, 'POINT', 2, 'COMMA')}"></td>
+							<td>
+								<span th:text="${#numbers.formatDecimal(item.quantidade,0,0)}"></span>
+							</td>
+							<td th:text="'R$' + ${#numbers.formatDecimal(item.quantidade * item.produto.valorVenda, 0, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+				</table>
+    		</div>
+    		<div class="col-lg-12" th:if="${carrinho != null && carrinho.itens.size() > 0}" style="margin-bottom:50px;">
+    			<div class="card">
+    				<div class="card-header">
+    					Frete e forma pagamento
+    				</div>
+    				<div class="card-body">
+    				<form action="@{/pedido/finalizar}" th:object="${pedido}">
+    					<div class="row">
+    						<div class="col-lg-6">
+    							<div class="card">
+    								<div class="card-header">
+    									Cartões <i class="fa fa-exclamation-triangle" 
+    									data-toggle="tooltip" 
+    									data-title="Ao inserir valor no campo do cartão automaticamente esse será 
+    									Incluso na compra"></i>
+    								</div>
+    								<div class="card-body">
+    									<ul class="list-group">
+    										<li th:each="cartao,itemStat : ${cliente.cartoes}" class="list-group-item">
+    											<div class="list-group">
+    												<h6 th:text="${cartao.titular}" class="titular-cartao"></h6>
+    												<input type="hidden" th:field="*{cliente.cartoes[__${itemStat.index}__].id}" />
+    												<div>
+    													<b>Numero: </b>
+    													<span th:text="${cartao.numero}"></span>
+    												</div>
+    												<div>
+    													<b>Validade: </b>
+    													<span th:text="${cartao.validade}"></span>
+    												</div>
+    												<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text" id="basic-addon1">
+							    								<i class="fas fa-money-check-alt"></i>
+							    							</span>
+														</div>
+														<input type="text" class="form-control" placeholder="valor" th:field="*{cliente.cartoes[__${itemStat.index}__].valor}"/>
+													</div>
+    											</div>
+    										</li>
+    									</ul>
+    								</div>
+    							</div>
+    						</div>
+    						<div class="col-lg-6">
+    							<div class="card">
+    								<div class="card-header">
+    									Endereços
+    								</div>
+    								<div class="card-body">
+    									<ul class="list-group">
+    										<li th:each="endereco, itemStat : ${cliente.enderecos}" class="list-group-item" th:if="${endereco.tipo == T(com.les.ecommerce.model.cliente.TipoEndereco).ENTREGA}">
+    											<div class="list-group">
+    												<div class="form-check">
+    													<input type="radio" class="form-check-input" th:field="*{enderecoEntrega.id}" th:value="${endereco.id}"/>
+    													<label th:text="${endereco.descricao}" class="form-check-label"></label>
+    												</div>
+    												<div>
+    													<b>Bairro:</b>
+    													<span th:text="${endereco.bairro}"></span>
+    												</div>
+    												<div>
+    													<b>Numero:</b>
+    													<span th:text="${endereco.numero}"></span>
+    												</div>
+    												<div>
+    													<b>CEP:</b>
+    													<span th:text="${endereco.cep}"></span>
+    												</div>
+    											</div>
+    										</li>
+    									</ul>
+    								</div>
+    							</div>
+    						</div>
+    					</div>
+    				</form>
+    				</div>
+    				<div class="card-footer">
+    					
+    				</div>
+    			</div>
+    		</div>
+    	</div>
     </div>
 </body>
 </html>

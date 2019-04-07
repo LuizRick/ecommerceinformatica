@@ -2,6 +2,7 @@ package com.les.ecommerce.controller.venda;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -64,6 +65,23 @@ public class CarrinhoController extends BaseController {
 			return "redirect:/";
 		}
 		session.setAttribute("carrinho", carrinho);
+		return "redirect:/carrinho/listar";
+	}
+	
+	@RequestMapping(value="/remover/{index}")
+	public String removeItem(@PathVariable("index") int index) {
+		Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+		ItemCarrinho item = null;
+		if(carrinho != null) {
+			for(int i = 0; i < carrinho.getItens().size();i++) {
+				if(i == index)
+					item = (ItemCarrinho) carrinho.getItens().toArray()[i];
+			}
+			
+			if(item != null) {
+				carrinho.getItens().remove(item);
+			}
+		}
 		return "redirect:/carrinho/listar";
 	}
 }

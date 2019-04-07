@@ -2,6 +2,8 @@ package com.les.ecommerce.model;
 
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.les.ecommerce.application.IApplicationData;
 
 import java.time.LocalDateTime;
@@ -19,6 +21,7 @@ public class EntidadeDominio implements IEntidade {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected long id;
 	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(name="created", columnDefinition="datetime default NOW()")
 	protected LocalDateTime created;
 	

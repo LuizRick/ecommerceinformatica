@@ -1,5 +1,6 @@
 package com.les.ecommerce.application.interceptors;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.les.ecommerce.dao.cliente.ClienteDAO;
+import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.autenticacao.Role;
 import com.les.ecommerce.model.autenticacao.User;
 import com.les.ecommerce.model.cliente.Cliente;
@@ -35,11 +37,13 @@ public class UserAuthModelHandlerInterceptor implements HandlerInterceptor {
 			User user = repository.findByEmail(auth.getName());
 			if(user != null && containsRole("USER", user.getRoles())) {
 				Cliente cliente = new Cliente();
-				user = new User();
-				user.setEmail(auth.getName());
 				cliente.setUsuario(user);
-				cliente = (Cliente) clienteDAO.consultar(cliente).get(0);
-				request.setAttribute("conta", cliente);
+				List<IEntidade> entidade = clienteDAO.consultar(cliente);
+				
+				if(entidade != null && entidade.size() > 0) {
+					cliente = (Cliente) entidade.get(0);
+					request.setAttribute("conta", cliente);	
+				}
 			}
 		}
 		

@@ -19,7 +19,6 @@ import com.les.ecommerce.model.cliente.Endereco;
 
 @Controller
 public class ClienteController extends BaseController {
-
 	
 	@RequestMapping(path="/admin/cliente/cadastro")
 	public String cadastrar(Cliente cliente,Authentication auth) {

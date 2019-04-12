@@ -16,8 +16,10 @@ import com.les.ecommerce.dao.AbstractDAO;
 import com.les.ecommerce.helpers.StringHelper;
 import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.autenticacao.Role;
+import com.les.ecommerce.model.autenticacao.User;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.repository.autenticacao.RoleRepository;
+import com.les.ecommerce.repository.autenticacao.UserRepository;
 import com.les.ecommerce.repository.cliente.ClienteRepository;
 
 @Component
@@ -31,6 +33,9 @@ public class ClienteDAO extends AbstractDAO {
 	
 	@Autowired
 	private RoleRepository role;
+	
+	@Autowired
+	private UserRepository userRepo;
 	
 	
 	@Override
@@ -46,8 +51,9 @@ public class ClienteDAO extends AbstractDAO {
 	public void alterar(IEntidade entidade) {
 		Cliente cliente = (Cliente) entidade;
 		Role userRole = role.findByRole("USER");
+		User user = userRepo.findByEmail(cliente.getUsuario().getEmail());
 		cliente.getUsuario().setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-		cliente.getUsuario().setPassword(bCryptPasswordEncoder.encode(cliente.getUsuario().getPassword()));
+		cliente.getUsuario().setPassword(user.getPassword());
 		if(cliente.getId() > 0) {
 			repository.save(noCast(cliente));
 		}
@@ -70,7 +76,7 @@ public class ClienteDAO extends AbstractDAO {
 			predicates.add(c -> c.getCpf().equals(cliente.getCpf()));
 		
 		if(!StringHelper.isNullOrEmpty(cliente.getUsuario()) && !StringHelper.isNullOrEmpty(cliente.getUsuario().getEmail()))
-			predicates.add(c -> c.getUsuario().getEmail().equals(cliente.getUsuario().getEmail()));
+			predicates.add(c -> c.getUsuario().getEmail().contains(cliente.getUsuario().getEmail()));
 		
 		
 		Predicate<Cliente> compositedPredicate = predicates.stream().reduce(c -> true, Predicate::and);

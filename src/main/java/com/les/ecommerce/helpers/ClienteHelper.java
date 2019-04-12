@@ -25,6 +25,10 @@ public class ClienteHelper {
 			return null;
 		}
 		
-		return (Cliente) resultado.getEntidades().get(0);
+		if(resultado.getEntidades().size() > 0) {
+			return (Cliente) resultado.getEntidades().get(0);
+		}
+		
+		return null;
 	}
 }

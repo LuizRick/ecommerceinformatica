@@ -30,7 +30,7 @@ public class ValidarDadosObrigatoriosCliente implements IStrategy {
 			sb.append("O email e um campo obrigatorio<br/>");
 		}
 		
-		if(cliente.getUsuario() != null && StringHelper.isNullOrEmpty(cliente.getUsuario().getPassword())){
+		if(cliente.getUsuario() != null && StringHelper.isNullOrEmpty(cliente.getUsuario().getPassword()) && cliente.getId() == 0){
 			sb.append("A senha e um campo obrigatorio<br/>");
 		}
 		

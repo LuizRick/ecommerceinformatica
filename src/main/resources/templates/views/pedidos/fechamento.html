@@ -9,6 +9,7 @@
 </head>
 <body>
     <div layout:fragment="content">
+    	<form th:action="@{/pedido/carrinho/finalizar}" th:object="${pedido}" id="frmPedido" method="post">
     	<div class="row">
     		<div class="col-lg-12" th:if="${carrinho == null || carrinho.itens.size() <= 0}">
     			<div class="jumbotron">
@@ -47,7 +48,6 @@
     					Frete e forma pagamento
     				</div>
     				<div class="card-body">
-    				<form action="@{/pedido/finalizar}" th:object="${pedido}">
     					<div class="row">
     						<div class="col-lg-6">
     							<div class="card">
@@ -59,7 +59,7 @@
     								</div>
     								<div class="card-body">
     									<ul class="list-group">
-    										<li th:each="cartao,itemStat : ${cliente.cartoes}" class="list-group-item">
+    										<li th:each="cartao,itemStat : *{cliente.cartoes}" class="list-group-item">
     											<div class="list-group">
     												<h6 th:text="${cartao.titular}" class="titular-cartao"></h6>
     												<input type="hidden" th:field="*{cliente.cartoes[__${itemStat.index}__].id}" />
@@ -69,7 +69,7 @@
     												</div>
     												<div>
     													<b>Validade: </b>
-    													<span th:text="${cartao.validade}"></span>
+    													<span th:text="${#temporals.format(cartao.validade,'dd/MM/yyyy')}"></span>
     												</div>
     												<div class="input-group">
 														<div class="input-group-prepend">
@@ -83,6 +83,11 @@
     										</li>
     									</ul>
     								</div>
+    								<div class="card-footer">
+    									<a href="/admin/cartao/cadastro" class="btn btn-outline-primary btn-sm">
+    										<i class="fa fa-plus"></i> Novo cartão
+    									</a>
+    								</div>
     							</div>
     						</div>
     						<div class="col-lg-6">
@@ -92,7 +97,7 @@
     								</div>
     								<div class="card-body">
     									<ul class="list-group">
-    										<li th:each="endereco, itemStat : ${cliente.enderecos}" class="list-group-item" th:if="${endereco.tipo == T(com.les.ecommerce.model.cliente.TipoEndereco).ENTREGA}">
+    										<li th:each="endereco, itemStat : *{cliente.enderecos}" class="list-group-item" th:if="${endereco.tipo == T(com.les.ecommerce.model.cliente.TipoEndereco).ENTREGA}">
     											<div class="list-group">
     												<div class="form-check">
     													<input type="radio" class="form-check-input" th:field="*{enderecoEntrega.id}" th:value="${endereco.id}"/>
@@ -114,25 +119,84 @@
     										</li>
     									</ul>
     								</div>
+    								<div class="card-footer">
+    									<a href="/admin/cartao/cadastro" class="btn btn-outline-primary btn-sm">
+    										<i class="fa fa-plus"></i> Novo endereço
+    									</a>
+    								</div>
     							</div>
     						</div>
     					</div>
-    				</form>
     				</div>
     				<div class="card-footer">
-    					<ul class="list-group">
-    						<li class="list-group-item">
+    					<div class="row">
+    						<div class="col-lg-3">
     							<div class="list-group">
-    								<p>
-    									<b>Total: </b>
-    								</p>
+    								<div class="list-group-item">
+    									<p class="d-flex w-100 justify-content-between">
+    										<b>Total: </b> 
+    										<span th:inline="text">
+    											R$ [[${#numbers.formatDecimal(total,0, 'COMMA', 2 , 'POINT')}]]
+    										</span>
+    									</p>
+	    								<p class="d-flex w-100 justify-content-between">
+	    									<b>Total Produtos:</b> [[${totalProdutos}]]
+	    								</p>
+	    								
+	    								<p class="d-flex w-100 justify-content-between">
+	    									<b>Frete :</b> 
+	    									<span th:if="${valorFrete != null}" th:text="${valorFrete}"></span>
+	    									<span th:if="${valorFrete == null}">Selecionar endereço</span>
+	    								</p>
+	    								<p class="d-flex w-100 justify-content-between">
+	    									<b>Total a pagar:</b> 
+	    									
+	    									<span th:inline="text">
+	    										R$ [[${#numbers.formatDecimal(totalPagar,0, 'COMMA', 2 , 'POINT')}]]
+	    									</span>
+	    								</p>
+    								</div>
+    								<div class="list-group-item">
+    									<button class="btn  btn-primary" type="submit">Fechar</button>
+    								</div>
     							</div>
-    						</li>
-    					</ul>
+    						</div>
+    						<div class="col-lg-5">
+    							<div class="list-group">
+    								<div class="list-group-item">
+   										<div class="input-group mb-2">
+  											<input type="text" class="form-control" placeholder="Cupom de compra/desconto" id="cupom">
+											 <div class="input-group-append">
+											 	<button class="btn btn-outline-secondary" type="button" id="btnVerificarCupom">Adicionar cupom</button>
+											 </div>
+										</div>
+    								</div>
+    							</div>
+    						</div>
+    						<div class="col-lg-4">
+    							<div class="list-group">
+    								<div class="list-group-item">
+    									<h5>Cupons adicionados 
+    										<span th:text="${pedido.cupom.size()}" 
+    										class="badge badge-primary badge-pill"></span>
+    									</h5>
+    								</div>
+    								<div class="list-group-item" th:each="cp : ${pedido.cupom}">
+    									
+    								</div>
+    							</div>
+    						</div>
+    					</div>
     				</div>
     			</div>
     		</div>
     	</div>
+    	<input type="hidden" name="action" value="fechar"/>
+    	</form>
     </div>
+	<th:block layout:fragment="scriptblock">
+		<script data-main="/js/pedidos/fecharPedido"
+			src="/webjars/requirejs/require.min.js"></script>
+	</th:block>
 </body>
 </html>

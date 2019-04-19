@@ -18,7 +18,7 @@ import com.les.ecommerce.model.EntidadeDominio;
 @Table(name="user")
 public class User extends EntidadeDominio {
 
-	@Column(name = "email")
+	@Column(name = "email", unique=true)
     private String email;
 	
     @Column(name = "password")	

@@ -1,0 +1,3 @@
+$("#frmPedido").on('submit', () => {
+	
+});

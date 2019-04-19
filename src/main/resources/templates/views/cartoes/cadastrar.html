@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{ecommerce/layout}">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+</head>
+<body>
+    <div layout:fragment="content">
+    	<div class="row">
+    		<div class="col-lg-12">
+    			<h3>Novo cartão</h3>
+    			<form th:action="@{/admin/cartao/cadastro}" method="post" th:object="${cartao}">
+    				<div class="form-row">
+						<div class="form-group col-md-4">
+							<label>Titular</label>
+							<input type="text" class="form-control" th:field="*{titular}" required="required"/>
+						</div>
+						<div class="form-group col-md-4">
+							<label>Numero</label>
+							<input type="text" class="form-control" th:field="*{numero}" required="required"/>
+						</div>
+						<div class="form-group col-md-4">
+							<label>Codigo Segurança</label>
+							<input type="text" class="form-control" th:field="*{codigoSeguranca}" required="required"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label>Bandeira Cartão</label>
+							<select th:field="*{bandeira}" class="form-control" required="required">
+								<option th:each="state : ${T(com.les.ecommerce.model.cliente.BandeiraCartao).values()}"
+										th:text="${state.value()}"
+										th:value="${state}">
+							</select>
+						</div>
+						<div class="form-group col-md-4">
+							<label>Validade</label>
+							<input type="date" th:field="*{validade}" class="form-control" required="required"/>
+						</div>
+					</div>
+					<div class="form-check form-group">
+					  <input class="form-check-input" type="checkbox" th:field="*{salvarPerfil}">
+					  <label class="form-check-label" for="salvarPerfil1">
+   						salvar para futura compra ?
+					  </label>
+					</div>
+					<button type="submit" class="btn btn-primary">Salvar</button>
+					<button type="button" class="btn btn-secondary" onclick="history.go(-2)">Voltar</button>
+    			</form>
+    		</div>
+    	</div>
+    </div>
+</body>
+</html>

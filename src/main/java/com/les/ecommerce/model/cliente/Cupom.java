@@ -22,5 +22,11 @@ public class Cupom extends EntidadeDominio implements IFormaPagamento {
 	public void setValor(Double valor) {
 		this.valor = valor;
 	}
+	public boolean isAtivo() {
+		return ativo;
+	}
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 	
 }

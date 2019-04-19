@@ -1,5 +1,7 @@
 package com.les.ecommerce.helpers;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -30,5 +32,13 @@ public class ClienteHelper {
 		}
 		
 		return null;
+	}
+	
+	public Cliente newCliente() {
+		Cliente cliente = new Cliente();
+		cliente.setCartoes(new ArrayList<>());
+		cliente.setEnderecos(new ArrayList<>());
+		cliente.setCupons(new ArrayList<>());
+		return cliente;
 	}
 }

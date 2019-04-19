@@ -42,7 +42,7 @@ public class UserAuthModelHandlerInterceptor implements HandlerInterceptor {
 				
 				if(entidade != null && entidade.size() > 0) {
 					cliente = (Cliente) entidade.get(0);
-					request.setAttribute("conta", cliente);	
+					request.setAttribute("conta", cliente);
 				}
 			}
 		}

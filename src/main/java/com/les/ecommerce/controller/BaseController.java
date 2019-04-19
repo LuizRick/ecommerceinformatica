@@ -38,7 +38,7 @@ public class BaseController {
 	
 	
 	@Autowired
-	HttpServletRequest request;
+	protected HttpServletRequest request;
 	
 	@Autowired
 	protected HttpSession session;

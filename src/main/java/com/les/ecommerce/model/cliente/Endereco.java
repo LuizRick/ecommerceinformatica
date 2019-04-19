@@ -1,12 +1,13 @@
 package com.les.ecommerce.model.cliente;
 
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import com.les.ecommerce.model.EntidadeDominio;
 
-@Entity
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class Endereco extends EntidadeDominio {
 
 	

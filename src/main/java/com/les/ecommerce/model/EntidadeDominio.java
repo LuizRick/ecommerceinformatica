@@ -28,6 +28,9 @@ public class EntidadeDominio implements IEntidade {
 	@Transient
 	protected IApplicationData appData;
 	
+	@Transient
+	protected String action;
+	
 	public LocalDateTime getCreated() {
 		return created;
 	}
@@ -50,5 +53,13 @@ public class EntidadeDominio implements IEntidade {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 }

@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -12,7 +14,6 @@ import javax.persistence.Transient;
 import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.aplication.Carrinho;
-import com.les.ecommerce.model.cliente.Cartao;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.cliente.Cupom;
 import com.les.ecommerce.model.cliente.Endereco;
@@ -24,11 +25,14 @@ public class Pedido extends EntidadeDominio implements IEntidade {
 	@OneToOne
 	private Cliente cliente;
 	
+	@Enumerated(EnumType.STRING)
+	private StatusPedido statusPedido;
+	
 	@OneToOne
-	private Endereco enderecoEntrega;
+	private EnderecoPedido enderecoEntrega;
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-	private Set<Cartao> cartao;
+	private Set<CartaoPedido> cartao;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<ItemPedido> itens;
@@ -56,15 +60,15 @@ public class Pedido extends EntidadeDominio implements IEntidade {
 		return enderecoEntrega;
 	}
 
-	public void setEnderecoEntrega(Endereco enderecoEntrega) {
+	public void setEnderecoEntrega(EnderecoPedido enderecoEntrega) {
 		this.enderecoEntrega = enderecoEntrega;
 	}
 
-	public Set<Cartao> getCartao() {
+	public Set<CartaoPedido> getCartao() {
 		return cartao;
 	}
 
-	public void setCartao(Set<Cartao> cartao) {
+	public void setCartao(Set<CartaoPedido> cartao) {
 		this.cartao = cartao;
 	}
 

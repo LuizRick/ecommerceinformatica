@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		if(isToAuth) {
 			http.
 	        authorizeRequests()
-	        .antMatchers("/admin/cliente/cadastro/{id}","/admin/cliente/salvar").hasAnyAuthority("USER")
+	        .antMatchers("/admin/cliente/cadastro/{id}","/admin/cliente/salvar", "/admin/cartao/cadastro").hasAnyAuthority("USER", "ADMIN")
 	        .antMatchers("/pedido/**").hasAnyAuthority("USER")
 	        .antMatchers("/admin/**").hasAuthority("ADMIN")
 	        .antMatchers("/**", "/h2/**").permitAll()

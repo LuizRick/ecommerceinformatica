@@ -13,19 +13,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.helpers.StringHelper;
-import com.les.ecommerce.model.cliente.Cartao;
+import com.les.ecommerce.model.cliente.CartaoCliente;
 import com.les.ecommerce.model.cliente.Cliente;
-import com.les.ecommerce.model.cliente.Endereco;
+import com.les.ecommerce.model.cliente.EnderecoCliente;
 
 @Controller
 public class ClienteController extends BaseController {
 	
 	@RequestMapping(path="/admin/cliente/cadastro")
 	public String cadastrar(Cliente cliente,Authentication auth) {
-		cliente.setEnderecos(new ArrayList<Endereco>());
-		cliente.getEnderecos().add(new Endereco());
-		cliente.setCartoes(new ArrayList<Cartao>());
-		cliente.getCartoes().add(new Cartao());
+		cliente.setEnderecos(new ArrayList<EnderecoCliente>());
+		cliente.getEnderecos().add(new EnderecoCliente());
+		cliente.setCartoes(new ArrayList<>());
+		cliente.getCartoes().add(new CartaoCliente());
 		return "views/cliente/cadastrar";
 	}
 	
@@ -41,11 +41,11 @@ public class ClienteController extends BaseController {
 			cliente = (Cliente) resultado.getEntidades().get(0);
 			
 			if(cliente.getEnderecos().size() < 1) {
-				cliente.getEnderecos().add(new Endereco());
+				cliente.getEnderecos().add(new EnderecoCliente());
 			}
 			
 			if(cliente.getCartoes().size() < 1) {
-				cliente.getCartoes().add(new Cartao());
+				cliente.getCartoes().add(new CartaoCliente());
 			}
 			
 			if(cliente.getUsuario().getActive() == 1) {
@@ -71,11 +71,11 @@ public class ClienteController extends BaseController {
 	@RequestMapping(value="/admin/cliente/salvar",method=RequestMethod.POST)
 	public String salvar(Cliente cliente,Model model,RedirectAttributes redirectAttributes, Authentication auth) {
 		if(cliente.getAction().equalsIgnoreCase("addEndereco")) {
-			cliente.getEnderecos().add(new Endereco());
+			cliente.getEnderecos().add(new EnderecoCliente());
 		}
 		
 		if(cliente.getAction().equalsIgnoreCase("addCartao")) {
-			cliente.getCartoes().add(new Cartao());
+			cliente.getCartoes().add(new CartaoCliente());
 		}
 		
 		if(cliente.getAction().contains("removerEndereco")) {

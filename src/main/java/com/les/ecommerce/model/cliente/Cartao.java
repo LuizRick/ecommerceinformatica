@@ -2,17 +2,18 @@ package com.les.ecommerce.model.cliente;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.les.ecommerce.model.EntidadeDominio;
+import com.les.ecommerce.model.INotPersistente;
 
-@Entity
-public class Cartao extends EntidadeDominio implements IFormaPagamento{
+@MappedSuperclass
+public class Cartao extends EntidadeDominio implements IFormaPagamento, INotPersistente{
 
 	
 	private String titular;
@@ -20,7 +21,7 @@ public class Cartao extends EntidadeDominio implements IFormaPagamento{
 	
 	@Enumerated(EnumType.STRING)
 	private BandeiraCartao bandeira;
-	
+	 
 	private String codigoSeguranca;
 	
 	@Transient

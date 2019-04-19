@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
 import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,16 +35,19 @@ public class Cliente extends EntidadeDominio {
 	@Embedded
 	private Telefone telefone;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Endereco> enderecos;
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OrderColumn(name="id")
+	private List<EnderecoCliente> enderecos;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Cartao> cartoes;
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OrderColumn(name="id")
+	private List<CartaoCliente> cartoes;
 	
 	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private User usuario;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OrderColumn(name="id")
 	private List<Cupom> cupons;
 	
 	@Transient
@@ -89,19 +93,19 @@ public class Cliente extends EntidadeDominio {
 		this.telefone = telefone;
 	}
 
-	public List<Endereco> getEnderecos() {
+	public List<EnderecoCliente> getEnderecos() {
 		return enderecos;
 	}
 
-	public void setEnderecos(List<Endereco> enderecos) {
+	public void setEnderecos(List<EnderecoCliente> enderecos) {
 		this.enderecos = enderecos;
 	}
 
-	public List<Cartao> getCartoes() {
+	public List<CartaoCliente> getCartoes() {
 		return cartoes;
 	}
 
-	public void setCartoes(List<Cartao> cartoes) {
+	public void setCartoes(List<CartaoCliente> cartoes) {
 		this.cartoes = cartoes;
 	}
 

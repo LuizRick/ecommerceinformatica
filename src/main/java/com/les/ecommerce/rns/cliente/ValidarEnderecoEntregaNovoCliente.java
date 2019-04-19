@@ -5,6 +5,7 @@ import java.util.List;
 import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.cliente.Endereco;
+import com.les.ecommerce.model.cliente.EnderecoCliente;
 import com.les.ecommerce.model.cliente.TipoEndereco;
 import com.les.ecommerce.rns.IStrategy;
 
@@ -23,7 +24,7 @@ public class ValidarEnderecoEntregaNovoCliente implements IStrategy {
 	}
 	
 	
-	private boolean hasEnderecoEntrega(List<Endereco> enderecos) {
+	private boolean hasEnderecoEntrega(List<EnderecoCliente> enderecos) {
 		
 		for(Endereco endereco : enderecos) {
 			if(endereco.getTipo() == TipoEndereco.ENTREGA)

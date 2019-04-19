@@ -18,6 +18,7 @@ import com.les.ecommerce.dao.produto.ProdutoDAO;
 import com.les.ecommerce.dao.usuario.UserDAO;
 import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.IEntidade;
+import com.les.ecommerce.model.INotPersistente;
 import com.les.ecommerce.model.aplication.Carrinho;
 import com.les.ecommerce.model.autenticacao.User;
 import com.les.ecommerce.model.cliente.Cliente;
@@ -30,6 +31,7 @@ import com.les.ecommerce.rns.cliente.ValidarConfirmacaoSenha;
 import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosCartoes;
 import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosCliente;
 import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosEnderecos;
+import com.les.ecommerce.rns.cliente.ValidarEmailUnicoCliente;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoCobrancaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoEntregaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarSenhaForteCliente;
@@ -94,10 +96,12 @@ public class Facade  implements IFacade{
 		
 		
 		Map<String, List<IStrategy>> rnsCliente = new HashMap<>();
+		Map<String, List<IStrategy>> rnsCartao = new HashMap<>();
 		
 		
 		//regras para user
 		List<IStrategy> rnsSalvarUser = new ArrayList<IStrategy>();
+		List<IStrategy> rnsSalvarCartao = new ArrayList<IStrategy>();
 		
 		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
@@ -114,6 +118,7 @@ public class Facade  implements IFacade{
 		rnsSalvarCliente.add(new ValidarEnderecoCobrancaNovoCliente());
 		rnsSalvarCliente.add(new ValidarDadosObrigatoriosEnderecos());
 		rnsSalvarCliente.add(new ValidarDadosObrigatoriosCartoes());
+		rnsSalvarCliente.add(new ValidarEmailUnicoCliente());
 		
 		
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosCliente());
@@ -122,7 +127,7 @@ public class Facade  implements IFacade{
 		rnsAlterarCliente.add(new ValidarEnderecoCobrancaNovoCliente());
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosEnderecos());
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosCartoes());
-		
+		rnsAlterarCliente.add(new ValidarEmailUnicoCliente());
 		
 		Map<String, List<IStrategy>> rnsCarrinho = new HashMap<>();
 		rnsSalvarCarrinho.add(new ValidarDadosAddCarrinho());
@@ -133,6 +138,10 @@ public class Facade  implements IFacade{
 		rnsSalvarUser.add(new ValidarSenhaForteUser());
 		rnsSalvarUser.add(new ValidarEmailUnico());
 		Map<String, List<IStrategy>> rnsUser = new HashMap<>();
+		
+		
+		
+		
 		
 		rnsProduto.put(SALVAR, rnsSalvarProduto);
 		rnsProduto.put(ALTERAR, rnsAlterarProduto);
@@ -162,7 +171,7 @@ public class Facade  implements IFacade{
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "SALVAR");
-		if (msg == null && entidade instanceof EntidadeDominio) {
+		if (msg == null && entidade instanceof EntidadeDominio && !(entidade instanceof INotPersistente)) {
 			try {
 				repositories.get(nmClass).salvar(entidade);
 			}catch(Exception ex) {
@@ -183,7 +192,7 @@ public class Facade  implements IFacade{
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "ALTERAR");
-		if (msg == null && entidade instanceof EntidadeDominio) {
+		if (msg == null && entidade instanceof EntidadeDominio && !(entidade instanceof INotPersistente)) {
 			try {
 				repositories.get(nmClass).alterar(entidade);
 			}catch(Exception ex) {
@@ -201,7 +210,7 @@ public class Facade  implements IFacade{
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "EXCLUIR");
-		if (msg == null && entidade instanceof EntidadeDominio) {
+		if (msg == null && entidade instanceof EntidadeDominio && !(entidade instanceof INotPersistente)) {
 			try {
 				repositories.get(nmClass).deletar(entidade);
 			}catch(Exception ex) {
@@ -219,7 +228,7 @@ public class Facade  implements IFacade{
 		resultado = new Resultado();
 		String nmClass = entidade.getClass().getName();
 		String msg = executaRegras(entidade, "CONSULTAR");
-		if (msg == null && entidade instanceof EntidadeDominio) {
+		if (msg == null && entidade instanceof EntidadeDominio && !(entidade instanceof INotPersistente)) {
 			try {
 				resultado.setEntidades(repositories.get(nmClass).consultar(entidade));
 			}catch(Exception ex) {

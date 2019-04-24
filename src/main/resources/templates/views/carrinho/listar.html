@@ -52,7 +52,7 @@
 								</div>
 							</li>
 							<li class="list-group-item">
-								<button class="btn btn-primary">Fechar Pedido</button>
+								<button class="btn btn-primary" id="btnFecharPedido">Fechar Pedido</button>
 							</li>
 						</ul>
 					</div>
@@ -71,6 +71,15 @@
 			</div>
 		</div>
 		</form>
+		<script>
+			window.redirecionaPedido = function(urlParams){
+				$("#modalGeral").modal('toggle').find('.modal-title').text("Aguarde...");
+				$("#modalGeral").modal('toggle').find('.modal-body').text("Redirecinando para pedidos...");
+				setTimeout(() => {
+					$("#btnFecharPedido").trigger("click");
+				}, 1000);
+			}
+		</script>
 	</div>
 </body>
 </html>

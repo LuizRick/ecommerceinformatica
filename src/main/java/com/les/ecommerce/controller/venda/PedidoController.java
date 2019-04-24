@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.helpers.ClienteHelper;
@@ -52,7 +53,20 @@ public class PedidoController extends BaseController {
 	
 	@RequestMapping(value="/carrinho/finalizar")
 	public String finalizar(Pedido pedido,Authentication auth) {
+		Cliente cliente;
+		if(this.session.getAttribute("cliente") == null) {
+			cliente = clienteHelper.getClienteAuth(auth);
+		}else {
+			cliente = (Cliente) this.session.getAttribute("cliente");
+		}
 		
 		return "views/pedidos/finalizar";
+	}
+	
+	
+	@RequestMapping(value="/frete/calcula")
+	public @ResponseBody Double valorFrete(String cep) {
+		
+		return 10.5D;
 	}
 }

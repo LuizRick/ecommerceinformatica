@@ -62,7 +62,7 @@
     										<li th:each="cartao,itemStat : *{cliente.cartoes}" class="list-group-item">
     											<div class="list-group">
     												<h6 th:text="${cartao.titular}" class="titular-cartao"></h6>
-    												<input type="hidden" th:field="*{cliente.cartoes[__${itemStat.index}__].id}" />
+    												<input type="hidden" th:name="|cliente.cartoes[${itemStat.index}].id|" th:value="${itemStat.index}" />
     												<div>
     													<b>Numero: </b>
     													<span th:text="${cartao.numero}"></span>
@@ -100,7 +100,7 @@
     										<li th:each="endereco, itemStat : *{cliente.enderecos}" class="list-group-item" th:if="${endereco.tipo == T(com.les.ecommerce.model.cliente.TipoEndereco).ENTREGA}">
     											<div class="list-group">
     												<div class="form-check">
-    													<input type="radio" class="form-check-input" th:field="*{enderecoEntrega.id}" th:value="${endereco.id}"/>
+    													<input type="radio" class="form-check-input" th:field="*{enderecoEntrega.id}" th:value="${itemStat.index}"/>
     													<label th:text="${endereco.descricao}" class="form-check-label"></label>
     												</div>
     												<div>
@@ -120,7 +120,7 @@
     									</ul>
     								</div>
     								<div class="card-footer">
-    									<a href="/admin/cartao/cadastro" class="btn btn-outline-primary btn-sm">
+    									<a href="/admin/endereco/cadastro" class="btn btn-outline-primary btn-sm">
     										<i class="fa fa-plus"></i> Novo endereço
     									</a>
     								</div>

@@ -74,7 +74,7 @@
 								<div class="form-row">
 									<div class="form-group col-md-4">
 										<label>Email:</label>
-										<input type="text" class="form-control" th:field="*{usuario.email}" />
+										<input type="text" class="form-control" th:field="*{usuario.email}" th:attrappend="readonly=${cliente.id != 0}?'readonly'" />
 									</div>
 									<div class="form-group col-md-4" th:if="${cliente.id == 0}">
 										<label>Senha </label>

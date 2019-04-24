@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{ecommerce/layout}">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+</head>
+<body>
+    <div layout:fragment="content">
+    	<form th:action="@{/admin/endereco/cadastro}" method="post" th:object="${endereco}">
+    		<div class="form-row">
+				<div class="form-group col-md-4">
+					<label>Descrição</label>
+					<input type="text" class="form-control" th:field="*{descricao}" required/>
+				</div>
+				<div class="form-group col-md-4">
+					<label>tipo residencia</label>
+					<input type="text" class="form-control" th:field="*{tipoResidencia}" required/>
+				</div>
+				<div class="form-group col-md-4">
+					<label>Tipo Logradouro</label>
+					<input type="text" class="form-control" th:field="*{tipoLogradouro}" required/>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label>Numero</label>
+					<input type="text" class="form-control" th:field="*{numero}" required/>
+				</div>
+				<div class="form-group col-md-4">
+					<label>Bairro</label>
+					<input type="text" class="form-control" th:field="*{bairro}" required/>
+				</div>
+				<div class="form-group col-md-4">
+					<label>CEP</label>
+					<input type="text" class="form-control" th:field="*{cep}" required/>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label>Pais</label>
+					<input type="text" class="form-control" th:field="*{pais}" required/>
+				</div>
+				<div class="form-group col-md-4">
+					<label>Estado</label>
+					<input type="text" class="form-control" th:field="*{estado}" required/>
+				</div>
+				<div class="form-group col-md-4">
+					<label>Cidade</label>
+					<input type="text" class="form-control" th:field="*{cidade}" required/>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-12">
+					<label>Tipo endereco</label>
+					<select class="form-control" th:field="*{tipo}">
+						<option value="">Selecionar tipo</option>
+						<option th:each="state: ${T(com.les.ecommerce.model.cliente.TipoEndereco).values()}"
+								th:text="${state.value()}"
+								th:value="${state}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-check form-group">
+				  <input class="form-check-input" type="checkbox" th:field="*{salvarPerfil}">
+				  <label class="form-check-label" for="salvarPerfil1">
+  						salvar para futura compra ?
+				  </label>
+			</div>
+			<button class="btn btn-primary">Salvar</button>
+			<a href="/carrinho/listar?callback=redirecionaPedido" class="btn btn-secondary">Voltar</a>
+    	</form>
+    </div>
+</body>
+</html>

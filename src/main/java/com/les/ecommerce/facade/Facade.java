@@ -118,7 +118,7 @@ public class Facade  implements IFacade{
 		rnsSalvarCliente.add(new ValidarEnderecoCobrancaNovoCliente());
 		rnsSalvarCliente.add(new ValidarDadosObrigatoriosEnderecos());
 		rnsSalvarCliente.add(new ValidarDadosObrigatoriosCartoes());
-		rnsSalvarCliente.add(new ValidarEmailUnicoCliente());
+		
 		
 		
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosCliente());
@@ -127,7 +127,7 @@ public class Facade  implements IFacade{
 		rnsAlterarCliente.add(new ValidarEnderecoCobrancaNovoCliente());
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosEnderecos());
 		rnsAlterarCliente.add(new ValidarDadosObrigatoriosCartoes());
-		rnsAlterarCliente.add(new ValidarEmailUnicoCliente());
+		
 		
 		Map<String, List<IStrategy>> rnsCarrinho = new HashMap<>();
 		rnsSalvarCarrinho.add(new ValidarDadosAddCarrinho());

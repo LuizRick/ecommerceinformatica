@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 import com.les.ecommerce.model.EntidadeDominio;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 public class Endereco extends EntidadeDominio {
@@ -23,6 +24,17 @@ public class Endereco extends EntidadeDominio {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoEndereco tipo;
+	
+	@Transient
+	private Boolean salvarPerfil;
+
+	public Boolean getSalvarPerfil() {
+		return salvarPerfil;
+	}
+
+	public void setSalvarPerfil(Boolean salvarPerfil) {
+		this.salvarPerfil = salvarPerfil;
+	}
 
 	public String getDescricao() {
 		return descricao;

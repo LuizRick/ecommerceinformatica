@@ -10,6 +10,6 @@ public class PedidoFreteHelper {
 		String lastDigits = cep.substring(cep.length() - 3);
 		Double CepDigits = 777D;
 		Double f = Double.parseDouble(lastDigits);
-		return Math.abs((f - CepDigits)) * (Math.random() * 20);
+		return Math.abs((f - CepDigits)) * Math.random();
 	}
 }

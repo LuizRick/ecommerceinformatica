@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.les.ecommerce.dao.IDAO;
 import com.les.ecommerce.dao.cliente.ClienteDAO;
+import com.les.ecommerce.dao.pedido.PedidoDAO;
 import com.les.ecommerce.dao.produto.DepartamentoDAO;
 import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
 import com.les.ecommerce.dao.produto.ProdutoDAO;
@@ -25,16 +26,23 @@ import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.produto.Departamento;
 import com.les.ecommerce.model.produto.GrupoPrecificacao;
 import com.les.ecommerce.model.produto.Produto;
+import com.les.ecommerce.model.venda.Pedido;
 import com.les.ecommerce.rns.IStrategy;
 import com.les.ecommerce.rns.cliente.ValidarCartaoObrigatorioNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarConfirmacaoSenha;
 import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosCartoes;
 import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosCliente;
 import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosEnderecos;
-import com.les.ecommerce.rns.cliente.ValidarEmailUnicoCliente;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoCobrancaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoEntregaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarSenhaForteCliente;
+import com.les.ecommerce.rns.pedido.ValidarCupomPromocionalUnico;
+import com.les.ecommerce.rns.pedido.ValidarDadosObrigatorioPedido;
+import com.les.ecommerce.rns.pedido.ValidarFormasPagamento;
+import com.les.ecommerce.rns.pedido.ValidarGeracaoValorCupom;
+import com.les.ecommerce.rns.pedido.ValidarQuantidadeEstoque;
+import com.les.ecommerce.rns.pedido.ValidarUsoCartaoCupom;
+import com.les.ecommerce.rns.pedido.ValidarValorMinimoCartao;
 import com.les.ecommerce.rns.produto.ValidarCategoriaTrocaStatus;
 import com.les.ecommerce.rns.produto.ValidarDadosObrigatoriosProdutos;
 import com.les.ecommerce.rns.produto.ValidarInativacaoProduto;
@@ -75,6 +83,9 @@ public class Facade  implements IFacade{
 	@Autowired
 	private UserDAO userDAO;
 	
+	@Autowired
+	private PedidoDAO pedidoDAO;
+	
 	@PostConstruct
 	public void init() {
 		repositories = new HashMap<>();
@@ -102,6 +113,18 @@ public class Facade  implements IFacade{
 		//regras para user
 		List<IStrategy> rnsSalvarUser = new ArrayList<IStrategy>();
 		List<IStrategy> rnsSalvarCartao = new ArrayList<IStrategy>();
+		
+		//regras pedido
+		Map<String, List<IStrategy>> rnsPedido = new HashMap<>();
+		List<IStrategy> rnsSalvarPedido = new ArrayList<>();
+		
+		rnsSalvarPedido.add(new ValidarDadosObrigatorioPedido());
+		rnsSalvarPedido.add(new ValidarCupomPromocionalUnico());
+		rnsSalvarPedido.add(new ValidarFormasPagamento());
+		rnsSalvarPedido.add(new ValidarGeracaoValorCupom());
+		rnsSalvarPedido.add(new ValidarQuantidadeEstoque());
+		rnsSalvarPedido.add(new ValidarUsoCartaoCupom());
+		rnsSalvarPedido.add(new ValidarValorMinimoCartao());
 		
 		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
@@ -142,6 +165,7 @@ public class Facade  implements IFacade{
 		
 		
 		
+		rnsPedido.put(SALVAR, rnsSalvarPedido);
 		
 		rnsProduto.put(SALVAR, rnsSalvarProduto);
 		rnsProduto.put(ALTERAR, rnsAlterarProduto);
@@ -159,11 +183,13 @@ public class Facade  implements IFacade{
 		repositories.put(Produto.class.getName(), produtoDAO);
 		repositories.put(Cliente.class.getName(),clienteDAO);
 		repositories.put(User.class.getName(), userDAO);
+		repositories.put(Pedido.class.getName(), pedidoDAO);
 		
 		rns.put(Produto.class.getName(),rnsProduto);
 		rns.put(Cliente.class.getName(), rnsCliente);
 		rns.put(Carrinho.class.getName(),rnsCarrinho);
 		rns.put(User.class.getName(), rnsUser);
+		rns.put(Pedido.class.getName(), rnsPedido);
 	}
 
 	@Override

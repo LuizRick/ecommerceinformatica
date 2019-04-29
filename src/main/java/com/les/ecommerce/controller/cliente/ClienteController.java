@@ -95,6 +95,9 @@ public class ClienteController extends BaseController {
 			if(StringHelper.isNullOrEmpty(resultado.getMsg())) {
 				resultado.setMsg("Cliente foi salvo com sucesso");
 				redirectAttributes.addFlashAttribute("resultado", resultado);
+				if(auth.getName().equals(cliente.getUsuario().getEmail())) {
+					this.session.setAttribute("cliente", cliente);
+				}
 				return  this.hasRole("USER", auth.getAuthorities()) ? "redirect:/" : "redirect:/admin/clientes/consultar";
 			}
 			model.addAttribute("resultado", resultado);

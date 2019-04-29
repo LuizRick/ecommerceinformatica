@@ -71,13 +71,27 @@ public class PedidoController extends BaseController {
 		pedido.setCliente(cliente);
 		Resultado resultado = this.commands.get(this.SALVAR).execute(pedido);
 		
-		if(resultado.getMsg() != null) {
+		if(resultado.getMsg() == null) {
 			resultado.setMsg("O pedido foi finalizado com sucesso");
 			redirAttr.addFlashAttribute("resultado", resultado);
 			return "redirect:/cliente/pedidos/listar";
 		}
+		
+		Double total = 0D;
+		int totalProdutos  = 0;
+		if(carrinho != null && carrinho.getItens() != null) {
+			for(ItemCarrinho item : carrinho.getItens()) {
+				total += item.getProduto().getValorVenda() * item.getQuantidade();
+				totalProdutos +=  Math.round(item.getQuantidade());
+			}
+		}
+		
 		model.addAttribute("resultado", resultado);
-		return "views/pedidos/finalizar";
+		model.addAttribute("carrinho", carrinho);
+		model.addAttribute("total", total);
+		model.addAttribute("totalPagar", total);
+		model.addAttribute("totalProdutos", totalProdutos);
+		return "views/pedidos/fechamento";
 	}
 	
 	

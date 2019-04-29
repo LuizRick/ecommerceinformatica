@@ -45,6 +45,8 @@ public class UserAuthModelHandlerInterceptor implements HandlerInterceptor {
 					request.setAttribute("conta", cliente);
 				}
 			}
+			
+			request.setAttribute("userLogin", user);
 		}
 		
 		return true;

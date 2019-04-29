@@ -22,7 +22,7 @@ public class PedidoDAO extends AbstractDAO {
 	
 	@Override
 	public void salvar(IEntidade entidade) {
-		repository.save(noCast(entidade));
+		repository.save(noCast(entidade)); 
 	}
 
 	@Override
@@ -39,6 +39,12 @@ public class PedidoDAO extends AbstractDAO {
 		List<Predicate<Pedido>> predicates = new ArrayList<Predicate<Pedido>>();
 		if(pedido.getId() > 0)
 			predicates.add(p -> p.getId() == pedido.getId());
+		if(pedido.getCliente() != null && pedido.getCliente().getId() > 0)
+			predicates.add(p -> p.getCliente().getId() == pedido.getCliente().getId());
+		if(pedido.getStatusPedido() != null) {
+			predicates.add(p -> p.getStatusPedido().equals(pedido.getStatusPedido()));
+		}
+		
 		Predicate<Pedido> compositedPredicate = predicates.stream().reduce(c -> true, Predicate::and);
 		return repository.findAll(Sort.by("id")).stream().filter(compositedPredicate).collect(Collectors.toList());
 	}

@@ -39,9 +39,9 @@ public class Cliente extends EntidadeDominio {
 	@OrderColumn(name="id")
 	private List<EnderecoCliente> enderecos;
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=CartaoCliente.class)
 	@OrderColumn(name="id")
-	private List<CartaoCliente> cartoes;
+	private List<Cartao> cartoes;
 	
 	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private User usuario;
@@ -101,11 +101,11 @@ public class Cliente extends EntidadeDominio {
 		this.enderecos = enderecos;
 	}
 
-	public List<CartaoCliente> getCartoes() {
+	public List<Cartao> getCartoes() {
 		return cartoes;
 	}
 
-	public void setCartoes(List<CartaoCliente> cartoes) {
+	public void setCartoes(List<Cartao> cartoes) {
 		this.cartoes = cartoes;
 	}
 

@@ -4,10 +4,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @SpringBootApplication
+@EnableScheduling
 @EntityScan({"com.les.ecommerce.model"})
 @EnableJpaRepositories({"com.les.ecommerce.repository"})
 @ComponentScan({"com.les.ecommerce.facade" , "com.les.ecommerce.controller" , "com.les.ecommerce.repository" , "com.les.ecommerce.command" ,
@@ -21,6 +26,5 @@ public class EcommerceApplication {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(EcommerceApplication.class);
 	}
-
 }
 

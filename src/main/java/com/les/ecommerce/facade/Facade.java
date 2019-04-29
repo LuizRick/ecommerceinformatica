@@ -26,6 +26,7 @@ import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.produto.Departamento;
 import com.les.ecommerce.model.produto.GrupoPrecificacao;
 import com.les.ecommerce.model.produto.Produto;
+import com.les.ecommerce.model.venda.FormasPagamento;
 import com.les.ecommerce.model.venda.Pedido;
 import com.les.ecommerce.rns.IStrategy;
 import com.les.ecommerce.rns.cliente.ValidarCartaoObrigatorioNovoCliente;
@@ -36,7 +37,8 @@ import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosEnderecos;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoCobrancaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoEntregaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarSenhaForteCliente;
-import com.les.ecommerce.rns.pedido.ValidarCupomPromocionalUnico;
+import com.les.ecommerce.rns.pedido.ValidarCartaoCredito;
+import com.les.ecommerce.rns.pedido.ValidarCupomCompra;
 import com.les.ecommerce.rns.pedido.ValidarDadosObrigatorioPedido;
 import com.les.ecommerce.rns.pedido.ValidarFormasPagamento;
 import com.les.ecommerce.rns.pedido.ValidarGeracaoValorCupom;
@@ -95,6 +97,8 @@ public class Facade  implements IFacade{
 		List<IStrategy> rnsSalvarProduto = new ArrayList<IStrategy>();
 		List<IStrategy> rnsAlterarProduto = new ArrayList<IStrategy>();
 		Map<String, List<IStrategy>> rnsProduto = new HashMap<>();
+		Map<String, List<IStrategy>> rnsFormasPagamento = new HashMap<>();
+		
 		
 		
 		
@@ -117,14 +121,20 @@ public class Facade  implements IFacade{
 		//regras pedido
 		Map<String, List<IStrategy>> rnsPedido = new HashMap<>();
 		List<IStrategy> rnsSalvarPedido = new ArrayList<>();
+		List<IStrategy> rnsAlterarPedido = new ArrayList<>();
+		
+		List<IStrategy> rnsConsultarFormaPagamento = new ArrayList<IStrategy>();
+		//rnsConsultarFormaPagamento.add(new ValidarCartaoCredito());
+		rnsConsultarFormaPagamento.add(new ValidarCupomCompra());
 		
 		rnsSalvarPedido.add(new ValidarDadosObrigatorioPedido());
-		rnsSalvarPedido.add(new ValidarCupomPromocionalUnico());
+		rnsSalvarPedido.add(new ValidarCupomCompra());
 		rnsSalvarPedido.add(new ValidarFormasPagamento());
 		rnsSalvarPedido.add(new ValidarGeracaoValorCupom());
 		rnsSalvarPedido.add(new ValidarQuantidadeEstoque());
 		rnsSalvarPedido.add(new ValidarUsoCartaoCupom());
 		rnsSalvarPedido.add(new ValidarValorMinimoCartao());
+		
 		
 		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());
 		rnsSalvarProduto.add(new ValidarValorVendaProduto());
@@ -166,6 +176,7 @@ public class Facade  implements IFacade{
 		
 		
 		rnsPedido.put(SALVAR, rnsSalvarPedido);
+		rnsPedido.put(ALTERAR, rnsAlterarPedido);
 		
 		rnsProduto.put(SALVAR, rnsSalvarProduto);
 		rnsProduto.put(ALTERAR, rnsAlterarProduto);
@@ -177,6 +188,8 @@ public class Facade  implements IFacade{
 		rnsCarrinho.put(SALVAR, rnsSalvarCarrinho);
 		
 		rnsUser.put(SALVAR, rnsSalvarUser);
+		
+		rnsFormasPagamento.put(CONSULTAR, rnsConsultarFormaPagamento);
 		
 		repositories.put(GrupoPrecificacao.class.getName(), grupoPrecificacaoDAO);
 		repositories.put(Departamento.class.getName(), departamentoDAO);
@@ -190,6 +203,7 @@ public class Facade  implements IFacade{
 		rns.put(Carrinho.class.getName(),rnsCarrinho);
 		rns.put(User.class.getName(), rnsUser);
 		rns.put(Pedido.class.getName(), rnsPedido);
+		rns.put(FormasPagamento.class.getName(), rnsFormasPagamento);
 	}
 
 	@Override

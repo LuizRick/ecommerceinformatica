@@ -35,9 +35,9 @@
     						<tbody>
     							<tr th:each="pedido : ${pedidos}">
     								<td th:text="${pedido.id}"></td>
-    								<td th:text="${pedido.statusPedido}"></td>
+    								<td th:text="${pedido.statusPedido.value()}"></td>
     								<td>
-    									<a class="btn btn-primary" th:href="@{/pedido/cliente/visualizar/} + ${pedido.id}">
+    									<a class="btn btn-primary" th:href="@{/admin/pedidos/visualizar/} + ${pedido.id}">
     										Visualizar
     									</a>
     								</td>

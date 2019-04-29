@@ -12,20 +12,20 @@ public class ValidarDadosObrigatorioPedido implements IStrategy {
 		StringBuilder sb = new StringBuilder();
 		
 		if(pedido.getEnderecoEntrega() == null || pedido.getEnderecoEntrega().getCep() == null) {
-			sb.append("E necessario selecionar um endereço de entrega valido");
+			sb.append("<div>E necessario selecionar um endereço de entrega valido</div>");
 		}
 		
 		
-		if(pedido.getCartao() == null) {
-			sb.append("E necessario preencher o valor de um dos cartões para finalizar sua compra</br>");
+		if(pedido.getCartao() == null || pedido.getCartao().size() <= 0) {
+			sb.append("<div>E necessario preencher o valor de um dos cartões para finalizar sua compra</div>");
 		}
 		
 		if(pedido.getCliente() == null) {
-			sb.append("E necesario ter um cliente logado para fazer compras");
+			sb.append("<div>E necesario ter um cliente logado para fazer compras</div>");
 		}
 		
-		if(pedido.getItens() == null) {
-			sb.append("E necessario ter itens no seu pedido");
+		if(pedido.getItens() == null || pedido.getItens().size() <= 0) {
+			sb.append("<div>E necessario ter itens no seu pedido</div>");
 		}
 		
 		if(sb.length() > 0) {

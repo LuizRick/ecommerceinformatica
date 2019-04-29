@@ -9,7 +9,7 @@
 </head>
 <body>
     <div layout:fragment="content">
-    	<form th:action="@{/pedido/carrinho/finalizar}" th:object="${pedido}" id="frmPedido" method="post">
+    	<form th:action="@{/pedido/carrinho/finalizar}" th:object="${compra}" id="frmPedido" method="post">
     	<div class="row">
     		<div class="col-lg-12" th:if="${carrinho == null || carrinho.itens.size() <= 0}">
     			<div class="jumbotron">
@@ -21,12 +21,12 @@
     			</div>
     		</div>
     		<div class="col-lg-12" th:if="${carrinho != null && carrinho.itens.size() > 0}">
-	    		<div class="alert alert-warning" th:if="${resultado != null && resultado.msg != null}">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<span th:utext="${resultado.msg}"></span>
-				</div>
+    		<div class="alert alert-warning" th:if="${resultado != null && resultado.msg != null}">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span th:utext="${resultado.msg}"></span>
+			</div>
     			<table class="table table-hover table-bordered" >
 					<thead class="thead-dark">
 						<tr>
@@ -68,7 +68,7 @@
     										<li th:each="cartao,itemStat : *{cliente.cartoes}" class="list-group-item">
     											<div class="list-group">
     												<h6 th:text="${cartao.titular}" class="titular-cartao"></h6>
-    												<input type="hidden" th:name="|cliente.cartoes[${itemStat.index}].id|" th:value="${itemStat.index}" />
+    												<input type="hidden" th:field="*{cartao[__${itemStat.index}__].id}" />
     												<div>
     													<b>Numero: </b>
     													<span th:text="${cartao.numero}"></span>
@@ -83,7 +83,7 @@
 							    								<i class="fas fa-money-check-alt"></i>
 							    							</span>
 														</div>
-														<input type="text" class="form-control" placeholder="valor" th:field="*{cliente.cartoes[__${itemStat.index}__].valor}"/>
+														<input type="text" class="form-control" placeholder="valor" th:field="*{cartao[__${itemStat.index}__].valor}"/>
 													</div>
     											</div>
     										</li>
@@ -151,7 +151,7 @@
 	    								
 	    								<p class="d-flex w-100 justify-content-between">
 	    									<b>Frete :</b> 
-	    									<span th:if="${valorFrete != null}" th:text="${valorFrete}"></span>
+	    									<span th:if="${valorFrete != null}" th:text="${#numbers.formatDecimal(valorFrete,0, 'COMMA', 2 , 'POINT')}"></span>
 	    									<span th:if="${valorFrete == null}" id="txtValorFrete">Selecionar endereço</span>
 	    									<input type="hidden" th:field="*{valorFrete}" />
 	    								</p>
@@ -184,11 +184,11 @@
     							<div class="list-group">
     								<div class="list-group-item">
     									<h5>Cupons adicionados 
-    										<span th:text="${pedido.cupom.size()}" 
+    										<span th:text="${compra.cupom.size()}" 
     										class="badge badge-primary badge-pill"></span>
     									</h5>
     								</div>
-    								<div class="list-group-item" th:each="cp : ${pedido.cupom}">
+    								<div class="list-group-item" th:each="cp : ${compra.cupom}">
     									
     								</div>
     							</div>

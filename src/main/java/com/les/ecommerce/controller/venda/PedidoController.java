@@ -1,6 +1,7 @@
 package com.les.ecommerce.controller.venda;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,10 +16,12 @@ import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.helpers.ClienteHelper;
 import com.les.ecommerce.helpers.pedido.PedidoFreteHelper;
+import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.aplication.Carrinho;
 import com.les.ecommerce.model.aplication.ItemCarrinho;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.cliente.Endereco;
+import com.les.ecommerce.model.venda.Compra;
 import com.les.ecommerce.model.venda.Pedido;
 
 @Controller
@@ -29,10 +32,10 @@ public class PedidoController extends BaseController {
 	private ClienteHelper clienteHelper;
 	
 	@Autowired
-	private PedidoFreteHelper pedidoFrete;
+	private PedidoFreteHelper pedidoHelper;
 	
 	@RequestMapping(value="/carrinho/fechamento", method=RequestMethod.POST)
-	public String fecharPedido(Pedido pedido, Model model,Authentication auth) {
+	public String fecharPedido(Compra compra, Model model,Authentication auth) {
 		Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
 		Double total = 0D;
 		int totalProdutos  = 0;
@@ -49,17 +52,20 @@ public class PedidoController extends BaseController {
 		}else {
 			cliente = (Cliente) this.session.getAttribute("cliente");
 		}
-		pedido.setCupom(new HashSet<>());
-		pedido.setCliente(cliente);
+		compra.setCupom(new ArrayList<>());
+		compra.setCartao(new ArrayList<>());
+		cliente.getCartoes().forEach(c -> compra.getCartao().add(c));
+		compra.setCliente(cliente);
 		model.addAttribute("carrinho", carrinho);
 		model.addAttribute("total", total);
 		model.addAttribute("totalPagar", total);
 		model.addAttribute("totalProdutos", totalProdutos);
+		model.addAttribute("valorFrete", compra.getValorFrete());
 		return "views/pedidos/fechamento";
 	}
 	
-	@RequestMapping(value="/carrinho/finalizar")
-	public String finalizar(Pedido pedido,Authentication auth, RedirectAttributes redirAttr,Model model) {
+	@RequestMapping(value="/carrinho/finalizar", method=RequestMethod.POST)
+	public String finalizar(Compra compra,Authentication auth, RedirectAttributes redirAttr,Model model) {
 		Cliente cliente;
 		if(this.session.getAttribute("cliente") == null) {
 			cliente = clienteHelper.getClienteAuth(auth);
@@ -67,17 +73,40 @@ public class PedidoController extends BaseController {
 			cliente = (Cliente) this.session.getAttribute("cliente");
 		}
 		Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
-		pedido.setCarrinho(carrinho);
-		pedido.setCliente(cliente);
-		Resultado resultado = this.commands.get(this.SALVAR).execute(pedido);
+		compra.setCarrinho(carrinho);
+		compra.setCliente(cliente);
 		
-		if(resultado.getMsg() != null) {
+		Pedido mapPedido = pedidoHelper.mapperPedido(compra);
+		
+		Resultado resultado = this.commands.get(this.SALVAR).execute(mapPedido);
+		
+		if(resultado.getMsg() == null) {
 			resultado.setMsg("O pedido foi finalizado com sucesso");
 			redirAttr.addFlashAttribute("resultado", resultado);
-			return "redirect:/cliente/pedidos/listar";
+			return "redirect:/pedido/cliente/listar";
 		}
+		
+		Double total = 0D;
+		int totalProdutos  = 0;
+		if(carrinho != null && carrinho.getItens() != null) {
+			for(ItemCarrinho item : carrinho.getItens()) {
+				total += item.getProduto().getValorVenda() * item.getQuantidade();
+				totalProdutos +=  Math.round(item.getQuantidade());
+			}
+		}
+		
+		if(compra.getCupom() == null) {
+			compra.setCupom(new ArrayList<>());
+		}
+		compra.setCartao(new ArrayList<>());
+		cliente.getCartoes().forEach(c -> compra.getCartao().add(c));
+		model.addAttribute("carrinho", carrinho);
+		model.addAttribute("total", total);
+		model.addAttribute("totalPagar", total);
+		model.addAttribute("totalProdutos", totalProdutos);
 		model.addAttribute("resultado", resultado);
-		return "views/pedidos/finalizar";
+		model.addAttribute("valorFrete",compra.getValorFrete());
+		return "views/pedidos/fechamento";
 	}
 	
 	
@@ -85,12 +114,44 @@ public class PedidoController extends BaseController {
 	public @ResponseBody Double valorFrete(Integer index) {
 		Cliente cliente = (Cliente) this.session.getAttribute("cliente");
 		Endereco endereco = cliente.getEnderecos().get(index);
-		return pedidoFrete.calcularFreteByCep(endereco.getCep());
+		return pedidoHelper.calcularFreteByCep(endereco.getCep());
 	}
 	
-	@RequestMapping(value="/cliente/pedidos/listar")
-	public String listar() {
-		
+	@RequestMapping(value="/cliente/listar")
+	public String listar(Pedido pedido, Authentication auth, Model model) {
+		Cliente cliente = (Cliente) this.session.getAttribute("cliente");
+		pedido.setCliente(cliente);
+		Resultado resultado = this.commands.get(CONSULTAR).execute(pedido);
+		List<IEntidade> pedidos = resultado.getEntidades();
+		model.addAttribute("pedidos", pedidos);
+		model.addAttribute("resultado", resultado);
 		return "views/pedidos/listar";
+	}
+	
+	@RequestMapping(value="/cliente/visualizar/{id}")
+	public String visualizar(Pedido pedido, Authentication auth, Model model) {
+		Resultado resultado = this.commands.get(CONSULTAR).execute(pedido);
+		pedido = (Pedido) resultado.getEntidades().get(0);
+		model.addAttribute("pedido", pedido);
+		model.addAttribute("resultado", resultado);
+		return "views/pedidos/visualizar";
+	}
+	
+	@RequestMapping(value="/cliente/alterarStatus")
+	public String alterarStatus(Pedido pedido, RedirectAttributes redAttr, Authentication auth) {
+		boolean hasAuthAdmin = this.hasRole("USER", auth.getAuthorities());
+		if(hasAuthAdmin) {
+			Pedido pedidoConsulta = new Pedido();
+			pedidoConsulta.setId(pedido.getId());
+			Resultado resultado = this.commands.get(CONSULTAR).execute(pedidoConsulta);
+			pedidoConsulta = (Pedido) resultado.getEntidades().get(0);
+			pedidoConsulta.setStatusPedido(pedido.getStatusPedido());
+			resultado = this.commands.get(ALTERAR).execute(pedidoConsulta);
+			if(resultado.getMsg() == null) {
+				resultado.setMsg("A troca foi solicitada com sucesso");
+			}
+			redAttr.addFlashAttribute("resultado", resultado);
+		}
+		return "redirect:/pedidos/cliente/listar";
 	}
 }

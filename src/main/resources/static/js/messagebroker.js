@@ -1,16 +1,13 @@
-requirejs(['stomp-websocket' , 'sockjs-client'], function(Stomp,SockJS){
-//	var socket = new SockJS("/byteshop-socket");
-//	var stompClient = Stomp.over(socket);
-//	stompClient.debug = null;
-//	stompClient.connect({}, function(frame){
-//		stompClient.subscribe("/topic/session-messages", function(message){
-//			
-//		});
-//	});
-//	
-//	
-//	
-//	setInterval(() => {
-//		stompClient.send("/app/session-chanel");
-//	}, 5000);
-});
+(function(){
+	var eventSource = new EventSource("/trocas-chanel/stream");
+	eventSource.onmessage = function(event){
+		var pedido = JSON.parse(event.data);
+		if(pedido.id){
+			$(".msg-info").html(`Ola <b>${pedido.cliente.nome}</b> seu pedido de número ${pedido.id} esta com status ${pedido.statusPedido}`);
+		}
+	}
+	
+	eventSource.onerror = function(){
+		console.log(arguments);
+	}
+}());

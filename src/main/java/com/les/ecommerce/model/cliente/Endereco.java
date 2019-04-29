@@ -1,14 +1,18 @@
 package com.les.ecommerce.model.cliente;
 
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.les.ecommerce.model.EntidadeDominio;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
-
-@MappedSuperclass
+@Entity
+@Table(name="ENDERECO")
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Endereco extends EntidadeDominio {
 
 	

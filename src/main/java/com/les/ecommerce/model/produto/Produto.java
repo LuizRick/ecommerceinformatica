@@ -35,6 +35,8 @@ public class Produto extends EntidadeDominio implements Cloneable {
 	private CategoriaInativacao categoriaInativacao;
 	
 	private String justificativaInativacao;
+	
+	private Long segregacao;
 
 	public String getDescricao() {
 		return descricao;
@@ -174,6 +176,14 @@ public class Produto extends EntidadeDominio implements Cloneable {
 	
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
+	}
+
+	public Long getSegregacao() {
+		return segregacao;
+	}
+
+	public void setSegregacao(Long segregacao) {
+		this.segregacao = segregacao;
 	}
 
 }

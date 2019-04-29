@@ -2,9 +2,12 @@ package com.les.ecommerce.model.cliente;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +15,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.INotPersistente;
 
-@MappedSuperclass
+@Entity
+@Table(name="CARTAO")
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Cartao extends EntidadeDominio implements IFormaPagamento, INotPersistente{
 
 	

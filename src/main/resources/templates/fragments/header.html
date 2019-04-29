@@ -41,8 +41,12 @@
 							<span th:if="${conta != null}">
 								[[${conta.usuario.email}]]
 							</span>
-							<span th:if="${conta == null}">
+							<span th:if="${conta == null && userLogin == null}">
 								Ola usuario
+							</span>
+							
+							<span th:if="${userLogin != null && conta == null}">
+								[[${userLogin.email}]]
 							</span>
 						</a>
 						<div class="dropdown-menu" th:if="${conta != null}">
@@ -54,7 +58,7 @@
 								<i class="fas fa-exchange-alt"></i>
 								Troca de senha
 							</a>
-							<a class="dropdown-item" href="/conta/pedidos">
+							<a class="dropdown-item" href="/pedido/cliente/listar">
 								<i class="fas fa-shopping-bag"></i>
 								Meus pedidos
 							</a>
@@ -63,10 +67,17 @@
 								Sair
 							</a>
 						</div>
-						<div class="dropdown-menu" th:if="${conta == null}">
+						<div class="dropdown-menu" th:if="${conta == null && userLogin == null}">
 							<a class="dropdown-item" th:href="@{/conta/login}">
 								<i class="fas fa-sign-in-alt"></i>
 								Login
+							</a> 
+						</div>
+						
+						<div class="dropdown-menu" th:if="${userLogin != null}">
+							<a class="dropdown-item" th:href="@{/sair}">
+								<i class="fas fa-sign-in-alt"></i>
+								Sair
 							</a> 
 						</div>
 					</li>

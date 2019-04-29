@@ -9,15 +9,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.IEntidade;
-import com.les.ecommerce.model.aplication.Carrinho;
+import com.les.ecommerce.model.cliente.Cartao;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.cliente.Cupom;
 import com.les.ecommerce.model.cliente.Endereco;
-import com.les.ecommerce.model.cliente.IFormaPagamento;
 
 @Entity
 public class Pedido extends EntidadeDominio implements IEntidade {
@@ -28,11 +26,11 @@ public class Pedido extends EntidadeDominio implements IEntidade {
 	@Enumerated(EnumType.STRING)
 	private StatusPedido statusPedido;
 	
-	@OneToOne
-	private EnderecoPedido enderecoEntrega;
+	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL, targetEntity=EnderecoPedido.class)
+	private Endereco enderecoEntrega;
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
-	private Set<CartaoPedido> cartao;
+	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER, targetEntity=CartaoPedido.class)
+	private Set<Cartao> cartao;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<ItemPedido> itens;
@@ -41,12 +39,6 @@ public class Pedido extends EntidadeDominio implements IEntidade {
 	private Set<Cupom> cupom;
 	
 	private Double valorFrete;
-	
-	@Transient 
-	private Carrinho carrinho;
-	
-	@Transient
-	private Set<IFormaPagamento> formasPagamento;
 
 	public Cliente getCliente() {
 		return cliente;
@@ -60,15 +52,15 @@ public class Pedido extends EntidadeDominio implements IEntidade {
 		return enderecoEntrega;
 	}
 
-	public void setEnderecoEntrega(EnderecoPedido enderecoEntrega) {
+	public void setEnderecoEntrega(Endereco enderecoEntrega) {
 		this.enderecoEntrega = enderecoEntrega;
 	}
 
-	public Set<CartaoPedido> getCartao() {
+	public Set<Cartao> getCartao() {
 		return cartao;
 	}
 
-	public void setCartao(Set<CartaoPedido> cartao) {
+	public void setCartao(Set<Cartao> cartao) {
 		this.cartao = cartao;
 	}
 
@@ -88,28 +80,20 @@ public class Pedido extends EntidadeDominio implements IEntidade {
 		this.cupom = cupom;
 	}
 
-	public Carrinho getCarrinho() {
-		return carrinho;
-	}
-
-	public void setCarrinho(Carrinho carrinho) {
-		this.carrinho = carrinho;
-	}
-
-	public Set<IFormaPagamento> getFormasPagamento() {
-		return formasPagamento;
-	}
-
-	public void setFormasPagamento(Set<IFormaPagamento> formasPagamento) {
-		this.formasPagamento = formasPagamento;
-	}
-
 	public Double getValorFrete() {
 		return valorFrete;
 	}
 
 	public void setValorFrete(Double valorFrete) {
 		this.valorFrete = valorFrete;
+	}
+
+	public StatusPedido getStatusPedido() {
+		return statusPedido;
+	}
+
+	public void setStatusPedido(StatusPedido statusPedido) {
+		this.statusPedido = statusPedido;
 	}
 	
 	

@@ -152,6 +152,6 @@ public class PedidoController extends BaseController {
 			}
 			redAttr.addFlashAttribute("resultado", resultado);
 		}
-		return "redirect:/pedidos/cliente/listar";
+		return "redirect:/pedido/cliente/listar";
 	}
 }

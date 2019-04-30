@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.model.IEntidade;
+import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.model.venda.FormasPagamento;
+import com.les.ecommerce.model.venda.ItemPedido;
 import com.les.ecommerce.model.venda.Pedido;
 import com.les.ecommerce.model.venda.StatusPedido;
 
@@ -21,7 +23,7 @@ public class ScheduledTasks extends BaseController {
 	 * Essa schedule tem como objetivo verificar os pedidos com status em processamento
 	 * e validar a forma de pagamento e veracidade de informações da venda
 	 */
-	@Scheduled(fixedRate=5000)
+	@Scheduled(fixedRate=1000, initialDelay=5000)
 	public void verificarPedidosProcessamento() {
 		Pedido pedido = new Pedido();
 		pedido.setStatusPedido(StatusPedido.PROCESSAMENTO);
@@ -38,7 +40,12 @@ public class ScheduledTasks extends BaseController {
 			formaPagamento.setCupons(p.getCupom());
 			resultado = this.commands.get(CONSULTAR).execute(formaPagamento);
 			if(resultado.getMsg() == null) {
-				p.setStatusPedido(StatusPedido.APROVADO);	
+				p.setStatusPedido(StatusPedido.APROVADO);
+				for(ItemPedido i : p.getItens()) {
+					i.getProduto().setAction("SALVARTASK");
+					i.getProduto().setEstoque(i.getProduto().getEstoque() - i.getQuantidade());
+					this.commands.get(ALTERAR).execute(i.getProduto());
+				}
 			}else {
 				p.setStatusPedido(StatusPedido.REPROVADO);
 			}

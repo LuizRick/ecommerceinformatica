@@ -12,3 +12,9 @@ $("#btnAutorizarTroca").on('click', function(){
 	$("#statusPedido").val("TROCA_AUTORIZADA");
 	$("#frmPedido").submit();
 });
+
+
+$("#btnRecebimento").on('click', function(){
+	$("#statusPedido").val("TROCADO");
+	$("#frmPedido").submit();
+});

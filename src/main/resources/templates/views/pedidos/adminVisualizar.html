@@ -95,6 +95,8 @@
    								th:if="${pedido.statusPedido == T(com.les.ecommerce.model.venda.StatusPedido).EMTROCA }">Autorizar Troca</button>
    								<button class="btn btn-success" id="btnEntregar" type="button"
    							th:if="${pedido.statusPedido == T(com.les.ecommerce.model.venda.StatusPedido).TRANSITO }">Entregue</button>
+   							<button class="btn btn-success" id="btnRecebimento" type="button"
+   							th:if="${pedido.statusPedido == T(com.les.ecommerce.model.venda.StatusPedido).TROCA_AUTORIZADA }">Confirmar recebimento</button>
    						</form>
    					</div>
     			</div>

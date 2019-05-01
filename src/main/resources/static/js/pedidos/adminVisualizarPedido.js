@@ -13,7 +13,8 @@ $("#btnAutorizarTroca").on('click', function(){
 	$("#frmPedido").submit();
 });
 
-$("#btnTrocado").on('click', function(){
+
+$("#btnRecebimento").on('click', function(){
 	$("#statusPedido").val("TROCADO");
 	$("#frmPedido").submit();
 });

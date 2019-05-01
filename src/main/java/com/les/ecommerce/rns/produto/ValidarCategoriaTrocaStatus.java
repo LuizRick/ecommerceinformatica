@@ -14,6 +14,10 @@ public class ValidarCategoriaTrocaStatus implements IStrategy {
 	public String processar(IEntidade entidade) {
 		Produto produto = (Produto) entidade;
 		
+		if("SALVARTASK".equals(produto.getAction())) {
+			return null;
+		}
+		
 		if(produto.getStatus() == true && !this.isCategoriaAtivacao(produto)) {
 			return "Para ativação deve selecionar uma categoria de ativação valida";
 		}

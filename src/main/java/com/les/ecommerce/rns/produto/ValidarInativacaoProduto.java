@@ -11,6 +11,10 @@ public class ValidarInativacaoProduto implements IStrategy {
 	public String processar(IEntidade entidade) {
 		Produto produto = (Produto) entidade;
 		
+		if("SALVARTASK".equals(produto.getAction())) {
+			return null;
+		}
+		
 		if(produto.getId() == 0) {
 			return "E necessario um produto para inativar";
 		}

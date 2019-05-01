@@ -1,5 +1,6 @@
 (function(){
 	var eventSource = new EventSource("/trocas-chanel/stream");
+	console.log(eventSource);
 	eventSource.onmessage = function(event){
 		var pedido = JSON.parse(event.data);
 		if(pedido.id){

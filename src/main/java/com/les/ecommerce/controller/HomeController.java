@@ -70,11 +70,11 @@ public class HomeController extends BaseController {
 				pedido.setId(findPedido.getId());
 				pedido.setCliente(findPedido.getCliente());
 				return Flux.fromStream(Stream.generate(() -> pedido))
-						.delayElements(Duration.ofSeconds(10));
+						.delayElements(Duration.ofSeconds(1));
 			}
 		}
 		return Flux.fromStream(Stream.generate(() -> pedido))
-				.delayElements(Duration.ofSeconds(10));
+				.delayElements(Duration.ofSeconds(1));
 	}
 	
 	

@@ -31,20 +31,22 @@ public class ScheduledTasks extends BaseController {
 		}
 		
 		
-		for(IEntidade entidade : resultado.getEntidades()) {
-			Pedido p = (Pedido) entidade;
-			FormasPagamento formaPagamento = new FormasPagamento();
-			formaPagamento.setCartao(p.getCartao());
-			formaPagamento.setCupons(p.getCupom());
-			resultado = this.commands.get(CONSULTAR).execute(formaPagamento);
-			if(resultado.getMsg() == null) {
-				p.setStatusPedido(StatusPedido.APROVADO);	
-			}else {
-				p.setStatusPedido(StatusPedido.REPROVADO);
-			}
-			resultado = this.commands.get(ALTERAR).execute(p);
-			if(resultado.getMsg() != null){
-				log.error(resultado.getMsg());
+		if(resultado != null) {
+			for(IEntidade entidade : resultado.getEntidades()) {
+				Pedido p = (Pedido) entidade;
+				FormasPagamento formaPagamento = new FormasPagamento();
+				formaPagamento.setCartao(p.getCartao());
+				formaPagamento.setCupons(p.getCupom());
+				resultado = this.commands.get(CONSULTAR).execute(formaPagamento);
+				if(resultado.getMsg() == null) {
+					p.setStatusPedido(StatusPedido.APROVADO);	
+				}else {
+					p.setStatusPedido(StatusPedido.REPROVADO);
+				}
+				resultado = this.commands.get(ALTERAR).execute(p);
+				if(resultado.getMsg() != null){
+					log.error(resultado.getMsg());
+				}
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.les.ecommerce.controller.BaseController;
@@ -66,6 +67,37 @@ public class CarrinhoController extends BaseController {
 		}
 		session.setAttribute("carrinho", carrinho);
 		return "redirect:/carrinho/listar";
+	}
+	
+	@RequestMapping(value="/alterar")
+	@ResponseBody
+	public Resultado alterar(Integer id,Double quantidade) {
+		Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+		Resultado resultadoSalvar = new Resultado();
+		for(ItemCarrinho item : carrinho.getItens()) {
+			if(item.getProduto().getId() == id) {
+				Produto entidade = new Produto();
+				entidade.setId(item.getProduto().getId());
+				Resultado resultado = this.commands.get(CONSULTAR).execute(entidade);
+				if(resultado.getMsg() != null || resultado.getEntidades() == null || resultado.getEntidades().size() < 1) {
+					resultado.setMsg("nâo foi possivel salvar");
+					return resultado;
+				}
+				Double qtdOld = item.getQuantidade();
+				item.setProduto((Produto)resultado.getEntidades().get(0));
+				item.setQuantidade(quantidade);
+				carrinho.getItens().add(item);
+				resultadoSalvar = this.commands.get(SALVAR).execute(carrinho);
+				
+				if(resultadoSalvar.getMsg() != null) {
+					item.setQuantidade(qtdOld);
+				}
+				return resultadoSalvar;
+			}
+		}
+		
+		this.session.setAttribute("carrinho", carrinho);
+		return resultadoSalvar;
 	}
 	
 	@RequestMapping(value="/remover/{index}")

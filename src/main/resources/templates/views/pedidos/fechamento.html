@@ -71,7 +71,8 @@
     												<input type="hidden" th:field="*{cartao[__${itemStat.index}__].id}" />
     												<div>
     													<b>Numero: </b>
-    													<span th:text="${cartao.numero}"></span>
+    													<span th:text="${cartao.numero}"></span> - 
+    													<span th:text="${cartao.codigoSeguranca}"></span>
     												</div>
     												<div>
     													<b>Validade: </b>

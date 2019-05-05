@@ -9,6 +9,7 @@
 </head>
 <body>
     <div layout:fragment="content">
+    <form th:action="@{/admin/pedidos/alterarStatus}" th:object="${pedido}" method="post" id="frmPedido">
     	<div class="row">
     		<div class="col-lg-12">
     			<div class="card">
@@ -72,13 +73,17 @@
    											<th>#</th>
    											<th>Descrição</th>
    											<th>Quantidade</th>
+   											<th></th>
    										</tr>
    									</thead>
    									<tbody>
-   										<tr th:each="item : ${pedido.itens}">
+   										<tr th:each="item , state: ${pedido.itens}">
    											<td th:text="${#numbers.formatInteger(item.produto.id,10)}"></td>
    											<td th:text="${item.produto.descricao}"></td>
    											<td th:text="${item.quantidade}"></td>
+   											<td>
+   												
+   											</td>
    										</tr>
    									</tbody>
    								</table>
@@ -86,7 +91,6 @@
    						</div>
    					</div>
    					<div class="card-footer">
-   						<form th:action="@{/admin/pedidos/alterarStatus}" th:object="${pedido}" method="post" id="frmPedido">
    							<input type="hidden" th:field="*{id}"/>
    							<input type="hidden" th:field="*{statusPedido}" />
    							<button class="btn btn-success" id="btnDespachar" type="button"
@@ -97,11 +101,12 @@
    							th:if="${pedido.statusPedido == T(com.les.ecommerce.model.venda.StatusPedido).TRANSITO }">Entregue</button>
    							<button class="btn btn-success" id="btnRecebimento" type="button"
    							th:if="${pedido.statusPedido == T(com.les.ecommerce.model.venda.StatusPedido).TROCA_AUTORIZADA }">Confirmar recebimento</button>
-   						</form>
+   						
    					</div>
     			</div>
     		</div>
     	</div>
+    	</form>
     </div>
     <th:block layout:fragment="scriptblock">
 		<script data-main="/js/pedidos/adminVisualizarPedido"

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.model.IEntidade;
+import com.les.ecommerce.model.venda.ItemPedido;
 import com.les.ecommerce.model.venda.Pedido;
 import com.les.ecommerce.model.venda.StatusPedido;
 
@@ -37,9 +38,12 @@ public class PedidosAdminController extends BaseController {
 	}
 	
 	@RequestMapping("/admin/pedidos/alterarStatus")
-	public String verificar(Pedido pedido, RedirectAttributes redAttr, Authentication auth) {
+	public String verificar(Pedido pedido, List<ItemPedido> itens,RedirectAttributes redAttr, Authentication auth) {
 		boolean hasAuthAdmin = this.hasRole("ADMIN", auth.getAuthorities());
 		if(hasAuthAdmin) {
+			if(pedido.getStatusPedido() == StatusPedido.TROCADO) {
+				return "redirect:/admin/pedidos/visualizar/" + pedido.getId();
+			}
 			Pedido pedidoConsulta = new Pedido();
 			pedidoConsulta.setId(pedido.getId());
 			Resultado resultado = this.commands.get(CONSULTAR).execute(pedidoConsulta);

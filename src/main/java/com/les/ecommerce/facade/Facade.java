@@ -37,7 +37,6 @@ import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosEnderecos;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoCobrancaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoEntregaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarSenhaForteCliente;
-import com.les.ecommerce.rns.pedido.ValidarCartaoCredito;
 import com.les.ecommerce.rns.pedido.ValidarCupomCompra;
 import com.les.ecommerce.rns.pedido.ValidarDadosObrigatorioPedido;
 import com.les.ecommerce.rns.pedido.ValidarFormasPagamento;
@@ -57,16 +56,17 @@ import com.les.ecommerce.rns.vendas.ValidarDadosAddCarrinho;
 import com.les.ecommerce.rns.vendas.ValidarQuantidadeEstoqueAddCarrinho;
 
 @Component
-public class Facade  implements IFacade{
+public class Facade implements IFacade{
+	private static final String UNUSED = "unused";
 	private Resultado resultado;
 	private Map<String, Map<String, List<IStrategy>>> rns;
 	private Map<String, IDAO> repositories;
 	
 	private static final String SALVAR = "SALVAR";
 	private static final String ALTERAR = "ALTERAR";
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	private static final String CONSULTAR = "CONSULTAR";
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	private static final String DELETAR = "DELETAR";
 	
 	@Autowired
@@ -214,6 +214,7 @@ public class Facade  implements IFacade{
 		if (msg == null && entidade instanceof EntidadeDominio && !(entidade instanceof INotPersistente)) {
 			try {
 				repositories.get(nmClass).salvar(entidade);
+				
 			}catch(Exception ex) {
 				ex.printStackTrace();
 				resultado.setMsg("Não foi possivel salvar os dados");

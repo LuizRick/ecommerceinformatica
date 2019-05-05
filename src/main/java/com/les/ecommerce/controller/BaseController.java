@@ -22,6 +22,7 @@ import com.les.ecommerce.command.VisualizarCommand;
 
 @Component
 public class BaseController {
+	
 	@Autowired
 	protected SalvarCommand salvarCmd;
 	@Autowired

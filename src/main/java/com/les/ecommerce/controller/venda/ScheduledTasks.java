@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.model.IEntidade;
-import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.model.venda.FormasPagamento;
 import com.les.ecommerce.model.venda.ItemPedido;
 import com.les.ecommerce.model.venda.Pedido;
@@ -24,13 +23,14 @@ public class ScheduledTasks extends BaseController {
 	 * processamento e validar a forma de pagamento e veracidade de informações da
 	 * venda
 	 */
-	@Scheduled(fixedRate = 1000, initialDelay = 5000)
+	@Scheduled(fixedRate = 10000, initialDelay = 5000)
 	public void verificarPedidosProcessamento() {
 		Pedido pedido = new Pedido();
 		pedido.setStatusPedido(StatusPedido.PROCESSAMENTO);
 		Resultado resultado = this.commands.get(CONSULTAR).execute(pedido);
 		if (resultado.getMsg() != null) {
 			log.error(resultado.getMsg());
+			return;
 		}
 
 		for (IEntidade entidade : resultado.getEntidades()) {

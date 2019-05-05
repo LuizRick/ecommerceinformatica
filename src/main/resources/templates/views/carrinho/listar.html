@@ -26,7 +26,7 @@
 							<td th:text="${item.produto.descricao}"></td>
 							<td th:text="'R$' + ${#numbers.formatDecimal(item.produto.valorVenda, 0, 'POINT', 2, 'COMMA')}"></td>
 							<td>
-								<input type="number" th:value="${#numbers.formatDecimal(item.quantidade,0,0)}" />
+								<input type="number" th:value="${#numbers.formatDecimal(item.quantidade,0,0)}" id="quantidade"  th:attr="data-cod=${item.produto.id}"/>
 							</td>
 							<td 
 							th:text="'R$' + ${#numbers.formatDecimal(item.quantidade * item.produto.valorVenda, 0, 'POINT', 2, 'COMMA')}">
@@ -81,5 +81,9 @@
 			}
 		</script>
 	</div>
+	 <th:block layout:fragment="scriptblock">
+		<script data-main="/js/carrinho/listar"
+			src="/webjars/requirejs/require.min.js"></script>
+	</th:block>
 </body>
 </html>

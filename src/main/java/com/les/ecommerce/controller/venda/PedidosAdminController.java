@@ -1,20 +1,18 @@
 package com.les.ecommerce.controller.venda;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.model.IEntidade;
+import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.model.venda.ItemPedido;
 import com.les.ecommerce.model.venda.Pedido;
 import com.les.ecommerce.model.venda.StatusPedido;
@@ -62,7 +60,9 @@ public class PedidosAdminController extends BaseController {
 				
 				for(ItemPedido item : retorno.getItensRetorno()) {
 					resultadoRetorno = this.commands.get(CONSULTAR).execute(item.getProduto());
-					
+					Produto produto = (Produto)resultado.getEntidades().get(0);
+					produto.setEstoque(produto.getEstoque() + item.getQuantidade());
+					resultadoRetorno = this.commands.get(ALTERAR).execute(produto);
 				}
 				
 			}

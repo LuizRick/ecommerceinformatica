@@ -16,8 +16,5 @@ $("#btnAutorizarTroca").on('click', function(){
 
 $("#btnRecebimento").on('click', function(){
 	$("#statusPedido").val("TROCADO");
-	$("[data-sel-item]").each(function(i, elt){
-		console.dir(i);
-		console.dir(elt);
-	});
+	$("#frmPedido").submit();
 });

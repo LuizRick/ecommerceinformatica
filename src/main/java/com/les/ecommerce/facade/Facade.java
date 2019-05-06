@@ -28,6 +28,7 @@ import com.les.ecommerce.model.produto.GrupoPrecificacao;
 import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.model.venda.FormasPagamento;
 import com.les.ecommerce.model.venda.Pedido;
+import com.les.ecommerce.model.wrappers.RetornoEstoqueForm;
 import com.les.ecommerce.rns.IStrategy;
 import com.les.ecommerce.rns.cliente.ValidarCartaoObrigatorioNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarConfirmacaoSenha;
@@ -41,6 +42,7 @@ import com.les.ecommerce.rns.pedido.ValidarCupomCompra;
 import com.les.ecommerce.rns.pedido.ValidarDadosObrigatorioPedido;
 import com.les.ecommerce.rns.pedido.ValidarFormasPagamento;
 import com.les.ecommerce.rns.pedido.ValidarGeracaoValorCupom;
+import com.les.ecommerce.rns.pedido.ValidarProdutosRetornoEstoque;
 import com.les.ecommerce.rns.pedido.ValidarQuantidadeEstoque;
 import com.les.ecommerce.rns.pedido.ValidarUsoCartaoCupom;
 import com.les.ecommerce.rns.pedido.ValidarValorMinimoCartao;
@@ -204,6 +206,15 @@ public class Facade implements IFacade{
 		rns.put(User.class.getName(), rnsUser);
 		rns.put(Pedido.class.getName(), rnsPedido);
 		rns.put(FormasPagamento.class.getName(), rnsFormasPagamento);
+		
+		
+		Map<String, List<IStrategy>> rnsRetornoEstoque = new HashMap<>();
+		List<IStrategy> rnsSalvarRetornoEstoque = new ArrayList<IStrategy>();
+		rnsSalvarRetornoEstoque.add(new ValidarProdutosRetornoEstoque());
+		rnsRetornoEstoque.put(SALVAR, rnsSalvarRetornoEstoque);
+		rns.put(RetornoEstoqueForm.class.getName(), rnsRetornoEstoque);
+		
+		
 	}
 
 	@Override

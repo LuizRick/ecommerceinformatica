@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import org.springframework.stereotype.Component;
 
+import com.les.ecommerce.model.cliente.Cupom;
 import com.les.ecommerce.model.venda.CartaoPedido;
 import com.les.ecommerce.model.venda.Compra;
 import com.les.ecommerce.model.venda.EnderecoPedido;
@@ -20,6 +21,12 @@ public class PedidoFreteHelper {
 		Double CepDigits = 777D;
 		Double f = Double.parseDouble(lastDigits);
 		return Math.abs((f - CepDigits)) * Math.random();
+	}
+	
+	public Cupom buildCupomFromPedido(Pedido pedido) {
+		Cupom cupom = new Cupom();
+		
+		return cupom;
 	}
 	
 	public Pedido mapperPedido(Compra compra) {

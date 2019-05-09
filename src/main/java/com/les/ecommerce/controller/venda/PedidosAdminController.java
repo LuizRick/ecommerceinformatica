@@ -51,6 +51,7 @@ public class PedidosAdminController extends BaseController {
 			pedidoConsulta.setStatusPedido(pedido.getStatusPedido());
 			
 			if(pedido.getStatusPedido() == StatusPedido.TROCADO) {
+				
 				retorno.setPedido(pedidoConsulta);
 				Resultado resultadoRetorno = this.commands.get(SALVAR).execute(retorno);
 				if(resultadoRetorno.getMsg() != null) {
@@ -63,7 +64,12 @@ public class PedidosAdminController extends BaseController {
 					Produto produto = (Produto)resultado.getEntidades().get(0);
 					produto.setEstoque(produto.getEstoque() + item.getQuantidade());
 					resultadoRetorno = this.commands.get(ALTERAR).execute(produto);
+					if(resultadoRetorno.getMsg() != null) {
+						redAttr.addFlashAttribute("resultado", resultadoRetorno);
+						return "redirect:/admin/pedidos/visualizar/" + pedido.getId();
+					}
 				}
+				
 				
 			}
 			

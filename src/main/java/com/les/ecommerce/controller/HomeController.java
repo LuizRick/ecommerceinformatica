@@ -25,9 +25,9 @@ import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.produto.Produto;
 import com.les.ecommerce.model.venda.Pedido;
 import com.les.ecommerce.model.venda.StatusPedido;
+import com.scala.pedido.helper.PedidoHelper;
 
 import reactor.core.publisher.Flux;
-
 @Controller
 public class HomeController extends BaseController {
 
@@ -36,6 +36,9 @@ public class HomeController extends BaseController {
 
 	@Autowired
 	private ClienteHelper clienteHelper;
+	
+	@Autowired
+	private PedidoHelper helper;
 
 	@ResponseBody
 	@RequestMapping(value = "/webjarsjs", produces = "application/javascript")
@@ -52,6 +55,7 @@ public class HomeController extends BaseController {
 		Resultado resultado = this.commands.get(CONSULTAR).execute(produto);
 		model.addAttribute("produtos", resultado.getEntidades());
 		model.addAttribute("item", new ItemCarrinho());
+		helper.buildCupomFromPedido(new Pedido());
 		return "views/home";
 	}
 

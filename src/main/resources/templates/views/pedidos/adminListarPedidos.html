@@ -22,6 +22,19 @@
     			<div class="card">
     				<div class="card-header">
     					<h2>Lista de pedidos</h2>
+    					<form th:action="@{/admin/cliente/pedidos}" method="post" th:object="${pedido}">
+		    				<div class="form-row">
+		    					<div class="form-group col-mg-4">
+		    						<select class="form-control" th:field="*{statusPedido}">
+										<option value="">Selecionar tipo</option>
+										<option th:each="state: ${T(com.les.ecommerce.model.venda.StatusPedido).values()}"
+												th:text="${state.value()}"
+												th:value="${state}"></option>
+									</select>
+		    					</div>
+		    				</div>
+		    				<button type="submit" id="btnFiltrar" class="btn btn-primary">Filtrar</button>
+    					</form>
     				</div>
     				<div class="card-body">
     					<table class="table table-dark">
@@ -29,7 +42,7 @@
     							<tr>
     								<th>Id</th>
     								<th>Status</th>
-    								<th>Ações</th>
+    								<th>Acoes</th>
     							</tr>
     						</thead>
     						<tbody>

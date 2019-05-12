@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.les.ecommerce.dao.IDAO;
 import com.les.ecommerce.dao.cliente.ClienteDAO;
+import com.les.ecommerce.dao.cliente.CupomDAO;
 import com.les.ecommerce.dao.pedido.PedidoDAO;
 import com.les.ecommerce.dao.produto.DepartamentoDAO;
 import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
@@ -23,6 +24,7 @@ import com.les.ecommerce.model.INotPersistente;
 import com.les.ecommerce.model.aplication.Carrinho;
 import com.les.ecommerce.model.autenticacao.User;
 import com.les.ecommerce.model.cliente.Cliente;
+import com.les.ecommerce.model.cliente.Cupom;
 import com.les.ecommerce.model.produto.Departamento;
 import com.les.ecommerce.model.produto.GrupoPrecificacao;
 import com.les.ecommerce.model.produto.Produto;
@@ -89,6 +91,9 @@ public class Facade implements IFacade{
 	
 	@Autowired
 	private PedidoDAO pedidoDAO;
+	
+	@Autowired
+	private CupomDAO cupomDAO;
 	
 	@PostConstruct
 	public void init() {
@@ -199,6 +204,7 @@ public class Facade implements IFacade{
 		repositories.put(Cliente.class.getName(),clienteDAO);
 		repositories.put(User.class.getName(), userDAO);
 		repositories.put(Pedido.class.getName(), pedidoDAO);
+		repositories.put(Cupom.class.getName(), cupomDAO);
 		
 		rns.put(Produto.class.getName(),rnsProduto);
 		rns.put(Cliente.class.getName(), rnsCliente);
@@ -213,6 +219,8 @@ public class Facade implements IFacade{
 		rnsSalvarRetornoEstoque.add(new ValidarProdutosRetornoEstoque());
 		rnsRetornoEstoque.put(SALVAR, rnsSalvarRetornoEstoque);
 		rns.put(RetornoEstoqueForm.class.getName(), rnsRetornoEstoque);
+		
+		
 		
 		
 	}

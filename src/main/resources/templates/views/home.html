@@ -35,7 +35,7 @@
 								<img src="/images/info-image.jpg" class="card-img-top">
 								<div class="card-body">
 									<h5 class="card-title" th:text="${produto.descricao}"></h5>
-									<p class="card-text" th:text=${produto.departamento.nome}>Descrição do produto</p>
+									<p class="card-text" th:text=${produto.departamento.nome}>DescriÃ§Ã£o do produto</p>
 								</div>
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item">
@@ -75,12 +75,12 @@
 				eventSource.onmessage = function(event){
 					var pedido = JSON.parse(event.data);
 					if(pedido.id){
-						$(".msg-info").html(`Ola <b>${pedido.cliente.nome}</b> seu pedido de número ${pedido.id} esta com status ${pedido.statusPedido}`);
+						$(".msg-info").html(`Ola <b>${pedido.cliente.nome}</b> seu pedido de numero ${pedido.id} esta com status ${pedido.statusPedido}`);
 					}
 				}
 				
 				eventSource.onerror = function(){
-					
+					console.log(arguments);
 				}
 			}());
 		</script>

@@ -83,6 +83,7 @@ public class PedidoController extends BaseController {
 		if(resultado.getMsg() == null) {
 			resultado.setMsg("O pedido foi finalizado com sucesso");
 			redirAttr.addFlashAttribute("resultado", resultado);
+			session.removeAttribute("carrinho");
 			return "redirect:/pedido/cliente/listar";
 		}
 		

@@ -77,7 +77,7 @@
    									<thead>
    										<tr>
    											<th>#</th>
-   											<th>Descrição</th>
+   											<th>Descricao</th>
    											<th>Quantidade</th>
    											<th></th>
    										</tr>
@@ -87,7 +87,7 @@
    											<td th:text="${#numbers.formatInteger(item.produto.id,10)}"></td>
    											<td th:text="${item.produto.descricao}"></td>
    											<td th:text="${item.quantidade}"></td>
-   											<td>
+   											<td th:if="${pedido.statusPedido == T(com.les.ecommerce.model.venda.StatusPedido).TROCA_AUTORIZADA}">
    												<input type="hidden" th:name="|itensRetorno[${state.index}].produto.id|" 
    													th:value="${item.produto.id}" />
    												<input type="number" th:name="|itensRetorno[${state.index}].quantidade|" />

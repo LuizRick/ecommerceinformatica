@@ -1,6 +1,8 @@
 package com.les.ecommerce.helpers.pedido;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
@@ -20,12 +22,20 @@ public class PedidoFreteHelper {
 		String lastDigits = cep.substring(cep.length() - 3);
 		Double CepDigits = 777D;
 		Double f = Double.parseDouble(lastDigits);
-		return Math.abs((f - CepDigits)) * Math.random();
+		Random rand = new Random(20);
+		return Math.abs((f - CepDigits)) * rand.nextDouble();
 	}
 	
 	public Cupom buildCupomFromPedido(Pedido pedido) {
 		Cupom cupom = new Cupom();
-		
+		Double total = 0.0;
+		for(ItemPedido item : pedido.getItens()) {
+			total += item.getProduto().getValorVenda();
+		}
+		cupom.setAtivo(true);
+		cupom.setValor(total);
+		cupom.setCodigo("CUPOMTROCA"+pedido.getId());
+		cupom.setCreated(LocalDateTime.now());
 		return cupom;
 	}
 	

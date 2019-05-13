@@ -2,6 +2,7 @@ package com.les.ecommerce.helpers.pedido;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.stereotype.Component;
@@ -71,7 +72,18 @@ public class PedidoFreteHelper {
 		
 		if(compra.getCupom() != null) {
 			compra.getCupom().forEach(cupom -> {
-				pedido.getCupom().add(cupom);
+				Optional<Cupom> optCupom = 
+						compra.getCliente()
+						.getCupons()
+						.stream()
+						.filter(c -> c.getId() == cupom.getId())
+						.findFirst();
+				
+				if(optCupom.isPresent()) {
+					Cupom c = optCupom.get();
+					c.setId(0);
+					pedido.getCupom().add(c);
+				}
 			});
 		}
 		return pedido;

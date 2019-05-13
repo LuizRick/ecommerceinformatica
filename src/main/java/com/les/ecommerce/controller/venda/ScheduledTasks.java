@@ -1,5 +1,8 @@
 package com.les.ecommerce.controller.venda;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.model.IEntidade;
+import com.les.ecommerce.model.cliente.Cupom;
 import com.les.ecommerce.model.venda.FormasPagamento;
 import com.les.ecommerce.model.venda.ItemPedido;
 import com.les.ecommerce.model.venda.Pedido;
@@ -46,9 +50,30 @@ public class ScheduledTasks extends BaseController {
 					i.getProduto().setEstoque(i.getProduto().getEstoque() - i.getQuantidade());
 					this.commands.get(ALTERAR).execute(i.getProduto());
 				}
+				
 			} else {
 				p.setStatusPedido(StatusPedido.REPROVADO);
+				p.setMsgPedido(resultado.getMsg());
 			}
+			
+			List<Cupom> cupons = new ArrayList<>();
+			p.getCliente().getCupons().forEach(c -> {
+				p.getCupom().forEach(cupomPedido -> {
+					if(cupomPedido.getCodigo().equalsIgnoreCase(c.getCodigo())) {
+						c.setAtivo(false);
+					}
+					cupons.add(c);
+				});
+			});
+			
+			p.getCliente().setCupons(cupons);
+			p.getCliente().setAction("SALVARTASK");
+			resultado = this.commands.get(ALTERAR).execute(p.getCliente());
+			if (resultado.getMsg() != null) {
+				log.error(resultado.getMsg());
+				return;
+			}
+			
 			resultado = this.commands.get(ALTERAR).execute(p);
 			if (resultado.getMsg() != null) {
 				log.error(resultado.getMsg());

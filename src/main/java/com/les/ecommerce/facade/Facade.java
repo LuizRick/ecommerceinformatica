@@ -40,13 +40,13 @@ import com.les.ecommerce.rns.cliente.ValidarDadosObrigatoriosEnderecos;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoCobrancaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarEnderecoEntregaNovoCliente;
 import com.les.ecommerce.rns.cliente.ValidarSenhaForteCliente;
-import com.les.ecommerce.rns.pedido.ValidarCupomCompra;
+import com.les.ecommerce.rns.pedido.ValidarCupomCompraAtivo;
+import com.les.ecommerce.rns.pedido.ValidarCupomCredito;
 import com.les.ecommerce.rns.pedido.ValidarDadosObrigatorioPedido;
 import com.les.ecommerce.rns.pedido.ValidarFormasPagamento;
 import com.les.ecommerce.rns.pedido.ValidarGeracaoValorCupom;
 import com.les.ecommerce.rns.pedido.ValidarProdutosRetornoEstoque;
 import com.les.ecommerce.rns.pedido.ValidarQuantidadeEstoque;
-import com.les.ecommerce.rns.pedido.ValidarUsoCartaoCupom;
 import com.les.ecommerce.rns.pedido.ValidarValorMinimoCartao;
 import com.les.ecommerce.rns.produto.ValidarCategoriaTrocaStatus;
 import com.les.ecommerce.rns.produto.ValidarDadosObrigatoriosProdutos;
@@ -132,15 +132,14 @@ public class Facade implements IFacade{
 		
 		List<IStrategy> rnsConsultarFormaPagamento = new ArrayList<IStrategy>();
 		//rnsConsultarFormaPagamento.add(new ValidarCartaoCredito());
-		rnsConsultarFormaPagamento.add(new ValidarCupomCompra());
+		rnsConsultarFormaPagamento.add(new ValidarCupomCompraAtivo());
 		
 		rnsSalvarPedido.add(new ValidarDadosObrigatorioPedido());
-		rnsSalvarPedido.add(new ValidarCupomCompra());
 		rnsSalvarPedido.add(new ValidarFormasPagamento());
 		rnsSalvarPedido.add(new ValidarGeracaoValorCupom());
 		rnsSalvarPedido.add(new ValidarQuantidadeEstoque());
-		rnsSalvarPedido.add(new ValidarUsoCartaoCupom());
 		rnsSalvarPedido.add(new ValidarValorMinimoCartao());
+		rnsSalvarPedido.add(new ValidarCupomCredito());
 		
 		
 		rnsSalvarProduto.add(new ValidarDadosObrigatoriosProdutos());

@@ -15,7 +15,7 @@ public class EnderecoPedido extends Endereco {
 		Mapper mapper = new DozerBeanMapper();
 		EnderecoPedido ep = new EnderecoPedido();
 		mapper.map(endereco, ep);
-		endereco.setId(0);
+		ep.setId(0);
 		return ep;
 	}
 }

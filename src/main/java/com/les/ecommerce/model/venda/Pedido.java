@@ -39,6 +39,16 @@ public class Pedido extends EntidadeDominio implements IEntidade {
 	private Set<Cupom> cupom;
 	
 	private Double valorFrete;
+	
+	private String msgPedido;
+
+	public String getMsgPedido() {
+		return msgPedido;
+	}
+
+	public void setMsgPedido(String msgPedido) {
+		this.msgPedido = msgPedido;
+	}
 
 	public Cliente getCliente() {
 		return cliente;

@@ -15,11 +15,6 @@ public class ValidarDadosObrigatorioPedido implements IStrategy {
 			sb.append("<div>E necessario selecionar um endereço de entrega valido</div>");
 		}
 		
-		
-		if(pedido.getCartao() == null || pedido.getCartao().size() <= 0) {
-			sb.append("<div>E necessario preencher o valor de um dos cartões para finalizar sua compra</div>");
-		}
-		
 		if(pedido.getCliente() == null) {
 			sb.append("<div>E necesario ter um cliente logado para fazer compras</div>");
 		}

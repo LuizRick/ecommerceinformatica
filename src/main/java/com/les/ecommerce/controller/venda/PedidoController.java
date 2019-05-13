@@ -2,6 +2,7 @@ package com.les.ecommerce.controller.venda;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.aplication.Carrinho;
 import com.les.ecommerce.model.aplication.ItemCarrinho;
 import com.les.ecommerce.model.cliente.Cliente;
+import com.les.ecommerce.model.cliente.Cupom;
 import com.les.ecommerce.model.cliente.Endereco;
 import com.les.ecommerce.model.venda.Compra;
 import com.les.ecommerce.model.venda.Pedido;
@@ -96,7 +98,16 @@ public class PedidoController extends BaseController {
 			}
 		}
 		
-		if(compra.getCupom() == null) {
+		if(compra.getCupom() != null && cliente.getCupons() != null) {
+			List<Cupom> cupons = new ArrayList<>();
+			compra.getCupom().forEach(c -> {
+				cliente.getCupons().forEach(clienteCup -> {
+					if(c.getId() == clienteCup.getId())
+						cupons.add(clienteCup);
+				});
+			});
+			compra.setCupom(cupons);
+		} else {
 			compra.setCupom(new ArrayList<>());
 		}
 		compra.setCartao(new ArrayList<>());
@@ -154,5 +165,13 @@ public class PedidoController extends BaseController {
 			redAttr.addFlashAttribute("resultado", resultado);
 		}
 		return "redirect:/pedido/cliente/listar";
+	}
+	
+	@RequestMapping(value="/cupom/get")
+	@ResponseBody
+	public Optional<Cupom> getCupom(String cupom, Authentication auth) {
+		Cliente cliente = clienteHelper.getClienteAuth(auth);
+		return cliente.getCupons().stream().filter( c -> c.getCodigo().equalsIgnoreCase(cupom))
+				.findFirst();
 	}
 }

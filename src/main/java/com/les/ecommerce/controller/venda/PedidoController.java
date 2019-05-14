@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.base.Objects;
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.helpers.ClienteHelper;
@@ -102,8 +103,10 @@ public class PedidoController extends BaseController {
 			List<Cupom> cupons = new ArrayList<>();
 			compra.getCupom().forEach(c -> {
 				cliente.getCupons().forEach(clienteCup -> {
-					if(c.getId() == clienteCup.getId())
-						cupons.add(clienteCup);
+					if(clienteCup != null) {
+						if(c.getId() == clienteCup.getId())
+							cupons.add(clienteCup);
+					}
 				});
 			});
 			compra.setCupom(cupons);
@@ -171,7 +174,9 @@ public class PedidoController extends BaseController {
 	@ResponseBody
 	public Optional<Cupom> getCupom(String cupom, Authentication auth) {
 		Cliente cliente = clienteHelper.getClienteAuth(auth);
-		return cliente.getCupons().stream().filter( c -> c.getCodigo().equalsIgnoreCase(cupom))
+		return cliente.getCupons().stream()
+				.filter(c -> java.util.Objects.nonNull(c))
+				.filter( c -> cupom.equalsIgnoreCase(c.getCodigo()))
 				.findFirst();
 	}
 }

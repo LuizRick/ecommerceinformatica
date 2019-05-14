@@ -2,6 +2,7 @@ package com.les.ecommerce.controller.venda;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,8 +58,8 @@ public class ScheduledTasks extends BaseController {
 			}
 			
 			List<Cupom> cupons = new ArrayList<>();
-			p.getCliente().getCupons().forEach(c -> {
-				p.getCupom().forEach(cupomPedido -> {
+			p.getCliente().getCupons().stream().filter(cup -> Objects.nonNull(cup)).forEach(c -> {
+				p.getCupom().stream().filter(cup -> Objects.nonNull(cup)).forEach(cupomPedido -> {
 					if(cupomPedido.getCodigo().equalsIgnoreCase(c.getCodigo())) {
 						c.setAtivo(false);
 					}

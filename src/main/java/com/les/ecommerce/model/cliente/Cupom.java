@@ -6,6 +6,7 @@ import com.les.ecommerce.model.EntidadeDominio;
 
 @Entity
 public class Cupom extends EntidadeDominio implements IFormaPagamento {
+	
 	private String codigo;
 	private Double valor;
 	private boolean ativo;

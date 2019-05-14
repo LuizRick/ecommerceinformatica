@@ -21,11 +21,11 @@ public class ValidarValorMinimoCartao implements IStrategy {
 				totalCompra += pedido.getValorFrete();
 			}
 			
-			Double vintePorcento = totalCompra * 0.2D;
+			Double vintePorcento = totalCompra * 0.1D;
 			Double totalMenosVinte = totalCompra - vintePorcento;
 			for(Cartao cartao : pedido.getCartao()){
-				if(cartao.getValor() <= totalMenosVinte) {
-					return "O valor minimo para cada cartão e de 20% do valor da compra ou " + totalMenosVinte + " para cada cartão";
+				if(cartao.getValor() <= vintePorcento) {
+					return "O valor minimo para cada cartão e de 10% do valor da compra ou " + vintePorcento + " para cada cartão";
 				}
 			}
 		}

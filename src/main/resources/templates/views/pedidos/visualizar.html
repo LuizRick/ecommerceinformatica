@@ -114,7 +114,7 @@
    										</tr>
    									</thead>
    									<tbody>
-   										<tr th:each="cupom : ${pedido.cliente.cupons}">
+   										<tr th:each="cupom : ${pedido.cliente.cupons}" th:if="${cupom != null}">
    											<td th:text="${cupom.id}"></td>
    											<td th:text="${cupom.codigo}"></td>
    											<td th:text="${cupom.valor}"></td>

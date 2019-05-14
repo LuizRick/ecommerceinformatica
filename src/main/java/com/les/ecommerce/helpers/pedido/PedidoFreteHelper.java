@@ -2,6 +2,7 @@ package com.les.ecommerce.helpers.pedido;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -76,6 +77,7 @@ public class PedidoFreteHelper {
 						compra.getCliente()
 						.getCupons()
 						.stream()
+						.filter(c -> Objects.nonNull(c))
 						.filter(c -> c.getId() == cupom.getId())
 						.findFirst();
 				

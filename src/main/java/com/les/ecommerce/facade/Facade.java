@@ -10,10 +10,12 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.les.ecommerce.application.venda.Relatorio;
 import com.les.ecommerce.dao.IDAO;
 import com.les.ecommerce.dao.cliente.ClienteDAO;
 import com.les.ecommerce.dao.cliente.CupomDAO;
 import com.les.ecommerce.dao.pedido.PedidoDAO;
+import com.les.ecommerce.dao.pedido.RelatorioPedidoDAO;
 import com.les.ecommerce.dao.produto.DepartamentoDAO;
 import com.les.ecommerce.dao.produto.GrupoPrecificacaoDAO;
 import com.les.ecommerce.dao.produto.ProdutoDAO;
@@ -43,8 +45,10 @@ import com.les.ecommerce.rns.cliente.ValidarSenhaForteCliente;
 import com.les.ecommerce.rns.pedido.ValidarCupomCompraAtivo;
 import com.les.ecommerce.rns.pedido.ValidarCupomCredito;
 import com.les.ecommerce.rns.pedido.ValidarDadosObrigatorioPedido;
+import com.les.ecommerce.rns.pedido.ValidarDataInicialFinalRelatorio;
 import com.les.ecommerce.rns.pedido.ValidarFormasPagamento;
 import com.les.ecommerce.rns.pedido.ValidarGeracaoValorCupom;
+import com.les.ecommerce.rns.pedido.ValidarIntervaloDataRelatorio;
 import com.les.ecommerce.rns.pedido.ValidarProdutosRetornoEstoque;
 import com.les.ecommerce.rns.pedido.ValidarQuantidadeEstoque;
 import com.les.ecommerce.rns.pedido.ValidarValorMinimoCartao;
@@ -61,18 +65,14 @@ import com.les.ecommerce.rns.vendas.ValidarQuantidadeEstoqueAddCarrinho;
 
 @Component
 public class Facade implements IFacade{
-	private static final String UNUSED = "unused";
 	private Resultado resultado;
 	private Map<String, Map<String, List<IStrategy>>> rns;
 	private Map<String, IDAO> repositories;
 	
 	private static final String SALVAR = "SALVAR";
 	private static final String ALTERAR = "ALTERAR";
-	@SuppressWarnings(UNUSED)
 	private static final String CONSULTAR = "CONSULTAR";
-	@SuppressWarnings(UNUSED)
-	private static final String DELETAR = "DELETAR";
-	
+
 	@Autowired
 	private GrupoPrecificacaoDAO grupoPrecificacaoDAO;
 	
@@ -94,6 +94,10 @@ public class Facade implements IFacade{
 	
 	@Autowired
 	private CupomDAO cupomDAO;
+	
+	
+	@Autowired
+	private RelatorioPedidoDAO relatorioPedidoDAO;
 	
 	@PostConstruct
 	public void init() {
@@ -118,12 +122,11 @@ public class Facade implements IFacade{
 		
 		
 		Map<String, List<IStrategy>> rnsCliente = new HashMap<>();
-		Map<String, List<IStrategy>> rnsCartao = new HashMap<>();
+
 		
 		
 		//regras para user
 		List<IStrategy> rnsSalvarUser = new ArrayList<IStrategy>();
-		List<IStrategy> rnsSalvarCartao = new ArrayList<IStrategy>();
 		
 		//regras pedido
 		Map<String, List<IStrategy>> rnsPedido = new HashMap<>();
@@ -204,6 +207,7 @@ public class Facade implements IFacade{
 		repositories.put(User.class.getName(), userDAO);
 		repositories.put(Pedido.class.getName(), pedidoDAO);
 		repositories.put(Cupom.class.getName(), cupomDAO);
+		repositories.put(Relatorio.class.getName(), relatorioPedidoDAO);
 		
 		rns.put(Produto.class.getName(),rnsProduto);
 		rns.put(Cliente.class.getName(), rnsCliente);
@@ -219,7 +223,13 @@ public class Facade implements IFacade{
 		rnsRetornoEstoque.put(SALVAR, rnsSalvarRetornoEstoque);
 		rns.put(RetornoEstoqueForm.class.getName(), rnsRetornoEstoque);
 		
+		Map<String,List<IStrategy>> rnsRelatorio = new HashMap<>();
+		List<IStrategy> rnsConsultarRelatorio = new ArrayList<>();
+		rnsConsultarRelatorio.add(new ValidarDataInicialFinalRelatorio());
+		rnsConsultarRelatorio.add(new ValidarIntervaloDataRelatorio());
 		
+		rnsRelatorio.put(CONSULTAR, rnsConsultarRelatorio);
+		rns.put(Relatorio.class.getName(), rnsRelatorio);
 		
 		
 	}

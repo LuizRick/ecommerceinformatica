@@ -1,7 +1,6 @@
 package com.les.ecommerce.rns.pedido;
 
 import com.les.ecommerce.model.IEntidade;
-import com.les.ecommerce.model.cliente.Cartao;
 import com.les.ecommerce.model.venda.Pedido;
 import com.les.ecommerce.model.venda.StatusPedido;
 import com.les.ecommerce.rns.IStrategy;

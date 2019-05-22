@@ -59,19 +59,40 @@ $(document).ready(function(){
 		$.ajax({
 			url:'/relatorio/vendas/grafico',
 			method:'POST',
-			data: {
-				dataInicial: $("#dataInicial").val() + "T00:00",
-				dataFinal: $("#dataFinal").val() + "T00:00"
-			},
+			data: getDataInputFromForm(),
 			success: function(data){
 				if(data.msg != null){
 					$("#modalGeral").modal('toggle').find('.modal-title').text("Erro");
 					$("#modalGeral").modal('toggle').find('.modal-body').html(data.msg);
 				}
+				
+				console.dir(data.entidades);
+				
 			},
 			error:function(){
 				alert("Não foi possivel gerar o grafico")
 			}
 		});
 	});
+	
+	
+	function getDataInputFromForm(){
+		var dataInicial =  IfElse(!isInputEmpty("#dataInicial"), () => $("#dataInicial").val() + "T00:00" , () => null);
+		var dataFinal = IfElse(!isInputEmpty("#dataFinal"), () => $("#dataFinal").val() + "T00:00", () => null);
+		var nome = IfElse(!isInputEmpty("#departamento"), () => $("#departamento").val(), () => null);
+		var bandeira = IfElse(!isInputEmpty("#bandeira"), () => $("#bandeira").val(), () => null);
+		var status =  IfElse(!isInputEmpty("#status"), () => $("#status").val(), () => null);
+	}
+	
+	function isInputEmpty(x){
+		return !$(x).val();
+	}
+	
+	function IfElse(exp,funTrue,funFalse,args){
+		if(exp){
+			return funTrue.apply(this,args);
+		}else{
+			return funFalse.apply(this,args);
+		}
+	}
 });

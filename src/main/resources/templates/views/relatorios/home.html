@@ -26,7 +26,7 @@
 							<div class="col">
 								<label for="validationTooltip05">Departamento</label> 
 								<select class="form-control" id="departamento">
-								<option value="">Selecionar departamento</option>
+								<option value="">Todos departamento</option>
 								<option th:each="departamento: ${departs}"
 										th:value="${departamento.id}"
 										th:text="${departamento.nome}">Wireframe</option>
@@ -37,7 +37,7 @@
 							<div class="col form-group">
 								<label>Bandeira Cartao</label>
 								<select class="form-control" id="bandeira">
-									<option value="">Selecionar bandeira</option>
+									<option value="">Todas as bandeira</option>
 									<option th:each="state : ${T(com.les.ecommerce.model.cliente.BandeiraCartao).values()}"
 											th:text="${state.value()}"
 											th:value="${state}">
@@ -47,8 +47,8 @@
 						<div class="row">
 							<div class="col form-group">
 								<label>Status Pedido</label>
-								<select class="form-control">
-									<option value="">Selecionar tipo</option>
+								<select class="form-control" id="status">
+									<option value="">Qualquer status</option>
 									<option th:each="state: ${T(com.les.ecommerce.model.venda.StatusPedido).values()}"
 											th:text="${state.value()}"
 											th:value="${state}"></option>

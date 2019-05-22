@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.les.ecommerce.model.EntidadeDominio;
 import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.cliente.Cartao;
@@ -26,6 +27,7 @@ public class Pedido extends EntidadeDominio implements IEntidade {
 	@Enumerated(EnumType.STRING)
 	private StatusPedido statusPedido;
 	
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL, targetEntity=EnderecoPedido.class)
 	private Endereco enderecoEntrega;
 	

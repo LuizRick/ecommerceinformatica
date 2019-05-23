@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,7 +30,7 @@ public class RelatoriosController extends BaseController {
 	
 	@RequestMapping("/vendas/grafico")
 	@ResponseBody
-	public Resultado consultar(Relatorio relatorio){
+	public Resultado consultar(@RequestBody Relatorio relatorio){
 		return this.commands.get(CONSULTAR).execute(relatorio);
 	}
 	

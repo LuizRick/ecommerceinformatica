@@ -43,15 +43,14 @@ public class RelatorioPedidoDAO extends AbstractDAO {
 		}
 		
 		
-		if(relatorio.getDepartamento() != null && relatorio.getDepartamento().getNome() != null) {
+		if(relatorio.getDepartamento() != null && relatorio.getDepartamento().getId() > 0) {
 			pedidos = pedidos.stream()
 					.map(p -> {
 						p.setItens(p.getItens()
 								.stream()
 								.filter(item -> item.getProduto()
 												.getDepartamento()
-												.getNome()
-												.equals(relatorio.getDepartamento().getNome()))
+												.getId() ==  relatorio.getDepartamento().getId())
 												.collect(Collectors.toSet()));
 						return p;
 					})

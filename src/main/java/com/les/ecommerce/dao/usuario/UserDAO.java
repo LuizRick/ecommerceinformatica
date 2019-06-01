@@ -81,8 +81,7 @@ public class UserDAO extends AbstractDAO {
 
 	@Override
 	public void deletar(IEntidade entidade) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.common.base.Objects;
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.helpers.ClienteHelper;

@@ -5,7 +5,6 @@ import java.util.Optional;
 import com.les.ecommerce.model.IEntidade;
 import com.les.ecommerce.model.cliente.Cupom;
 import com.les.ecommerce.model.venda.FormasPagamento;
-import com.les.ecommerce.model.venda.Pedido;
 import com.les.ecommerce.rns.IStrategy;
 
 public class ValidarCupomCompraAtivo implements IStrategy {

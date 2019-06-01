@@ -7,7 +7,7 @@ public class ValidarQuantidadeEstoque implements IStrategy {
 
 	@Override
 	public String processar(IEntidade entidade) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

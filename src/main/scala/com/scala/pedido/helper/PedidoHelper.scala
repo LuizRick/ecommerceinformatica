@@ -7,6 +7,7 @@ import scala.collection.JavaConverters._
 
 
 
+
 @Component
 class PedidoHelper {
   
@@ -14,5 +15,10 @@ class PedidoHelper {
     val cupom = new Cupom
     
     cupom
+  }
+  
+  
+  def getAnaliticsData(pedido:Pedido) : Unit = {
+    
   }
 }

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{ecommerce/layout}">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title></title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="col-lg-2">
+				<nav>
+					<ul class="nav nav-pill">
+						<li class="nav-item"><a class="nav-link active"
+							href="/admin/produtos/consultar">Formulario de consulta</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="/admin/produtos/cadastro">Novo Produto</a></li>
+						<li class="nav-item"><a class="nav-link active"
+							href="/admin/estoque/controle">Estoque</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-lg-10">
+				<form th:action="@{/admin/produtos/consultar}"
+					th:object="${produto}" method="post">
+					<div class="form-row">
+						<div class="col-md-4 mb-3">
+							<label>Descrição</label> <input type="text" class="form-control"
+								th:field="*{descricao}" />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label>Marca</label> <input type="text" class="form-control"
+								th:field="*{marca}" />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label>Modelo</label> <input type="text" class="form-control"
+								th:field="*{modelo}" />
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-4 mb-3">
+							<label>Peso</label> <input type="text" class="form-control"
+								th:field="*{peso}" />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label>Altura</label> <input type="text" class="form-control"
+								th:field="*{altura}" />
+						</div>
+						<div class="col-md-4 mb-3">
+							<label>Largura</label> <input type="text" class="form-control"
+								th:field="*{largura}" />
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip05">Departamento</label>
+							<select
+								class="form-control" th:field="*{departamento}">
+								<option value="0" selected="selected">Selecionar departamento</option>
+								<option th:each="departamento: ${departs}"
+									th:value="${departamento.id}" th:text="${departamento.nome}">Wireframe</option>
+							</select>
+						</div>
+						<div class="col-md-4 mb-3">
+							<label for="validationTooltip05">Grupo precificação</label>
+							<select
+								class="form-control" th:field="*{grupoPrecificacao}">
+								<option value="0" selected="selected">Selecionar precificacao</option>
+								<option th:each="grupo: ${grupos}" th:value=${grupo.id}
+									th:text=${grupo.nome}  th:attr="model-bind=${grupo.porcentagem}">Static text</option>
+							</select>
+						</div>
+						<div class="col-md-4 mb-3">
+							<label>Codigo de barras</label> <input type="text"
+								class="form-control" th:field="*{codigoBarras}" />
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-4 mb-12">
+							<label>Valor entrada estoque</label> <input type="text"
+								class="form-control" th:field="*{estoque}" />
+						</div>
+						<div class="col-md-4 mb-12">
+							<label>Margem de lucro</label> <input type="text"
+								class="form-control" th:field="*{margeLucro}" />
+						</div>
+						<div class="col-md-4 mb-12">
+							<label>Valor de venda</label> <input type="text"
+								class="form-control" th:field="*{valorVenda}" />
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-12 mb-12">
+							<label>Caracteristicas gerais</label>
+							<textarea class="form-control" th:field="*{caracteristicas}"></textarea>
+						</div>
+					</div>
+					<div class="form-row" style="margin-top: 12px">
+						<div class="col-md-12">
+							<button class="btn btn-primary" type="submit">Consultar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row" th:if="${produtos != null}">
+			<div class="col-lg-12">
+				<table class="table table-dark" style="margin-top:12px">
+					<caption>Resultado pesquisa</caption>
+					<thead>
+						<tr>
+							<th>Codigo barras</th>
+							<th>Descrição</th>
+							<th>Departamento</th>
+							<th>Valor venda</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="produto: ${produtos}">
+							<td th:text="${produto.codigoBarras}"></td>
+							<td th:text="${produto.descricao}"></td>
+							<td th:text="${produto.departamento.nome}"></td>
+							<td th:text="${produto.valorVenda}"></td>
+							<td>
+								<a th:href="@{/admin/produtos/cadastro/} + ${produto.id}" class="btn btn-primary">
+									Visualizar
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

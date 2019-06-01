@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{ecommerce/layout}">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title></title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="col-lg-2">
+				<nav>
+					<ul class="nav nav-pill">
+						<li class="nav-item"><a class="nav-link active"
+							href="/admin/produtos/consultar">Formulario de consulta</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="/admin/produtos/cadastro">Novo Produto</a></li>
+						<li class="nav-item"><a class="nav-link active"
+							href="/admin/estoque/controle">Estoque</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-lg-10">
+			<h1>Inativar Produto</h1>
+				<form th:action="@{/admin/produtos/inativar}"
+					th:object="${produto}" method="post">
+					
+				</form>	
+			</div>
+		</div>
+	</div>
+</body>
+</html>

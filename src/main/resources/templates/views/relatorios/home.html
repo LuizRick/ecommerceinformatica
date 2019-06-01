@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{ecommerce/layout}">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Home - Relatorios</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-4">
+					<form action="javascript:void(0)" id="frmRelatorio">
+						<div class="row">
+							<div class="col-6">
+								<label>Inicial</label>
+								<input type="date" id="dataInicial" class="form-control"/>
+							</div>
+							<div class="col-6">
+								<label>Final</label>
+								<input type="date" id="dataFinal" class="form-control"/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<label for="validationTooltip05">Departamento</label> 
+								<select class="form-control" id="departamento">
+								<option value="">Todos departamento</option>
+								<option th:each="departamento: ${departs}"
+										th:value="${departamento.id}"
+										th:text="${departamento.nome}">Wireframe</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col form-group">
+								<label>Bandeira Cartao</label>
+								<select class="form-control" id="bandeira">
+									<option value="">Todas as bandeira</option>
+									<option th:each="state : ${T(com.les.ecommerce.model.cliente.BandeiraCartao).values()}"
+											th:text="${state.value()}"
+											th:value="${state}">
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col form-group">
+								<label>Status Pedido</label>
+								<select class="form-control" id="status">
+									<option value="">Qualquer status</option>
+									<option th:each="state: ${T(com.les.ecommerce.model.venda.StatusPedido).values()}"
+											th:text="${state.value()}"
+											th:value="${state}"></option>
+								</select>
+							</div>
+						</div>
+						<button type="button" class="btn btn-secondary" id="btnGerarRelatorio">Gerar relatorio</button>
+					</form>
+				</div>
+				<div class="col-8">
+					<div class="card">
+						<div class="card-header">
+							<h1>Relatorio de vendas</h1>
+						</div>
+						<div class="card-body">
+							<canvas id="grafico"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block layout:fragment="scriptblock">
+		<script type="text/javascript" src="/webjars/chartjs/Chart.min.js"></script>
+		<script data-main="/js/pedidos/relatorio" src="/webjars/requirejs/require.min.js"></script>
+	</th:block>
+</body>
+</html>

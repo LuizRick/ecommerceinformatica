@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - EcommerceApplication",
+            "request": "launch",
+            "mainClass": "com.les.ecommerce.EcommerceApplication",
+            "projectName": "ecommerce"
+        }
+    ]
+}

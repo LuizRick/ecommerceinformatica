@@ -1,5 +1,6 @@
 package com.les.ecommerce.controller.venda;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +81,7 @@ public class PedidoController extends BaseController {
 		compra.setCliente(cliente);
 		
 		Pedido mapPedido = pedidoHelper.mapperPedido(compra);
-		
+		mapPedido.setCreated(LocalDateTime.now());
 		Resultado resultado = this.commands.get(this.SALVAR).execute(mapPedido);
 		
 		if(resultado.getMsg() == null) {

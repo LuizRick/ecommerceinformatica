@@ -71,8 +71,8 @@ public class ScheduledTasks extends BaseController {
 			p.getCliente().setAction("SALVARTASK");
 			resultado = this.commands.get(ALTERAR).execute(p.getCliente());
 			if (resultado.getMsg() != null) {
-				log.error(resultado.getMsg());
-				return;
+				p.setStatusPedido(StatusPedido.REPROVADO);
+				p.setMsgPedido(resultado.getMsg().substring(0, 255));
 			}
 			
 			resultado = this.commands.get(ALTERAR).execute(p);

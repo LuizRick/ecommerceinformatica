@@ -135,6 +135,9 @@ public class PedidoController extends BaseController {
 	@RequestMapping(value="/cliente/listar")
 	public String listar(Pedido pedido, Authentication auth, Model model) {
 		Cliente cliente = (Cliente) this.session.getAttribute("cliente");
+		if(cliente == null) {
+			cliente = clienteHelper.getClienteAuth(auth);
+		}
 		pedido.setCliente(cliente);
 		Resultado resultado = this.commands.get(CONSULTAR).execute(pedido);
 		List<IEntidade> pedidos = resultado.getEntidades();

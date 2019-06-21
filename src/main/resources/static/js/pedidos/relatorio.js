@@ -35,8 +35,7 @@ $(document).ready(function(){
 		grafico = new Chart(ctx, {
 			type:'line',
 			data:{
-				labels: ['Janeiro' , 'Fevereiro' , 'Marco' , 'Abril' , 'Maio' ,
-					'Junho' , 'Julho' , 'Agosto' , 'Setembro' , 'Outrobro', 'Novembro', 'Dezembro'],
+				labels: getLabelsFromPedidos(data),
 				datasets:[
 					{
 						label:'Departamento :' + ((params.departamento.id == null) ? "Todos" : $("#departamento option:selected").text()),
@@ -93,55 +92,86 @@ $(document).ready(function(){
 	}
 	
 	function getDataDepartamentoFromPedidos(pedidos){
-		console.log(pedidos);
-		var data = new Array(12);
-		data.fill(0);
+		const groupPedido = pedidos.reduce((acc,currentValue,index,array) => {
+			if(array[index + 1] && array[index + 1].created[1] == currentValue.created[1]){
+				const prevSoma = currentValue.itens.reduce((acc, currentValue) => acc + currentValue.quantidade, 0);
+				const nextSoma = array[index + 1].itens.reduce((acc, currentValue) => acc + currentValue.quantidade, 0);
+				acc[currentValue.created[0] + "/" + currentValue.created[1]] = {
+					soma:prevSoma + nextSoma
+				};
+				return acc;
+			}
+			acc[currentValue.created[0] + "/" + currentValue.created[1]] = {
+				soma:currentValue.itens.reduce((acc, currentValue) => acc + currentValue.quantidade, 0)
+			}
+			return acc;
+		},{});
 		
-		for(var i in data){
-			var value = data[i];
-			pedidos.forEach(pedido => {
-				if(parseInt(i) + 1 == pedido.created[1]){
-					pedido.itens.forEach( v => value += v.quantidade);
-				}
-			});
-			data[i]  = value;
+		var somas = [];
+		for(var x in groupPedido){
+			somas.push(groupPedido[x].soma);
 		}
-		
-		return data;
+		return somas;
 	}
 
 	function getDataBandeiraFromPedidos(pedidos){
-		var data = new Array(12);
-		data.fill(0);
+		const groupPedido = pedidos.reduce((acc,currentValue,index,array) => {
+			if(array[index + 1] && array[index + 1].created[1] == currentValue.created[1]){
+				const prevSoma = currentValue.cartao.reduce((acc, currentValue) => acc + currentValue.length, 0);
+				const nextSoma = array[index + 1].cartao.reduce((acc, currentValue) => acc + currentValue.length, 0);
+				acc[currentValue.created[0] + "/" + currentValue.created[1]] = {
+					soma:currentValue.cartao.length + array[index + 1].cartao.length
+				};
+				return acc;
+			}
+			acc[currentValue.created[0] + "/" + currentValue.created[1]] = {
+				soma: currentValue.cartao.length
+			}
+			return acc;
+		},{});
 		
-		for(var i in data){
-			var value = data[i];
-			pedidos.forEach(pedido => {
-				if(parseInt(i) + 1 == pedido.created[1]){
-					value += pedido.cartao.length;
-				}
-			});
-			data[i]  = value;
+		var somas = [];
+		for(var x in groupPedido){
+			somas.push(groupPedido[x].soma);
 		}
-		
-		return data;
+		return somas;
 	}
 
 	function getDataStatusFromPedido(pedidos){
-		var data = new Array(12);
-		data.fill(0);
+		const groupPedido = pedidos.reduce((acc,currentValue,index,array) => {
+			if(array[index + 1] && array[index + 1].created[1] == currentValue.created[1]){
+				const prevSoma = currentValue.itens.reduce((acc, currentValue) => acc + currentValue.length, 0);
+				const nextSoma = array[index + 1].itens.reduce((acc, currentValue) => acc + currentValue.length, 0);
+				acc[currentValue.created[0] + "/" + currentValue.created[1]] = {
+					soma:currentValue.length + array[index + 1].length
+				};
+				return acc;
+			}
+			acc[currentValue.created[0] + "/" + currentValue.created[1]] = {
+				soma: currentValue.length
+			}
+			return acc;
+		},{});
+	}
+	
+	function getLabelsFromPedidos(pedidos){
+		var map = ['Janeiro' , 'Fevereiro' , 'Marco' , 'Abril' , 'Maio' ,
+			'Junho' , 'Julho' , 'Agosto' , 'Setembro' , 'Outrobro', 'Novembro', 'Dezembro'];
 		
-		for(var i in data){
-			var value = data[i];
-			pedidos.forEach(pedido => {
-				if(parseInt(i) + 1 == pedido.created[1]){
-					value++;
-				}
-			});
-			data[i]  = value;
+		var labels = [];
+		
+		for(var i in pedidos){
+			labels.push(pedidos[i].created[1] + "/" + pedidos[i].created[0]);
 		}
 		
-		return data;
+		var finalLabel = [];
+		labels.forEach(label => {
+			if(!finalLabel.includes(label)){
+				finalLabel.push(label);
+			}
+		});
+		
+		return finalLabel;
 	}
 
 	
@@ -174,5 +204,10 @@ $(document).ready(function(){
 		}else{
 			return funFalse.apply(this,args);
 		}
+	}
+	
+	function remove(array, element) {
+	  const index = array.indexOf(element);
+	  array.splice(index, 1);
 	}
 });

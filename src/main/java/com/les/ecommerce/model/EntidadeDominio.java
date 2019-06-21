@@ -1,11 +1,5 @@
 package com.les.ecommerce.model;
 
-import javax.persistence.Transient;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.les.ecommerce.application.IApplicationData;
-
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -13,6 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.les.ecommerce.application.IApplicationData;
 
 @MappedSuperclass
 public class EntidadeDominio implements IEntidade {

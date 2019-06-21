@@ -1,5 +1,6 @@
 package com.les.ecommerce.controller.cliente;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.les.ecommerce.controller.BaseController;
 import com.les.ecommerce.facade.Resultado;
+import com.les.ecommerce.helpers.ClienteHelper;
 import com.les.ecommerce.model.cliente.Cliente;
 import com.les.ecommerce.model.cliente.Endereco;
 import com.les.ecommerce.model.cliente.EnderecoCliente;
@@ -17,6 +19,8 @@ import com.les.ecommerce.model.cliente.EnderecoCliente;
 @RequestMapping("/admin/endereco")
 public class EnderecoController extends BaseController {
 
+	@Autowired
+	private ClienteHelper clienteHelper;
 	
 	@RequestMapping(value="/cadastro" , method=RequestMethod.GET)
 	public String cadastro(Endereco endereco, Authentication auth) {
@@ -29,7 +33,7 @@ public class EnderecoController extends BaseController {
 	public String cadastro(EnderecoCliente endereco, Authentication auth, RedirectAttributes redAttr) {
 		Cliente cliente =  (Cliente) this.session.getAttribute("cliente");
 		if(cliente == null) {
-			return "redirect:/carrinho/listar?callback=redirecionaPedido";
+			cliente =clienteHelper.getClienteAuth(auth);
 		}
 		
 		cliente.getEnderecos().add(endereco);

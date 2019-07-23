@@ -18,6 +18,7 @@ import org.webjars.RequireJS;
 
 import com.les.ecommerce.application.pagination.AbstractPagination;
 import com.les.ecommerce.application.pagination.Pagination;
+import com.les.ecommerce.application.spark.SparkContextLocal;
 import com.les.ecommerce.facade.Resultado;
 import com.les.ecommerce.helpers.ClienteHelper;
 import com.les.ecommerce.model.aplication.ItemCarrinho;
@@ -44,7 +45,7 @@ public class HomeController extends BaseController {
 	}
 
 	@RequestMapping("/")
-	public String home(Model model) {
+	public String home(Model model,SparkContextLocal spark) {
 		Produto produto = new Produto();
 		produto.setStatus(true);
 		AbstractPagination pagination = new Pagination();
